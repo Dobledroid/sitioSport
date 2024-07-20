@@ -113,7 +113,7 @@ const Productos = () => {
     // console.log("queryString", queryString);
     try {
       // Fetch para obtener los filtros actualizados
-      const filtersResponse = await fetch(`http://localhost:4000/api/filtrar-filtros?${queryString}`);
+      const filtersResponse = await fetch(`${baseURL}/filtrar-filtros?${queryString}`);
       const filtersData = await filtersResponse.json();
       // console.log("filtersData", filtersData);
 
