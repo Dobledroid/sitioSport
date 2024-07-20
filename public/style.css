@@ -1845,9 +1845,9 @@ ol {
 .product__details__tab .nav-tabs:before {
 	position: absolute;
 	left: 0;
-	top: 12px;
+	top: 21px;
 	height: 1px;
-	width: 370px;
+	width: 300px;
 	background: #ebebeb;
 	content: "";
 }
@@ -1855,9 +1855,9 @@ ol {
 .product__details__tab .nav-tabs:after {
 	position: absolute;
 	right: 0;
-	top: 12px;
+	top: 21px;
 	height: 1px;
-	width: 370px;
+	width: 300px;
 	background: #ebebeb;
 	content: "";
 }
@@ -1871,8 +1871,8 @@ ol {
 	margin-right: 0;
 }
 
-.product__details__tab .nav-tabs li a {
-	font-size: 16px;
+.product__details__tab .product__details__tab__taps__title {
+	font-size: 116px;
 	color: #999999;
 	font-weight: 700;
 	border: none;
@@ -1885,7 +1885,7 @@ ol {
 	padding-top: 44px;
 }
 
-.product__details__tab .product__details__tab__desc h6 {
+.product__details__tab .product__details__tab__desc .h6 {
 	font-weight: 700;
 	color: #333333;
 	margin-bottom: 26px;

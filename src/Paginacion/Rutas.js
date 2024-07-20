@@ -62,8 +62,7 @@ import HistorialMembresias from './Usuario/HistorialMembresias';
 
 import Precios from './Membresillas/Precios';
 import ProductosList from './Productos/ProductosList';
-import ProductDetails from './Productos/product-details';
-import ProductGrid from './Productos/product-grid';
+import ProductDetails from './Productos/DetallesProductos/product-details';
 import Carrito from './Productos/Carrito';
 import Checkout from './Productos/Checkout';
 import PruebaAbrirModal from './Productos/PruebaAbrirModal';
@@ -147,7 +146,6 @@ const Rutas = () => {
 
         <Route path='/tienda' element={<Productos />}></Route>
         <Route path='/filtros' Component={Filtros}></Route>
-        <Route path='/producto-grid' element={<ProductGrid />}></Route>
         <Route path='/product-details/:id' element={<ProductDetails />}></Route>
         <Route path='/carrito' element={<Carrito />}></Route>
 

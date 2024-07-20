@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Header from '../../Esquema/Header';
-import Footer from '../../Esquema/Footer';
+import Header from '../../../Esquema/Header.js';
+import Footer from '../../../Esquema/Footer.js';
 import Swal from 'sweetalert2';
-import { baseURL } from '../../api.js';
+import { baseURL } from '../../../api.js';
 
 import { GoHeart } from "react-icons/go";
 
+import { Tabs, Tab } from 'react-bootstrap';
+import './ProductDetails.css';
+
+import Review from './Review.js';
+import ReviewForm from './ReviewForm.js';
+import ProductRating from './ProductRating.js';
+
+
 const ProductDetails = () => {
   const { id } = useParams();
-  const [ID_carrito, setID_carrito] = useState("");
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [maxQuantity, setMaxQuantity] = useState(1);
+  const [idUsuario, setIdUsuario] = useState("");
 
   const navigate = useNavigate();
 
@@ -33,6 +41,13 @@ const ProductDetails = () => {
       }
     };
     fetchProduct();
+
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (loggedIn) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      setIdUsuario(user.ID_usuario);
+      console.log("idUsuario, ", idUsuario)
+    }
   }, [id]);
 
   const handleQuantityChange = (e) => {
@@ -148,11 +163,24 @@ const ProductDetails = () => {
   };
 
 
+  const formatDescription = (description) => {
+    const lines = description.split('•');
+    return (
+      <div>
+        <p>{lines[0]}</p>
+        <ul>
+          {lines.slice(1).map((line, index) => (
+            <li key={index}>{line.trim()}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
 
   return (
     <>
       <Header />
-      {/* <!-- Product Details Section Begin --> */}
       <section className="product-details spad">
         <div className="container">
           <div className="row">
@@ -169,14 +197,6 @@ const ProductDetails = () => {
                   )}
                 </div>
                 <div className="product__details__pic__slider owl-carousel">
-                  <img data-imgbigurl="img/product/details/product-details-2.jpg"
-                    src="/img/product/details/thumb-1.jpg" alt="" />
-                  <img data-imgbigurl="img/product/details/product-details-3.jpg"
-                    src="/img/product/details/thumb-2.jpg" alt="" />
-                  <img data-imgbigurl="img/product/details/product-details-5.jpg"
-                    src="/img/product/details/thumb-3.jpg" alt="" />
-                  <img data-imgbigurl="img/product/details/product-details-4.jpg"
-                    src="/img/product/details/thumb-4.jpg" alt="" />
                 </div>
               </div>
             </div>
@@ -184,12 +204,7 @@ const ProductDetails = () => {
               <div className="product__details__text">
                 <h3>{product && product.length > 0 ? product[0].nombre : "Nombre del Producto"}</h3>
                 <div className="product__details__rating">
-                  <i className="fa fa-star"></i>
-                  <i className="fa fa-star"></i>
-                  <i className="fa fa-star"></i>
-                  <i className="fa fa-star"></i>
-                  <i className="fa fa-star-half-o"></i>
-                  <span>(18 reseñas)</span>
+                  <ProductRating productId={parseInt(id, 10)} />
                 </div>
                 {product && product.length > 0 && product[0].existencias > 0 ? (
                   <>
@@ -212,55 +227,30 @@ const ProductDetails = () => {
                 <a href="#" className="heart-icon"><GoHeart size={18} /></a>
                 <ul>
                   <li><b>Disponibilidad</b> <span> ({product && product.length > 0 ? product[0].existencias : "NULL"}) En stock</span></li>
-                  <li><b>Envío</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-                  <li><b>Peso</b> <span>0.5 kg</span></li>
-                  <li><b>Compartir en</b>
-                    <div className="share">
-                      <a href="#"><i className="fa fa-facebook"></i></a>
-                      <a href="#"><i className="fa fa-twitter"></i></a>
-                      <a href="#"><i className="fa fa-instagram"></i></a>
-                      <a href="#"><i className="fa fa-pinterest"></i></a>
-                    </div>
-                  </li>
+                  <li><b>Envío</b> <span>Mismo día de compra. <samp>Envío gratis unicamente en Huejutla</samp></span></li>
+                  {/* <li><b>Peso</b> <span>0.5 kg</span></li> */}
                 </ul>
               </div>
             </div>
-            <div class="col-lg-12">
-              <div class="product__details__tab">
-                <ul class="nav nav-tabs" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                      aria-selected="true">Descripción</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-                      aria-selected="false">Información</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                      aria-selected="false">Reseñas <span>(1)</span></a>
-                  </li>
-                </ul>
-                <div class="tab-content">
-                  <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                    <div class="product__details__tab__desc">
+            <div className="col-lg-12">
+              <div className="product__details__tab">
+                <Tabs defaultActiveKey="descripcion" id="product-details-tabs" className="no-border-tabs">
+                  <Tab eventKey="descripcion" title="Descripción">
+                    <div className="tab-content-custom">
                       <h6>Información del producto</h6>
-                      <p>{product && product.length > 0 ? product[0].descripcion : "Descripción del Producto"}</p>
+                      <p>{product && product.length > 0 ? formatDescription(product[0].descripcion) : "Descripción del Producto"}</p>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="tabs-2" role="tabpanel">
-                    <div class="product__details__tab__desc">
-                      <h6>Products Infomation</h6>
-                      <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.</p>
+                  </Tab>
+                  <Tab eventKey="resenas" title="Reseñas">
+                    <div className="tab-content-custom">
+                      <h6>Reseñas del producto</h6>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="tabs-3" role="tabpanel">
-                    <div class="product__details__tab__desc">
-                      <h6>Products Infomation</h6>
-                      <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.</p>
+                    <div class="row mt-3">
+                      <Review productId={parseInt(id, 10)} />
+                      <ReviewForm productId={parseInt(id, 10)} userId={idUsuario} />
                     </div>
-                  </div>
-                </div>
+                  </Tab>
+                </Tabs>
               </div>
             </div>
           </div>
