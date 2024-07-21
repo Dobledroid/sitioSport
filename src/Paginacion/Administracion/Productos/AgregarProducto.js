@@ -2,34 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../../Esquema/Header';
 import Footer from '../../../Esquema/Footer';
-import Swal from "sweetalert2";
 
 import Sidebar from "../../../Esquema/Sidebar";
 import { useDropzone } from 'react-dropzone';
+import './AgregarProducto.css';
+import Swal from 'sweetalert2';
+
+import { baseURL } from '../../../api';
 
 const thumbsContainer = {
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
   marginTop: 16
-};
-
-const thumb = {
-  display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
-  marginBottom: 8,
-  marginRight: 8,
-  width: 100,
-  height: 100,
-  padding: 4,
-  boxSizing: 'border-box'
-};
-
-const thumbInner = {
-  display: 'flex',
-  minWidth: 0,
-  overflow: 'hidden'
 };
 
 const img = {
@@ -56,29 +41,28 @@ const AgregarProducto = () => {
   const [marcas, setMarcas] = useState([]);
   const [mostrarSubcategoria, setMostrarSubcategoria] = useState(false);
   const [mostrarMarca, setMostrarMarca] = useState(false);
-  const [imagen, setImagen] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     async function getCategorias() {
-      const response = await fetch("http://localhost:4000/api/categorias-productos");
+      const response = await fetch(`${baseURL}/categorias-productos`);
       const data = await response.json();
       setCategorias(data);
-      console.log(data)
+      // console.log(data)
     }
     getCategorias();
   }, []);
 
   const handleCategoriaChange = async (event) => {
     const selectedCategoriaId = event.target.value;
-    console.log(selectedCategoriaId)
+    // console.log(selectedCategoriaId)
     setCategoriaId(selectedCategoriaId);
     if (selectedCategoriaId !== '') {
-      const response = await fetch(`http://localhost:4000/api/subcategoriasByIDCategoria/${selectedCategoriaId}`);
+      const response = await fetch(`${baseURL}/subcategoriasByIDCategoria/${selectedCategoriaId}`);
       const data = await response.json();
       setSubcategorias(data);
-      setMostrarSubcategoria(true); const responseMarcas = await fetch(`http://localhost:4000/api/marcasByIDCategoria/${selectedCategoriaId}`);
+      setMostrarSubcategoria(true); const responseMarcas = await fetch(`${baseURL}/marcasByIDCategoria/${selectedCategoriaId}`);
       const dataMarcas = await responseMarcas.json();
       setMarcas(dataMarcas);
       setMostrarMarca(true);
@@ -107,29 +91,59 @@ const AgregarProducto = () => {
   };
 
   const [files, setFiles] = useState([]);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: ''
-  });
+
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: {
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif']
+    },
     onDrop: acceptedFiles => {
-      setFiles(acceptedFiles.map(file => Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      })));
+      const validFiles = acceptedFiles.filter(file => {
+        if (file.type.startsWith('image/')) {
+          return true;
+        } else {
+          setErrors(prevErrors => ({
+            ...prevErrors,
+            imagenes: 'Solo se permiten imágenes'
+          }));
+          return false;
+        }
+      });
+
+      setFiles(prevFiles => [
+        ...prevFiles,
+        ...validFiles.map(file => Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        }))
+      ]);
     },
     maxSize: 1500000 // 1.5MB
   });
 
-  const thumbs = files.map(file => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
+  const handleRemoveImage = (index) => {
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const thumbs = files.map((file, index) => (
+    <div key={file.name} className="row align-items-center mb-3">
+      <div className="col-2">
         <img
           src={file.preview}
           style={img}
           onLoad={() => { URL.revokeObjectURL(file.preview) }}
         />
+      </div>
+      <div className="col-8">
+        <p>{file.name}</p>
+        <p>{(file.size / 1024).toFixed(2)} KB</p>
+      </div>
+      <div className="col-2 text-end">
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => handleRemoveImage(index)}
+        >
+          &times;
+        </button>
       </div>
     </div>
   ));
@@ -138,30 +152,24 @@ const AgregarProducto = () => {
     return () => files.forEach(file => URL.revokeObjectURL(file.preview));
   }, [files]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
 
-  const [isLoadingCategorias, setIsLoadingCategorias] = useState(false);
   const [isLoadingSubcategorias, setIsLoadingSubcategorias] = useState(false);
   const [isLoadingMarcas, setIsLoadingMarcas] = useState(false);
 
   const [estadoInventario, setEstadoInventario] = useState('');
   const [cantidadExistencias, setCantidadExistencias] = useState('');
 
-  const handleStockChange = (event) => {
-    setEstadoInventario(event.target.value);
-  };
-
   const [nombreProducto, setNombreProducto] = useState('');
   const [descripcionProducto, setDescripcionProducto] = useState('');
 
+
+  const [errors, setErrors] = useState({});
+
   const handleAgregarProducto = async (e) => {
     e.preventDefault();
+
+    if (!validarCampos()) return;
+
     const formData = new FormData();
     formData.append('nombre', nombreProducto);
     formData.append('descripcion', descripcionProducto);
@@ -177,20 +185,54 @@ const AgregarProducto = () => {
       formData.append('images', file);
     });
     try {
-      const response = await fetch('http://localhost:4000/api/products', {
+      const response = await fetch(`${baseURL}/products`, {
         method: 'POST',
         body: formData
       });
+      const result = await response.json();
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Server Response:', result);
+      if (response.ok && result.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto agregado',
+          text: 'El producto se ha agregado correctamente.',
+        }).then(() => {
+          navigate("/AdmProductos");
+        });
       } else {
         console.error('Server Error:', response.statusText);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un error al agregar el producto.',
+        });
       }
     } catch (error) {
       console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un error al agregar el producto.',
+      });
     }
+  };
+
+  const validarCampos = () => {
+    const nuevosErrores = {};
+    if (!nombreProducto) nuevosErrores.nombreProducto = 'El nombre es obligatorio';
+    if (!descripcionProducto) nuevosErrores.descripcionProducto = 'La descripción es obligatoria';
+    if (!categoriaId) nuevosErrores.categoriaId = 'La categoría es obligatoria';
+    if (!subcategoriaId) nuevosErrores.subcategoriaId = 'La subcategoría es obligatoria';
+    if (!marcaId) nuevosErrores.marcaId = 'La marca es obligatoria';
+    if (!precioBase) nuevosErrores.precioBase = 'El precio base es obligatorio';
+    if (!descuentoPorcentaje) nuevosErrores.descuentoPorcentaje = 'El descuento es obligatorio';
+    if (!precioFinal) nuevosErrores.precioFinal = 'El precio final es obligatorio';
+    if (estadoInventario === 'in-stock' && !cantidadExistencias) nuevosErrores.cantidadExistencias = 'La cantidad de existencias es obligatoria';
+    if (files.length === 0) nuevosErrores.imagenes = 'Debe subir al menos una imagen';
+
+    setErrors(nuevosErrores);
+
+    return Object.keys(nuevosErrores).length === 0;
   };
 
   return (
@@ -199,26 +241,17 @@ const AgregarProducto = () => {
       <div className="wrapper">
         <Sidebar />
         <div className='content container'>
-          <div class="card mb-3">
-            <div class="card-body">
-              <div class="row flex-between-center">
-                <div class="col-md">
-                  <h5 class="mb-2 mb-md-0">
-                    Añadir un producto</h5>
+          <h5 className="title_addproducto mb-3">Añadir un producto</h5>
+          <div className="row g-0">
+            <div className="col-lg-8 pe-lg-2">
+              <div className="card mb-3">
+                <div className="card-header bg-body-tertiary">
+                  <h6 className="mb-0">Información básica</h6>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="row g-0">
-            <div class="col-lg-8 pe-lg-2">
-              <div class="card mb-3">
-                <div class="card-header bg-body-tertiary">
-                  <h6 class="mb-0">Información básica</h6>
-                </div>
-                <div class="card-body">
+                <div className="card-body">
                   <form>
-                    <div class="row gx-2">
-                      <div class="col-12 mb-3">
+                    <div className="row gx-2">
+                      <div className="col-12 mb-3">
                         <label className="form-label" htmlFor="product-name">Nombre del producto:</label>
                         <input
                           className="form-control"
@@ -227,6 +260,7 @@ const AgregarProducto = () => {
                           value={nombreProducto}
                           onChange={(e) => setNombreProducto(e.target.value)}
                         />
+                        {errors.nombreProducto && <p className="text-danger">{errors.nombreProducto}</p>}
                       </div>
                       <div className="col-12 mb-3">
                         <label className="form-label" htmlFor="product-description">Descripción del producto:</label>
@@ -237,16 +271,19 @@ const AgregarProducto = () => {
                           value={descripcionProducto}
                           onChange={(e) => setDescripcionProducto(e.target.value)}
                         ></textarea>
+                        {errors.descripcionProducto && <p className="text-danger">{errors.descripcionProducto}</p>}
                       </div>
                     </div>
                   </form>
                 </div>
-              </div>          <div class="card mb-3">
-                <div class="card-header bg-body-tertiary">
-                  <h6 class="mb-0">Añadir imágenes</h6>
+              </div>
+
+              <div className="card mb-3">
+                <div className="card-header bg-body-tertiary">
+                  <h6 className="mb-0">Añadir imágenes</h6>
                 </div>
-                <div class="card-body">
-                  <form class="dropzone dropzone-multiple p-0" id="dropzoneMultipleFileUpload" data-dropzone="data-dropzone" action="#!" data-options='{"acceptedFiles":"image/*"}'>
+                <div className="card-body">
+                  <form className="dropzone dropzone-multiple p-0" id="dropzoneMultipleFileUpload" data-dropzone="data-dropzone" action="#!" data-options='{"acceptedFiles":"image/*"}'>
                     <div {...getRootProps({ className: 'dropzone' })} style={dropzoneStyle}>
                       <input {...getInputProps()} />
                       <p>Arrastra y suelta algunas imágenes aquí, o haz clic para seleccionar archivos (Max. 1.5MB)</p>
@@ -255,6 +292,7 @@ const AgregarProducto = () => {
                       {thumbs}
                     </aside>
                   </form>
+                  {errors.imagenes && <p className="text-danger">{errors.imagenes}</p>}
                 </div>
               </div>
               <div className="card mb-3">
@@ -262,85 +300,80 @@ const AgregarProducto = () => {
                   <h6 className="mb-0">Estado del inventario</h6>
                 </div>
                 <div className="card-body">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input p-2"
-                      id="in-stock"
-                      type="radio"
-                      name="stock-status"
-                      value="in-stock"
-                      onChange={handleStockChange}
-                      checked={estadoInventario === 'in-stock'}
-                    />
-                    <label className="form-check-label fs-9 fw-normal text-700" htmlFor="in-stock">
-                      En stock
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input p-2"
-                      id="unavailable"
-                      type="radio"
-                      name="stock-status"
-                      value="unavailable"
-                      onChange={handleStockChange}
-                      checked={estadoInventario === 'unavailable'}
-                    />
-                    <label className="form-check-label fs-9 fw-normal text-700" htmlFor="unavailable">
-                      Indisponible
-                    </label>
-                  </div>
-                  {estadoInventario === 'in-stock' && (
-                    <div className="mt-3">
-                      <label className="form-label" htmlFor="stock-quantity">Cantidad de existencias:</label>
-                      <input
-                        className="form-control"
-                        id="stock-quantity"
-                        type="number"
-                        value={cantidadExistencias}
-                        onChange={(e) => setCantidadExistencias(e.target.value)}
-                      />
-                    </div>
-                  )}
+                  <label className="form-label" htmlFor="stock-quantity">Cantidad de existencias:</label>
+                  <input
+                    className="form-control" id="stock-quantity" type="number"
+                    value={cantidadExistencias}
+                    onChange={(e) => setCantidadExistencias(e.target.value)}
+                  />
+                  {errors.cantidadExistencias && <p className="text-danger">{errors.cantidadExistencias}</p>}
+                  {errors.estadoInventario && <p className="text-danger">{errors.estadoInventario}</p>}
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 ps-lg-2">
-              <div class="sticky-sidebar">
-                <div class="card mb-3">
-                  <div class="card-header bg-body-tertiary">
-                    <h6 class="mb-0">Tipo</h6>
+            <div className="col-lg-4 ps-lg-2">
+              <div className="sticky-sidebar">
+                <div className="card mb-3">
+                  <div className="card-header bg-body-tertiary">
+                    <h6 className="mb-0">Tipo</h6>
                   </div>
-                  <div class="card-body">
-                    <div class="row gx-2">
+                  <div className="card-body">
+                    <div className="row gx-2">
                       <div className="col-12 mb-3">
-                        <label className="form-label" for="product-category">Selecciona una categoría:</label>
-                        <select className="form-select" id="product-category" name="product-category" value={categoriaId} onChange={handleCategoriaChange}>
+                        <label className="form-label" htmlFor="product-category">Selecciona una categoría:</label>
+                        <select
+                          className="form-select"
+                          id="product-category"
+                          name="product-category"
+                          value={categoriaId}
+                          onChange={handleCategoriaChange}
+                        >
                           <option value="">Seleccione una categoría</option>
                           {categorias.map((categoria) => (
-                            <option key={categoria.ID_categoria} value={categoria.ID_categoria}>{categoria.nombre}</option>
+                            <option key={categoria.ID_categoria} value={categoria.ID_categoria}>
+                              {categoria.nombre}
+                            </option>
                           ))}
                         </select>
                         {isLoadingSubcategorias && <p>Cargando subcategorías...</p>}
+                        {errors.categoriaId && <p className="text-danger">{errors.categoriaId}</p>}
                       </div>
                       <div className="col-12 mb-3">
-                        <label className="form-label" for="product-subcategory">Selecciona una subcategoría:</label>
-                        <select className="form-select" id="product-subcategory" name="product-subcategory" value={subcategoriaId} onChange={(e) => setSubcategoriaId(e.target.value)}>
+                        <label className="form-label" htmlFor="product-subcategory">Selecciona una subcategoría:</label>
+                        <select
+                          className="form-select"
+                          id="product-subcategory"
+                          name="product-subcategory"
+                          value={subcategoriaId}
+                          onChange={(e) => setSubcategoriaId(e.target.value)}
+                        >
                           <option value="">Seleccione una subcategoría</option>
                           {subcategorias.map((subcategoria) => (
-                            <option key={subcategoria.ID_subcategoria} value={subcategoria.ID_subcategoria}>{subcategoria.nombre}</option>
+                            <option key={subcategoria.ID_subcategoria} value={subcategoria.ID_subcategoria}>
+                              {subcategoria.nombre}
+                            </option>
                           ))}
                         </select>
                         {isLoadingMarcas && <p>Cargando marcas...</p>}
+                        {errors.subcategoriaId && <p className="text-danger">{errors.subcategoriaId}</p>}
                       </div>
                       <div className="col-12 mb-3">
-                        <label className="form-label" for="product-brand">Selecciona una marca:</label>
-                        <select className="form-select" id="product-brand" name="product-brand" value={marcaId} onChange={(e) => setMarcaId(e.target.value)}>
+                        <label className="form-label" htmlFor="product-brand">Selecciona una marca:</label>
+                        <select
+                          className="form-select"
+                          id="product-brand"
+                          name="product-brand"
+                          value={marcaId}
+                          onChange={(e) => setMarcaId(e.target.value)}
+                        >
                           <option value="">Seleccione una marca</option>
                           {marcas.map((marca) => (
-                            <option key={marca.ID_marca} value={marca.ID_marca}>{marca.nombre}</option>
+                            <option key={marca.ID_marca} value={marca.ID_marca}>
+                              {marca.nombre}
+                            </option>
                           ))}
                         </select>
+                        {errors.marcaId && <p className="text-danger">{errors.marcaId}</p>}
                       </div>
                     </div>
                   </div>
@@ -353,15 +386,36 @@ const AgregarProducto = () => {
                     <div className="row gx-2">
                       <div className="col-12 mb-3">
                         <label className="form-label" htmlFor="base-price">Precio base:</label>
-                        <input className="form-control" id="base-price" type="number" value={precioBase} onChange={(e) => setPrecioBase(e.target.value)} />
+                        <input
+                          className="form-control"
+                          id="base-price"
+                          type="number"
+                          value={precioBase}
+                          onChange={(e) => setPrecioBase(e.target.value)}
+                        />
+                        {errors.precioBase && <p className="text-danger">{errors.precioBase}</p>}
                       </div>
                       <div className="col-12 mb-4">
                         <label className="form-label" htmlFor="discount-percentage">Descuento en porcentaje:</label>
-                        <input className="form-control" id="discount-percentage" type="number" value={descuentoPorcentaje} onChange={(e) => setDescuentoPorcentaje(e.target.value)} />
+                        <input
+                          className="form-control"
+                          id="discount-percentage"
+                          type="number"
+                          value={descuentoPorcentaje}
+                          onChange={(e) => setDescuentoPorcentaje(e.target.value)}
+                        />
+                        {errors.descuentoPorcentaje && <p className="text-danger">{errors.descuentoPorcentaje}</p>}
                       </div>
                       <div className="col-12">
                         <label className="form-label" htmlFor="final-price">Precio final:</label>
-                        <input className="form-control" id="final-price" type="text" value={precioFinal} readOnly />
+                        <input
+                          className="form-control"
+                          id="final-price"
+                          type="text"
+                          value={precioFinal}
+                          readOnly
+                        />
+                        {errors.precioFinal && <p className="text-danger">{errors.precioFinal}</p>}
                       </div>
                     </div>
                     <button className="btn btn-primary mt-3" onClick={calcularPrecioFinal}>Calcular Precio Final</button>
@@ -369,20 +423,29 @@ const AgregarProducto = () => {
                 </div>
               </div>
             </div>
+
           </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <div class="row justify-content-between align-items-center">
-                <div class="col-md">
-                  <h5 class="mb-2 mb-md-0"></h5>
+          <div className="card my-3">
+            <div className="card-body">
+              <div className="row justify-content-between align-items-center">
+                <div className="col-md">
+                  <h5 className="title mb-2 mb-md-0">Añadir un producto</h5>
                 </div>
                 <div className="col-auto">
-                  <button className="btn btn-link text-secondary p-0 me-3 fw-medium" onClick={()=> navigate("/AdmProductos")} role="button">Cancelar</button>
-                  <button className="btn btn-primary" onClick={handleAgregarProducto} role="button">Agregar producto</button>
+                  <button
+                    className="btn btn-link text-secondary p-0 me-3 fw-medium no-underline"
+                    onClick={() => navigate("/AdmProductos")}
+                  >
+                    Cancelar
+                  </button>
+                  <button className="btn btn-primary" onClick={handleAgregarProducto}>
+                    Agregar producto
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
       <Footer />

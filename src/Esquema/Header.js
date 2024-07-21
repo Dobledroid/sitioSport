@@ -51,7 +51,7 @@ const Header = () => {
       const response = await fetch(`${baseURL}/favoritos-cantidad/${user.ID_usuario}`);
       if (response.ok) {
         const data = await response.json();
-        console.log("fetchCantidadFavoritos", data)
+        // console.log("fetchCantidadFavoritos", data)
         setCantidadFavoritos(data.cantidad);
       } else {
         console.error("Error al obtener la cantidad de favoritos");

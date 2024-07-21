@@ -182,7 +182,7 @@ const Rutas = () => {
         <Route path='/AdmProductos' Component={AdmProductos}></Route>
         <Route path='/AgregarProducto' Component={AgregarProducto}></Route>
 
-        <Route path='/EditarProducto' Component={EditarProducto}></Route>
+        <Route path='/EditarProducto/:id' Component={EditarProducto}></Route>
 
 
         <Route path='/subirImagen' Component={subirImagen}></Route>
