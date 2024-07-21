@@ -89,6 +89,11 @@ import DetalleCompra from './Usuario/DetalleCompra';
 import Clientes from './Usuario/patron';
 import MyImageUploader from './Administracion/Productos/MyImageUploader';
 
+
+import slider from './slider';
+import slider2 from './slider2';
+
+import favoritos from './Productos/Favoritos/Favoritos';
 // import Error from './Validaciones/Error404/Error';
 const Rutas = () => {
   const [user, setUser] = useLocalStorage('user');
@@ -210,6 +215,11 @@ const Rutas = () => {
         <Route path='/imc' Component={ IMCCalculator }></Route>
 
         <Route path='/m' Component={ MyImageUploader }></Route>
+
+        <Route path='/slider' Component={ slider }></Route>
+        <Route path='/slider2' Component={ slider2 }></Route>
+
+        <Route path='/favoritos' Component={ favoritos }></Route>
 
         <Route path='*' Component={Error404}></Route>
 

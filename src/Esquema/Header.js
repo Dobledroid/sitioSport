@@ -9,6 +9,7 @@ const Header = () => {
   const [user, setUser] = useLocalStorage('user');
   const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn');
   const [totalProductosEnCarrito, setTotalProductosEnCarrito] = useState(0);
+  const [cantidadFavoritos, setCantidadFavoritos] = useState(0);
 
   useEffect(() => {
     $(".humberger__open").on("click", function () {
@@ -27,6 +28,7 @@ const Header = () => {
   useEffect(() => {
     if (isLoggedIn) {
       fetchTotalProductosEnCarrito();
+      fetchCantidadFavoritos();
     }
   }, [isLoggedIn]);
 
@@ -44,6 +46,21 @@ const Header = () => {
     }
   };
 
+  const fetchCantidadFavoritos = async () => {
+    try {
+      const response = await fetch(`${baseURL}/favoritos-cantidad/${user.ID_usuario}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("fetchCantidadFavoritos", data)
+        setCantidadFavoritos(data.cantidad);
+      } else {
+        console.error("Error al obtener la cantidad de favoritos");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  };
+
 
   return (
     <>
@@ -54,8 +71,8 @@ const Header = () => {
         </div>
         <div className="humberger__menu__cart">
           <ul>
-            <li><a href="#"><i className="fa fa-heart"></i> <span>1</span></a></li>
-            <li><a href="#"><i className="fa fa-shopping-bag"></i> <span>3</span></a></li>
+            <li><Link to="/favoritos"><i className="fa fa-heart"></i> <span>{cantidadFavoritos}</span></Link></li>
+            <li><Link to="/carrito"><i className="fa fa-shopping-bag"></i> <span>{totalProductosEnCarrito}</span></Link></li>
           </ul>
           <div className="header__cart__price">item: <span>$150.00</span></div>
         </div>
@@ -122,6 +139,7 @@ const Header = () => {
             <div className="col-lg-3">
               <div className="header__cart">
                 <ul>
+                  <li><Link to="/favoritos"><i class="fa fa-heart"></i> <span>{cantidadFavoritos}</span></Link></li>
                   <li><Link to="/carrito"><i className="fa fa-shopping-bag"></i> <span>{totalProductosEnCarrito}</span></Link></li>
                 </ul>
                 {isLoggedIn ? (

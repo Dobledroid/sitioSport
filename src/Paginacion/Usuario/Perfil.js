@@ -11,7 +11,7 @@ import ModalPregunta from "./ModalPregunta"; // Importa el componente del modal
 import iconUserId from "./images/user-id-icon.svg";
 import iconUser from "./images/user-icon.svg";
 import iconAddress from "./images/address-svgrepo-com.svg";
-
+import { FaUser, FaIdCard, FaShoppingCart, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
 const Panel = () => {
   const [userImage, setUserImage] = useState(null);
   const [user, setUser] = useState('');
@@ -142,6 +142,17 @@ const Panel = () => {
                     <span>Direcciones</span>
                     <p>Direcciones guardadas en tu cuenta.</p>
                     <button onClick={() => navigate('/mis-direcciones', { state: user })} >Mis direcciones</button>
+                  </div>
+                </li>
+
+                <li className="row my-3">
+                  <div className="col">
+                    <FaHeart size={32} />
+                  </div>
+                  <div className="col">
+                    <span>Favoritos</span>
+                    <p>Productos que has marcado como favoritos.</p>
+                    <button onClick={() => navigate('/favoritos')} >Mis favoritos</button>
                   </div>
                 </li>
               </ul>
