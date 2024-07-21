@@ -10,7 +10,7 @@ import './Checkout.css';
 
 const Checkout = () => {
   const [user, setUser] = useLocalStorage('user');
-  const [productos, setProductos] = useState([]);
+  const [productos, setProductos] = useState([]); // Inicializa como array vacío
   const [direccion, setDireccion] = useState(null);
   const location = useLocation();
   const [direccionSeleccionada, setDireccionSeleccionada] = useState(null);
@@ -26,6 +26,7 @@ const Checkout = () => {
     const direccionId = parseInt(event.target.value);
     setDireccionSeleccionada(direccionId);
   };
+  
   const handleCardClick = (direccionId) => {
     setDireccionSeleccionada(direccionId);
   };
@@ -38,15 +39,18 @@ const Checkout = () => {
           const response = await fetch(`${baseURL}/carrito-compras/${user.ID_usuario}`);
           if (response.ok) {
             const data = await response.json();
-            setProductos(data);
+            // Verifica que data es un array
+            if (Array.isArray(data)) {
+              setProductos(data);
+            } else {
+              console.error("Los datos de productos no son un array.");
+            }
           } else {
             console.error("Error al cargar los productos del carrito");
           }
         } catch (error) {
           console.error("Error de red:", error);
         }
-      } else {
-
       }
     };
 
@@ -57,7 +61,6 @@ const Checkout = () => {
           const response = await fetch(`${baseURL}/direccion-envio-predeterminada-user/${user.ID_usuario}`);
           if (response.ok) {
             const data = await response.json();
-            // console.log(data)
             setDireccion(data);
           } else {
             console.error("Error al cargar las direcciones guardadas");
@@ -70,7 +73,7 @@ const Checkout = () => {
 
     fetchDirecciones();
     fetchProductosPedidos();
-  }, []);
+  }, [user.ID_usuario]); // Añadido user.ID_usuario como dependencia
 
   const handleInputChange = (event) => {
     setCodigoDescuento(event.target.value);
@@ -116,9 +119,7 @@ const Checkout = () => {
     }
 
     const currentURL = new URL(window.location.href);
-    const host = "http://localhost:3000";
-    // const host = currentURL.protocol + '//' + currentURL.hostname;
-    // console.log(host); 
+    const host = "http://localhost:3000"; // Cambiar al host adecuado si es necesario
     const id = user.ID_usuario;
 
     const createOrderResponse = await fetch(`${baseURL}/paypal/create-order`, {
@@ -136,8 +137,6 @@ const Checkout = () => {
 
     if (createOrderResponse.ok) {
       const data = await createOrderResponse.json();
-      // console.log(data);
-
       if (data.links && Array.isArray(data.links) && data.links.length >= 2) {
         const redirectUrl = data.links[1].href;
 
@@ -170,7 +169,7 @@ const Checkout = () => {
                       {direccion ? (
                         <>
                           <div key={direccion.ID_direccion} onClick={() => handleCardClick(direccion.ID_direccion)}>
-                            <Card className="my-2 hover-card" >
+                            <Card className="my-2 hover-card">
                               <Card.Body className="d-flex">
                                 <Form.Check
                                   type="radio"
@@ -232,7 +231,7 @@ const Checkout = () => {
                   <h4>Su pedido</h4>
                   <div className="checkout__order__products">Productos <span>Total</span></div>
                   <ul>
-                    {productos.map(producto => (
+                    {Array.isArray(productos) && productos.map(producto => (
                       <li key={producto.ID_producto}> {producto.nombre.slice(0, 15)}...(x{producto.cantidad}) <span>${(producto.precioFinal * producto.cantidad).toFixed(2)}</span></li>
                     ))}
                   </ul>
@@ -257,7 +256,6 @@ const Checkout = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>

@@ -29,6 +29,17 @@ const ReviewForm = ({ productId, userId }) => {
       return;
     }
 
+    // Validar la calificación
+    if (rating < 1 || rating > 5) {
+      Swal.fire({
+        title: 'Calificación no válida',
+        text: 'La calificación debe estar entre 1 y 5.',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+
     const newReview = {
       ID_usuario: userId,
       ID_producto: productId,
@@ -52,6 +63,9 @@ const ReviewForm = ({ productId, userId }) => {
           icon: 'success',
           confirmButtonText: 'Ok'
         });
+        // Resetear el formulario
+        setRating(0);
+        setReview('');
       } else {
         Swal.fire({
           title: 'Error',
