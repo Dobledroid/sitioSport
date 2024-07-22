@@ -225,6 +225,7 @@ const Membresias = () => {
       }
 
       const datosMembresiaUsuario = await responseExiste.json();
+      console.log(user)
       console.log("datosMembresiaUsuario", datosMembresiaUsuario);
       if (datosMembresiaUsuario.length > 0) {
         console.log('Existe');
@@ -255,10 +256,23 @@ const Membresias = () => {
   };
 
   const handleSubscriptionClick = (planId) => {
-    fetchMembresia(planId);
+    if (!user) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'No estás logueado',
+        text: 'Para hacer una suscripción, debes estar logueado en el sitio.',
+        showCancelButton: true,
+        confirmButtonText: 'Login',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/login'; // Cambia '/login' por la ruta correcta de tu página de login
+        }
+      });
+    } else {
+      fetchMembresia(planId);
+    }
   };
-
-
   return (
     <>
       <Header />
