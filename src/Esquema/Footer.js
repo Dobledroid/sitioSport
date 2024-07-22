@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faTwitter, faPinterest } from '@fortawesome/free-brands-svg-icons';
+
 
 function Footer() {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -51,10 +54,10 @@ function Footer() {
                   <button type="submit" className="site-btn">Subscribe</button>
                 </form> */}
                 <div className="footer__widget__social">
-                  <a href="https://www.facebook.com/profile.php?id=100063449692054"><i className="fa fa-facebook"></i></a>
-                  <a href="#"><i className="fa fa-instagram"></i></a>
-                  <a href="#"><i className="fa fa-twitter"></i></a>
-                  <a href="#"><i className="fa fa-pinterest"></i></a>
+                  <a href="https://www.facebook.com/profile.php?id=100063449692054"><FontAwesomeIcon icon={faFacebook} /></a>
+                  {/* <a href="#"><FontAwesomeIcon icon={faInstagram} /></a>
+                  <a href="#"><FontAwesomeIcon icon={faTwitter} /></a>
+                  <a href="#"><FontAwesomeIcon icon={faPinterest} /></a> */}
                 </div>
               </div>
             </div>
