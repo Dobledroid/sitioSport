@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
-
+import { baseURL } from "../../api.js";
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
 import Sidebar from "../../Esquema/Sidebar.js";
@@ -29,7 +29,7 @@ const Panel = () => {
       setIsLoggedIn(loggedIn);
 
       // Realizar la petición a la API al cargar el perfil
-      fetch(`http://localhost:4000/api/pregunta/${user.ID_usuario}`)
+      fetch(`${baseURL}/pregunta/${user.ID_usuario}`)
         .then(response => {
           if (response.status === 404) {
             // Si la respuesta es un 404, mostrar el modal

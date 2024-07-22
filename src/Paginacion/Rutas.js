@@ -94,6 +94,7 @@ import slider from './slider';
 import slider2 from './slider2';
 
 import favoritos from './Productos/Favoritos/Favoritos';
+import GenerarToken from './Usuario/Alexa/GenerarToken';
 // import Error from './Validaciones/Error404/Error';
 const Rutas = () => {
   const [user, setUser] = useLocalStorage('user');
@@ -183,6 +184,8 @@ const Rutas = () => {
         <Route path='/AgregarProducto' Component={AgregarProducto}></Route>
 
         <Route path='/EditarProducto/:id' Component={EditarProducto}></Route>
+
+        <Route path='/GenerarToken' Component={GenerarToken}></Route>
 
 
         <Route path='/subirImagen' Component={subirImagen}></Route>

@@ -120,36 +120,8 @@ const ResetPassword = () => {
           throw new Error('Fallo al actualizar');
         }
 
-        const logData = {
-          CorreoElectronico: dataUser.correoElectronico,
-          DescripcionAccion: 'Recuperación de contraseña'
-        };
 
-        try {
-          const logResponse = await fetch(`${baseURL}/logsActualizacionDatosSensibles`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(logData)
-          });
-
-          if (!logResponse.ok) {
-            throw new Error('Error al registrar el inicio de sesión');
-          }
-
-          Swal.fire({
-            title: "Actualizado",
-            text: "Recuperación terminada",
-            icon: "success",
-            confirmButtonText: "Cerrar",
-          });
-          navigate('/login');
-
-        } catch (error) {
-          console.error('Error al registrar el inicio de sesión:', error);
-        }
-
+        
 
       // }
     } catch (error) {
