@@ -1,4 +1,6 @@
-export const baseURL = process.env.REACT_APP_BASE_URL;
+#export const baseURL = process.env.REACT_APP_BASE_URL;
+export const baseURL = "https://api44.vercel.app/api";
+
 console.log("URL: ", baseURL)
 
 export const fetchData = async (url, options) => {
