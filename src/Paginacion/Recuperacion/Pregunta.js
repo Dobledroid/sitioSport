@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-
+import { baseURL } from "../../api.js";
 const Pregunta = () => {
   const [selectedQuestion, setSelectedQuestion] = useState('');
   const [answer, setAnswer] = useState('');
@@ -30,7 +30,7 @@ const Pregunta = () => {
       };
 
       // Realizar la solicitud a la API
-      const response = await fetch('http://localhost:4000/api/pregunta/buscar', requestOptions);
+      const response = await fetch(`${baseURL}/pregunta/buscar`, requestOptions);
       const data = await response.json();
   
       // Verificar la respuesta de la API

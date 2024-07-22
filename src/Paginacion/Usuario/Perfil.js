@@ -30,7 +30,9 @@ const Panel = () => {
 
       // Realizar la petición a la API al cargar el perfil
       fetch(`${baseURL}/pregunta/${user.ID_usuario}`)
+
         .then(response => {
+          console.log(`${baseURL}/pregunta/${user.ID_usuario}`)
           if (response.status === 404) {
             // Si la respuesta es un 404, mostrar el modal
             setShowModal(true);

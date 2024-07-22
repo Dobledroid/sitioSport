@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from "../../api.js";
 
 export default function ModalPregunta({ user }) {
   const [selectedQuestion, setSelectedQuestion] = useState('');
@@ -22,7 +23,7 @@ export default function ModalPregunta({ user }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:4000/api/pregunta', {
+      const response = await fetch(`${baseURL}/pregunta`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
