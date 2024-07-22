@@ -66,9 +66,9 @@ const ResetPassword = () => {
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
-    // const errors = validarContrasena(newPassword, confirmacion);
-    // setContrasenaError(errors);
-    // setContrasenaFuerza(calcularFuerzaContrasena(errors));
+    const errors = validarContrasena(newPassword, confirmacion);
+     setContrasenaError(errors);
+     setContrasenaFuerza(calcularFuerzaContrasena(errors));
     // if (errors.length === 0) {
     //   // Si no hay errores de validación, verificar si la contraseña está en la lista negra
     //   verificarContraseñaEnListaNegra(newPassword);

@@ -84,12 +84,7 @@ const Recuperacion = () => {
                       <div class="col-12">
                         <label for="yourUsername" class="form-label">Correo electrónico:</label>
                         <div class="input-group has-validation">
-                        <img
-                            src={IconPassword}
-                            alt="username-icon"
-                            style={{ height: '2.5rem', pointerEvents: 'none' }}
-                            className=" input-group-text bg-info"
-                          />
+                        
                           <input type="email" 
                             name="email" 
                             required 
