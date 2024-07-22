@@ -8,7 +8,7 @@ import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { baseURL } from '../../api.js';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import StripeCheckoutForm from './StripeCheckoutForm'; // Asume que creas este componente
+import StripeCheckoutForm from './StripeCheckoutForm'; 
 import './Checkout.css';
 
 const stripePromise = loadStripe('pk_test_51PdbM8Hh07ihkU0MkAP9xASNG4k5d4iqbTroQL4D7q4nmrzZyMqb1R7vUYVGdBEc2MCw8PNGM6JscC7oJRiILvDU00g7ZpMGFR');
