@@ -75,17 +75,17 @@ const Login = () => {
           };
 
           try {
-            const logResponse = await fetch(`${baseURL}/logsInicioSesionOAuth`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(logData)
-            });
+            // const logResponse = await fetch(`${baseURL}/logsInicioSesionOAuth`, {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json'
+            //   },
+            //   body: JSON.stringify(logData)
+            // });
 
-            if (!logResponse.ok) {
-              throw new Error('Error al registrar el inicio de sesión');
-            }
+            // if (!logResponse.ok) {
+            //   throw new Error('Error al registrar el inicio de sesión');
+            // }
             localStorage.setItem('isLoggedIn', true);
             localStorage.setItem('isLoggedInOAuth', true);
             console.log("user_set", user)
