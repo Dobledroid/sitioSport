@@ -24,7 +24,7 @@ const Checkout = () => {
   const [descuentoAplicado, setDescuentoAplicado] = useState(false);
   const [mercadoPagoSelected, setMercadoPagoSelected] = useState(false);
   const [paypalSelected, setPaypalSelected] = useState(false);
-  const [stripeSelected, setStripeSelected] = useState(false); // Nueva opción para Stripe
+  const [stripeSelected, setStripeSelected] = useState(false);
 
   const { subtotal, total } = location.state;
 
@@ -58,7 +58,6 @@ const Checkout = () => {
         }
       }
     };
-    
 
     const fetchDirecciones = async () => {
       const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -140,8 +139,7 @@ const Checkout = () => {
       return;
     }
 
-    const currentURL = new URL(window.location.href);
-    const host = "http://localhost:3000";
+    const currentURL = new URL(window.location.href).origin; // Obtén el origen (host) de la URL
     const id = user.ID_usuario;
 
     if (paypalSelected) {
@@ -153,7 +151,7 @@ const Checkout = () => {
         body: JSON.stringify({
           ID_usuario: id,
           total,
-          currentURL: host,
+          currentURL: currentURL,
           ID_direccion: direccionSeleccionada,
         }),
       });
@@ -176,8 +174,7 @@ const Checkout = () => {
     }
 
     if (stripeSelected) {
-      // Redirigir a una página de pago con Stripe o abrir un formulario de pago de Stripe aquí.
-      console.log("Método de pago Stripe seleccionado");
+      // Manejo del pago con Stripe, pasará al componente StripeCheckoutForm
     }
   };
 
@@ -259,41 +256,52 @@ const Checkout = () => {
                   <h4>Su pedido</h4>
                   <div className="checkout__order__products">Productos <span>Total</span></div>
                   <ul>
-                    {productos.map(producto => (
-                      <li key={producto.ID_producto}> {producto.nombre.slice(0, 15)}...(x{producto.cantidad}) <span>${(producto.precioFinal * producto.cantidad).toFixed(2)}</span></li>
+                    {productos.map((producto) => (
+                      <li key={producto.ID_producto}>
+                        {producto.nombre} <span>${producto.precio}</span>
+                      </li>
                     ))}
                   </ul>
-                  <div className="checkout__order__subtotal">Subtotal <span>${subtotal.toFixed(2)}</span></div>
-                  {descuentoAplicado && <div className="checkout__order__total">Descuento aplicado (SPORT100): <span>-$100.00</span></div>}
-                  <div className="checkout__order__total">Total <span>${total.toFixed(2)}</span></div>
-                  <div className="checkout__input__checkbox">
-                    <label htmlFor="mercadopago">
-                      Mercado pago
-                      <input type="checkbox" id="mercadopago" checked={mercadoPagoSelected} onChange={handleMercadoPagoChange} />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div>
-                  <div className="checkout__input__checkbox">
-                    <label htmlFor="paypal">
-                      Paypal
-                      <input type="checkbox" id="paypal" checked={paypalSelected} onChange={handlePaypalChange} />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div>
-                  <div className="checkout__input__checkbox">
-                    <label htmlFor="stripe">
-                      Stripe
-                      <input type="checkbox" id="stripe" checked={stripeSelected} onChange={handleStripeChange} />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div>
-                  {stripeSelected && (
-  <Elements stripe={stripePromise}>
-    <StripeCheckoutForm amount={total} currency="mxn" productos={productos} />
-  </Elements>
-)}
-                  <button type="button" className="site-btn" onClick={handleRealizarPedido}>REALIZAR PEDIDO</button>
+                  <div className="checkout__order__total">Subtotal <span>${subtotal}</span></div>
+                  <div className="checkout__order__total">Total <span>${total}</span></div>
                 </div>
+                <div className="payment-methods">
+                  <h5>Método de pago</h5>
+                  <Form.Check
+                    type="radio"
+                    id="mercadoPago"
+                    label="Mercado Pago"
+                    checked={mercadoPagoSelected}
+                    onChange={handleMercadoPagoChange}
+                  />
+                  <Form.Check
+                    type="radio"
+                    id="paypal"
+                    label="PayPal"
+                    checked={paypalSelected}
+                    onChange={handlePaypalChange}
+                  />
+                  <Form.Check
+                    type="radio"
+                    id="stripe"
+                    label="Stripe"
+                    checked={stripeSelected}
+                    onChange={handleStripeChange}
+                  />
+                  {stripeSelected && (
+                    <Elements stripe={stripePromise}>
+                      <StripeCheckoutForm
+                        amount={total}
+                        currency="mxn"
+                        productos={productos}
+                        userID={user.ID_usuario} // Pasa el userID
+                        currentURL={window.location.origin} // Pasa el currentURL
+                        ID_direccion={direccionSeleccionada} // Pasa el ID_direccion
+                      />
+                    </Elements>
+                  )}
+                </div>
+                <button type="button" className="site-btn" onClick={handleRealizarPedido}>REALIZAR PEDIDO</button>
               </div>
             </div>
           </div>
