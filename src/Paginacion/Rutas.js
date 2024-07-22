@@ -129,7 +129,6 @@ const Rutas = () => {
           <Route path='/compra-finalizada/:id/:tipo' element={<CompraFinalizada />}></Route>
 
 
-          <Route path='/membresias' element={<Membresias />}></Route>
           <Route path='/historialMembresias' element={<HistorialMembresias />}></Route>
 
           <Route path='/mis-compras' element={<Compras />}></Route>
@@ -170,6 +169,7 @@ const Rutas = () => {
 
         <Route path='/membresia' Component={Membresia}></Route>
 
+        <Route path='/membresias' element={<Membresias />}></Route>
 
 
         <Route path='/si' Component={Sidebar}></Route>
