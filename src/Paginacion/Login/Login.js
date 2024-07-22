@@ -296,32 +296,34 @@ const Login = () => {
         CodigoEstadoHTTP: loginResponse.status
       };
 
-      // try {
-      //   const logResponse = await fetch(`${baseURL}/logsInicioSesion`, {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify(logData)
-      //   });
+      try {
+        // const logResponse = await fetch(`${baseURL}/logsInicioSesion`, {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify(logData)
+        // });
 
-      //   if (!logResponse.ok) {
-      //     throw new Error('Error al registrar el inicio de sesión');
-      //   }
+        // if (!logResponse.ok) {
+        //   throw new Error('Error al registrar el inicio de sesión');
+        // }
         localStorage.setItem('jwtToken', tokenJWT);
         localStorage.setItem('isLoggedInOAuth', false);
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('user', JSON.stringify(user));
         window.location.reload();
         window.location.href = '/perfil';
-      
+      } catch (error) {
+        console.error('Error al registrar el inicio de sesión:', error);
+      }
 
 
-  //   } catch (error) {
-  //     console.log(error)
-  //     setAlert({ type: 'danger', message: error.msg });
-  //   }
- };
+    } catch (error) {
+      console.log(error)
+      setAlert({ type: 'danger', message: error.msg });
+    }
+  };
 
   const handleResendCode = () => {
     setElapsedTime(0);

@@ -6,11 +6,16 @@ import Header from "../../Esquema/Header";
 import Footer from "../../Esquema/Footer";
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { baseURL } from '../../api.js';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import StripeCheckoutForm from './StripeCheckoutForm'; // Asume que creas este componente
 import './Checkout.css';
+
+const stripePromise = loadStripe('pk_test_51PdbM8Hh07ihkU0MkAP9xASNG4k5d4iqbTroQL4D7q4nmrzZyMqb1R7vUYVGdBEc2MCw8PNGM6JscC7oJRiILvDU00g7ZpMGFR');
 
 const Checkout = () => {
   const [user, setUser] = useLocalStorage('user');
-  const [productos, setProductos] = useState([]); // Inicializa como array vacío
+  const [productos, setProductos] = useState([]);
   const [direccion, setDireccion] = useState(null);
   const location = useLocation();
   const [direccionSeleccionada, setDireccionSeleccionada] = useState(null);
@@ -19,6 +24,7 @@ const Checkout = () => {
   const [descuentoAplicado, setDescuentoAplicado] = useState(false);
   const [mercadoPagoSelected, setMercadoPagoSelected] = useState(false);
   const [paypalSelected, setPaypalSelected] = useState(false);
+  const [stripeSelected, setStripeSelected] = useState(false); // Nueva opción para Stripe
 
   const { subtotal, total } = location.state;
 
@@ -26,7 +32,7 @@ const Checkout = () => {
     const direccionId = parseInt(event.target.value);
     setDireccionSeleccionada(direccionId);
   };
-  
+
   const handleCardClick = (direccionId) => {
     setDireccionSeleccionada(direccionId);
   };
@@ -39,7 +45,6 @@ const Checkout = () => {
           const response = await fetch(`${baseURL}/carrito-compras/${user.ID_usuario}`);
           if (response.ok) {
             const data = await response.json();
-            // Verifica que data es un array
             if (Array.isArray(data)) {
               setProductos(data);
             } else {
@@ -53,6 +58,7 @@ const Checkout = () => {
         }
       }
     };
+    
 
     const fetchDirecciones = async () => {
       const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -73,7 +79,7 @@ const Checkout = () => {
 
     fetchDirecciones();
     fetchProductosPedidos();
-  }, [user.ID_usuario]); // Añadido user.ID_usuario como dependencia
+  }, []);
 
   const handleInputChange = (event) => {
     setCodigoDescuento(event.target.value);
@@ -93,12 +99,28 @@ const Checkout = () => {
     if (paypalSelected) {
       setPaypalSelected(false);
     }
+    if (stripeSelected) {
+      setStripeSelected(false);
+    }
   };
 
   const handlePaypalChange = () => {
     setPaypalSelected(!paypalSelected);
     if (mercadoPagoSelected) {
       setMercadoPagoSelected(false);
+    }
+    if (stripeSelected) {
+      setStripeSelected(false);
+    }
+  };
+
+  const handleStripeChange = () => {
+    setStripeSelected(!stripeSelected);
+    if (mercadoPagoSelected) {
+      setMercadoPagoSelected(false);
+    }
+    if (paypalSelected) {
+      setPaypalSelected(false);
     }
   };
 
@@ -113,43 +135,49 @@ const Checkout = () => {
       return;
     }
 
-    if (!mercadoPagoSelected && !paypalSelected) {
+    if (!mercadoPagoSelected && !paypalSelected && !stripeSelected) {
       alert('Debe seleccionar un método de pago');
       return;
     }
 
     const currentURL = new URL(window.location.href);
-    const host = "http://localhost:3000"; // Cambiar al host adecuado si es necesario
+    const host = "http://localhost:3000";
     const id = user.ID_usuario;
 
-    const createOrderResponse = await fetch(`${baseURL}/paypal/create-order`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ID_usuario: id,
-        total,
-        currentURL: host,
-        ID_direccion: direccionSeleccionada,
-      }),
-    });
+    if (paypalSelected) {
+      const createOrderResponse = await fetch(`${baseURL}/paypal/create-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ID_usuario: id,
+          total,
+          currentURL: host,
+          ID_direccion: direccionSeleccionada,
+        }),
+      });
 
-    if (createOrderResponse.ok) {
-      const data = await createOrderResponse.json();
-      if (data.links && Array.isArray(data.links) && data.links.length >= 2) {
-        const redirectUrl = data.links[1].href;
-
-        if (esURLSegura(redirectUrl)) {
-          window.location.href = redirectUrl;
+      if (createOrderResponse.ok) {
+        const data = await createOrderResponse.json();
+        if (data.links && Array.isArray(data.links) && data.links.length >= 2) {
+          const redirectUrl = data.links[1].href;
+          if (esURLSegura(redirectUrl)) {
+            window.location.href = redirectUrl;
+          } else {
+            console.error("La URL de redirección no es segura.");
+          }
         } else {
-          console.error("La URL de redirección no es segura.");
+          console.error("No se encontraron suficientes enlaces válidos en los datos proporcionados.");
         }
       } else {
-        console.error("No se encontraron suficientes enlaces válidos en los datos proporcionados.");
+        alert(`Hubo un error con la petición: ${createOrderResponse.status} ${createOrderResponse.statusText}`);
       }
-    } else {
-      alert(`Hubo un error con la petición: ${createOrderResponse.status} ${createOrderResponse.statusText}`);
+    }
+
+    if (stripeSelected) {
+      // Redirigir a una página de pago con Stripe o abrir un formulario de pago de Stripe aquí.
+      console.log("Método de pago Stripe seleccionado");
     }
   };
 
@@ -231,7 +259,7 @@ const Checkout = () => {
                   <h4>Su pedido</h4>
                   <div className="checkout__order__products">Productos <span>Total</span></div>
                   <ul>
-                    {Array.isArray(productos) && productos.map(producto => (
+                    {productos.map(producto => (
                       <li key={producto.ID_producto}> {producto.nombre.slice(0, 15)}...(x{producto.cantidad}) <span>${(producto.precioFinal * producto.cantidad).toFixed(2)}</span></li>
                     ))}
                   </ul>
@@ -252,6 +280,18 @@ const Checkout = () => {
                       <span className="checkmark"></span>
                     </label>
                   </div>
+                  <div className="checkout__input__checkbox">
+                    <label htmlFor="stripe">
+                      Stripe
+                      <input type="checkbox" id="stripe" checked={stripeSelected} onChange={handleStripeChange} />
+                      <span className="checkmark"></span>
+                    </label>
+                  </div>
+                  {stripeSelected && (
+  <Elements stripe={stripePromise}>
+    <StripeCheckoutForm amount={total} currency="mxn" productos={productos} />
+  </Elements>
+)}
                   <button type="button" className="site-btn" onClick={handleRealizarPedido}>REALIZAR PEDIDO</button>
                 </div>
               </div>
