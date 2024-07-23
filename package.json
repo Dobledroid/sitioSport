@@ -54,6 +54,7 @@
     "webpack-dev-middleware": "^7.2.1"
   },
   "scripts": {
+    "check-licenses": "license-checker --json > licenses.json",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "testcafe chrome ./tests/*.js",
