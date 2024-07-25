@@ -96,6 +96,7 @@ import slider2 from './slider2';
 
 import favoritos from './Productos/Favoritos/Favoritos';
 import GenerarToken from './Usuario/Alexa/GenerarToken';
+import Prediccion from '../Prediccion';
 // import Error from './Validaciones/Error404/Error';
 const Rutas = () => {
   const [user, setUser] = useLocalStorage('user');
@@ -226,6 +227,8 @@ const Rutas = () => {
         <Route path='/slider2' Component={ slider2 }></Route>
 
         <Route path='/favoritos' Component={ favoritos }></Route>
+
+        <Route path='/prediccion' Component={ Prediccion }></Route>
 
         <Route path='*' Component={Error404}></Route>
 
