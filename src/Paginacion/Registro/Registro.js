@@ -262,120 +262,94 @@ const Registro = () => {
     <div>
       <Header />
       <div className="container">
-        <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-                <div className="card mb-3">
-                  <div className="card-body">
-                    <div className="pt-4 pb-2">
-                      <h5 className="card-title text-center pb-0 fs-4">Crea una cuenta</h5>
-                      <p className="text-center small">Ingrese sus datos para crear una cuenta</p>
+  <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="col-lg-8 col-md-10 d-flex flex-column align-items-center justify-content-center">
+          <div className="card w-100 mb-3">
+            <div className="card-body">
+              <div className="pt-4 pb-2">
+                <h5 className="card-title text-center pb-0 fs-4">Crea una cuenta</h5>
+                <p className="text-center small">Ingrese sus datos para crear una cuenta</p>
+              </div>
+              <form onSubmit={handleRegistro} className="row g-3 needs-validation" noValidate>
+                <div className="col-md-6">
+                  <label htmlFor="yourName" className="form-label">Nombre</label>
+                  <input type="text" placeholder="Ingresa tu nombre" name="name" className={`form-control ${nombreError ? 'is-invalid' : ''}`} id="yourName" required value={nombre} onChange={handleNombreChange} />
+                  {nombreError && <div className="invalid-feedback">{nombreError}</div>}
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="yourApePat" className="form-label">Apellido Paterno</label>
+                  <input type="text" placeholder='Ingresa tu apellido' name="ApePat" className={`form-control ${primerApellidoError ? 'is-invalid' : ''}`} id="ApePat" required value={primerApellido} onChange={handlePrimerApellidoChange} />
+                  {primerApellidoError && <div className="invalid-feedback">{primerApellidoError}</div>}
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="yourApeMat" className="form-label">Apellido Materno</label>
+                  <input type="text" name="ApeMat" placeholder='Ingresa tu apellido' className={`form-control ${segundoApellidoError ? 'is-invalid' : ''}`} id="ApeMat" required value={segundoApellido} onChange={handleSegundoApellidoChange} />
+                  {segundoApellidoError && <div className="invalid-feedback">{segundoApellidoError}</div>}
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="yourEmail" className="form-label">Correo Electrónico</label>
+                  <input type="email" name="email" placeholder="Ingresa tu correo" className={`form-control ${emailError ? 'is-invalid' : ''}`} id="yourEmail" required value={email} onChange={handleEmailChange} />
+                  {emailError && <div className="invalid-feedback">{emailError}</div>}
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="yourPassword" className="form-label">Contraseña</label>
+                  <div className="input-group">
+                    <input type={showPassword ? "text" : "password"} placeholder='Ingresa contraseña' name="password" className={`form-control ${passwordErrors.length > 0 ? 'is-invalid' : ''}`} id="yourPassword" required value={contrasena} onChange={handleContrasenaChange} />
+                    <button className="btn btn-outline-secondary" type="button" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                  {contrasenaError.length > 0 && (
+                    <div className="invalid-feedback">
+                      {contrasenaError.map((error, index) => (
+                        <div key={index}>{error}</div>
+                      ))}
                     </div>
-                    <form onSubmit={handleRegistro} className="row g-3 needs-validation" noValidate>
-                      <div className="col-12">
-                        <label htmlFor="yourName" className="form-label">Nombre</label>
-                        <input type="text" placeholder="Ingresa tu nombre" name="name" className={`form-control ${nombreError ? 'is-invalid' : ''}`} id="yourName" required value={nombre} onChange={handleNombreChange} />
-                        {nombreError && <div className="invalid-feedback">{nombreError}</div>}
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="yourApePat" className="form-label">Apellido Paterno</label>
-                        <input type="text" placeholder='Ingresa tu apellido' name="ApePat" className={`form-control ${primerApellidoError ? 'is-invalid' : ''}`} id="ApePat" required value={primerApellido} onChange={handlePrimerApellidoChange} />
-                        {primerApellidoError && <div className="invalid-feedback">{primerApellidoError}</div>}
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="yourApeMat" className="form-label">Apellido Materno</label>
-                        <input type="text" name="ApeMat" placeholder='Ingresa tu apellido' className={`form-control ${segundoApellidoError ? 'is-invalid' : ''}`} id="ApeMat" required value={segundoApellido} onChange={handleSegundoApellidoChange} />
-                        {segundoApellidoError && <div className="invalid-feedback">{segundoApellidoError}</div>}
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="yourEmail" className="form-label">Correo Electrónico</label>
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="Ingresa tu correo"
-                          className={`form-control ${emailError ? 'is-invalid' : ''}`}
-                          id="yourEmail"
-                          required
-                          value={email}
-                          onChange={handleEmailChange}
-                        />
-                        {emailError &&
-                          <div className="invalid-feedback">¡Ingrese una dirección de correo electrónico válida!
-                          </div>}
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="yourPassword" className="form-label">Contraseña</label>
-                        <div className="input-group">
-                          <input type={showPassword ? "text" : "password"} placeholder='Ingresa contraseña' name="password" className={`form-control ${passwordErrors.length > 0}`} id="yourPassword" required value={contrasena} onChange={handleContrasenaChange} />
-                          <button className="btn btn-outline-secondary" type="button" onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                          </button>
-                          {contrasenaError.length > 0 && (
-                            <div>
-                              <div className="alert alert-danger">
-                                {contrasenaError.map((error, index) => (
-                                  <div key={index}>{error}</div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <ProgressBar now={contrasenaFuerza === 'Débil' ? 25 : contrasenaFuerza === 'Medio' ? 50 : contrasenaFuerza === 'Fuerte' ? 100 : 0} label={contrasenaFuerza} />
-                      {mostrarConfirmarContrasena && (
-                        <div className="col-12">
-                          <label htmlFor="yourPasswordConfirm" className="form-label">Confirmar Contraseña</label>
-                          <div className="input-group">
-                            <input type={showConfirmPassword ? "text" : "password"} placeholder='Confirma contraseña' name="PasswordConfirm" className={`form-control ${passwordErrors.length > 0}`} id="PasswordConfirm" required value={confirmarContrasena} onChange={handleConfirmarContrasenaChange} />
-                            <button className="btn btn-outline-secondary" type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                            </button>
-                          </div>
-                          {passwordErrors.map((error, index) => (
-                            <div key={index} className="invalid-feedback">{error}</div>
-                          ))}
-                        </div>
-                      )}
-                      <div className="col-12 form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value={aceptarTerminos}
-                          id="aceptarTerminos"
-                          onChange={() => setAceptarTerminos(!aceptarTerminos)}
-                          required
-                        />
-                        <label className="form-check-label" htmlFor="aceptarTerminos">
-                          Acepto los términos y condiciones
-                        </label>
-                      </div>
-                      <div className="col-12">
-                        <button
-                          className="btn btn-primary w-100"
-                          type="submit"
-                          disabled={!validacionExitosa || !aceptarTerminos}
-                        >
-                          Crear una cuenta
-                        </button>                      </div>
-                      {alerta && (
-                        <div className="col-12 mt-2">
-                          <div className="alert alert-danger" role="alert">
-                            {alerta}
-                          </div>
-                        </div>
-                      )}
-                    </form>
-                    <div className="col-12">
-                      <p className="small mb-0">¿Ya tienes una cuenta? <Link to="/login">Iniciar sesión </Link></p>
+                  )}
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="yourPasswordConfirm" className="form-label">Confirmar Contraseña</label>
+                  <div className="input-group">
+                    <input type={showConfirmPassword ? "text" : "password"} placeholder='Confirma contraseña' name="PasswordConfirm" className={`form-control ${passwordErrors.length > 0 ? 'is-invalid' : ''}`} id="PasswordConfirm" required value={confirmarContrasena} onChange={handleConfirmarContrasenaChange} />
+                    <button className="btn btn-outline-secondary" type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                      {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                  {passwordErrors.map((error, index) => (
+                    <div key={index} className="invalid-feedback">{error}</div>
+                  ))}
+                </div>
+                <div className="col-12">
+                  <ProgressBar now={contrasenaFuerza === 'Débil' ? 25 : contrasenaFuerza === 'Medio' ? 50 : contrasenaFuerza === 'Fuerte' ? 100 : 0} label={contrasenaFuerza} />
+                </div>
+                <div className="col-12 form-check">
+                  <input className="form-check-input" type="checkbox" value={aceptarTerminos} id="aceptarTerminos" onChange={() => setAceptarTerminos(!aceptarTerminos)} required />
+                  <label className="form-check-label" htmlFor="aceptarTerminos">Acepto los términos y condiciones</label>
+                </div>
+                <div className="col-12">
+                  <button className="btn btn-primary w-100" type="submit" disabled={!validacionExitosa || !aceptarTerminos}>Crear una cuenta</button>
+                </div>
+                {alerta && (
+                  <div className="col-12 mt-2">
+                    <div className="alert alert-danger" role="alert">
+                      {alerta}
                     </div>
                   </div>
-                </div>
+                )}
+              </form>
+              <div className="col-12">
+                <p className="small mb-0">¿Ya tienes una cuenta? <Link to="/login">Iniciar sesión </Link></p>
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
+    </div>
+  </section>
+</div>
+
       <Footer />
     </div>
   );
