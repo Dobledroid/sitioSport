@@ -385,26 +385,25 @@ const Login = () => {
                         )}
                       </form>
                       <div className="my-3">
-  <div className="col-12">
-    <p className="small mb-0">
-      <i className="fas fa-user-plus me-1"></i> ¿No tienes cuenta? 
-      <Link to="/registro" style={{ textDecoration: 'none', color: 'inherit' }}>
-        Crea una cuenta
-      </Link>
-    </p>
-  </div>
-  <div className="col-12 mt-2">
-    <p className="small mb-0">
-      <i className="fas fa-lock me-1"></i> ¿Contraseña Olvidada? 
-      <Link to="/recuperacion" style={{ textDecoration: 'none', color: 'inherit' }}>
-        Recupera tu cuenta
-      </Link>
-    </p>
-  </div>
-</div>
-  <div className="p-3">
+                        <div className="col-12">
+                          <p className="small mb-0">
+                            <i className="fas fa-user-plus me-1"></i> ¿No tienes cuenta?
+                            <Link to="/registro" style={{ textDecoration: 'none', color: 'inherit' }}>
+                              Crea una cuenta
+                            </Link>
+                          </p>
+                        </div>
+                        <div className="col-12 mt-2">
+                          <p className="small mb-0">
+                            <i className="fas fa-lock me-1"></i> ¿Contraseña Olvidada?
+                            <Link to="/recuperacion" style={{ textDecoration: 'none', color: 'inherit' }}>
+                              Recupera tu cuenta
+                            </Link>
+                          </p>
+                        </div>
+                      </div>
+                      {/* <div className="p-3">
                         <div className="border-bottom text-center">
-                          {/* <span className="bg-white px-3">or</span> */}
                         </div>
                       </div>
                       <div>
@@ -418,7 +417,7 @@ const Login = () => {
                           texto="Continuar con Facebook"
                           onClick={handleFacebook}
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
