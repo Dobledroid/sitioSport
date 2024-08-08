@@ -47,7 +47,7 @@ import EditarProducto from './Administracion/Productos/EditarProducto';
 // import Bodys from '../Esquema/Bodys';
 
 import ComprasAdm1 from './Administracion/Compras';
-import Detalleventa from './Administracion/Detalleventa';
+//import Detalleventa from './Administracion/Detalleventa';
 import ApiDataDisplay from './Administracion/Usuarios/ApiDataDisplay';
 
 import Error404 from './Validaciones/Error404/Error404';
@@ -136,8 +136,9 @@ const Rutas = () => {
 
           <Route path='/mis-compras' element={<Compras />}></Route>
           <Route path='/compras' element={<ComprasAdm1 />}></Route>
+          {/* 
           <Route path='/detalleventa' element={<Detalleventa />}></Route>
-          
+           */}
           <Route path='/profile' element={<Profile />}></Route>
           <Route path='/detalle-compra/:ID_pedido' element={<DetalleCompra />}></Route>
         
