@@ -40,17 +40,15 @@ const Index = () => {
           </button>
         </div>
       </section>
-      <div className='container'>
+      {/* <div className='container'>
         <div>
           <div id="accessibility-buttons">
-            {/* Botón para redirigir a la vista de aumentar el tamaño de texto */}
             <Link to="/menuVisual" className="btn btn-info"
               data-bs-toggle="tooltip" data-bs-placement="right"
               title="Accesibilidad para personas con discapacidad visual">
               <i className="icon-blind"></i>
             </Link>
 
-            {/* Botón para redirigir a la vista de habilitar la lectura de pantalla */}
             <Link to="/indexH" className="btn btn-danger ml-2"
               data-bs-toggle="tooltip" data-bs-placement="right"
               title="Accesibilidad de carga rápida">
@@ -58,7 +56,7 @@ const Index = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <section class="from-blog spad">
         <div class="container">
