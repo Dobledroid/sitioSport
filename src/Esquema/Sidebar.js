@@ -59,6 +59,9 @@ const Sidebar = () => {
                 <li className="sidebar-item">
                   <Link to="/AdmProductos" className="sidebar-link">Productos</Link>
                 </li>
+                <li className="sidebar-item">
+                  <Link to="/Compras" className="sidebar-link">Compras</Link>
+                </li>
               </ul>
             </li>
           )}
