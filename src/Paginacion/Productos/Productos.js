@@ -5,6 +5,7 @@ import Footer from '../../Esquema/Footer';
 import { baseURL } from '../../api.js';
 import Spinner from '../utilidades/Spinner';
 import './Productos.css';
+import SearchBar from '../SearchBar.js';
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -305,11 +306,22 @@ const Productos = () => {
   for (let i = 1; i <= Math.ceil(filteredProducts.length / productsPerPage); i++) {
     pageNumbers.push(i);
   }
+  
+  const handleSearch = (query) => {
+    console.log("Buscando:", query);
 
+    // Filtrar los productos según el valor de `query`
+    const filtered = products.filter(product =>
+      product.nombre.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setFilteredProducts(filtered);
+  };
 
   return (
     <>
-      <Header />
+      <Header />            
+      <SearchBar onSearch={handleSearch} />
       <ToastContainer />
       <section className="product spad">
         {loading && (
