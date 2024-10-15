@@ -8,6 +8,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 // Estrategia de caché para documentos HTML
 registerRoute(
+  //Cache
   ({ request }) => request.destination === 'document',
   new StaleWhileRevalidate({
     cacheName: 'html-cache',
