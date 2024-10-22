@@ -54,15 +54,16 @@ function CustomPaging({ productId }) {
   const settings = {
     customPaging: function (i) {
       return (
-        <a>
+        <button className="thumbnail-button">
           <img
             src={images[i]?.imagenUrl || ''}
             alt={`Thumbnail ${i + 1}`}
             className="thumbnail-image"
           />
-        </a>
+        </button>
       );
     },
+    
     dots: true,
     dotsClass: "slick-dots slick-thumb",
     infinite: true,
