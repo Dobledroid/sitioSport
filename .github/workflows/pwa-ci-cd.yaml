@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Usar sistema operativo Linux
 
     steps:
       - name: Checkout del repositorio
@@ -24,10 +24,13 @@ jobs:
       - name: Configuración de Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18.12.0'  # Actualiza a una versión compatible
+          node-version: '18.12.0'  # Versión compatible de Node.js
 
-      - name: Instalación de dependencias
-        run: yarn install
+      - name: Instalación de dependencias con npm
+        run: npm install  # Cambiado a npm
 
       - name: Compilación del proyecto
-        run: yarn build
+        run: npm run build  # Cambiado a npm
+
+      - name: Ejecutar pruebas (opcional)
+        run: npm test
