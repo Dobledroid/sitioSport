@@ -1,0 +1,33 @@
+name: PWA CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - main
+      - os
+  pull_request:
+    branches:
+      - master
+      - develop
+  workflow_dispatch:  # Activación manual opcional
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Configuración del sistema operativo
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3  # Descarga el código
+
+      - name: Configuración de Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Instalación de dependencias
+        run: yarn install
+
+      - name: Compilación del proyecto
+        run: yarn build
