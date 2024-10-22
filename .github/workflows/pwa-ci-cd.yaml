@@ -32,5 +32,5 @@ jobs:
       - name: Compilación del proyecto
         run: npm run build  # Cambiado a npm
 
-      - name: Ejecutar pruebas (opcional)
+      - name: Ejecutar pruebas
         run: npm test
