@@ -20,6 +20,9 @@ module.exports = {
       { url: '/login', revision: null },
       { url: '/tienda', revision: null },
       { url: '/empresa', revision: null },
+      { url: '/membresias', revision: null },
+      { url: '/registro', revision: null },
+      { url: '/recuperacion', revision: null },
     ],
   };
   
