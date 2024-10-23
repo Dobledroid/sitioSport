@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { baseURL } from "../../api.js";
 
 export default function ModalPregunta({ user }) {
@@ -10,7 +10,7 @@ export default function ModalPregunta({ user }) {
   const [answer, setAnswer] = useState('');
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const preguntas = {
     1: '¿Cuál es el nombre de tu mascota?',
