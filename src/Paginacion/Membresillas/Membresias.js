@@ -10,7 +10,8 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 
 const Membresias = () => {
-  const [user, setUser] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
   const [fechaVencimientoAcumulada, setFechaVencimientoAcumulada] = useState(null);
   const [fechaVencimientoAcumuladaFormateada, setFechaVencimientoAcumuladaFormateada] = useState(null);
   const [isVencimientoCalculated, setIsVencimientoCalculated] = useState(false);
@@ -39,7 +40,7 @@ const Membresias = () => {
     };
 
     fetchPlanDetails();
-  }, []);
+  }, [user.ID_usuario]);
 
   function esURLSegura(url) {
     const regex = /^(ftp|http|https):\/\/[^ "]+$/;
