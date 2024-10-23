@@ -59,7 +59,7 @@ const Panel = () => {
         })
         .catch(error => console.error("Error al obtener la pregunta:", error));
     }
-  }, []);
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
