@@ -11,7 +11,8 @@ import iconAddress from "./images/address-svgrepo-com.svg";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const [userImage, setUserImage] = React.useState(null);
+  // const [userImage, setUserImage] = React.useState(null);
+  const [userImage] = React.useState(null);
 
 
   useEffect(() => {

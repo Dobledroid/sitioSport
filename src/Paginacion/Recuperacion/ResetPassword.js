@@ -1,28 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import Swal from 'sweetalert2';
+// import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+// import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { FaEyeSlash } from 'react-icons/fa';
+// import { FaEye, FaEyeSlash } from 'react-icons/fa';
+// import Swal from 'sweetalert2';
 import Alert from '../Validaciones/Alerts/Alert.js';
 import { baseURL, fetchData } from '../../api.js';
 import Header from '../../Esquema/Header.js';
 import Footer from '../../Esquema/Footer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import weakPasswords from './ListNegra.js';
+// import weakPasswords from './ListNegra.js';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmacion, setConfirmacion] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const location = useLocation();
-  const dataUser = location.state;
+  // const dataUser = location.state;
 
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const [mostrarConfirmContrasena, setMostrarConfirmContrasena] = useState(false);
   const [alert, setAlert] = useState(null);
   const [contrasenaError, setContrasenaError] = useState([]);
   const [contrasenaFuerza, setContrasenaFuerza] = useState('');
-  const [blacklisted, setBlacklisted] = useState(false);
+  const [blacklisted] = useState(false);
+  // const [blacklisted, setBlacklisted] = useState(false);
 
   const validarContrasena = (password, confirmation) => {
     const mayusculas = /[A-Z]/;
@@ -88,17 +92,17 @@ const ResetPassword = () => {
     }
   };
 
-  const verificarContraseñaEnListaNegra = (password) => {
-    try {
-      if (weakPasswords.includes(password)) {
-        setBlacklisted(true);
-      } else {
-        setBlacklisted(false);
-      }
-    } catch (error) {
-      console.error('Error al verificar contraseña en lista negra:', error);
-    }
-  };
+  // const verificarContraseñaEnListaNegra = (password) => {
+  //   try {
+  //     if (weakPasswords.includes(password)) {
+  //       setBlacklisted(true);
+  //     } else {
+  //       setBlacklisted(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error al verificar contraseña en lista negra:', error);
+  //   }
+  // };
 
 
   const handleResetPassword = async (event) => {

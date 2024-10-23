@@ -77,9 +77,9 @@ const Membresia = () => {
                 <div className="container">
 
                   <div className="row">
-                    
+
                     <div className="col-lg-6 col-md-6">
-                  <button className="btn btn-secondary mb-3" onClick={() => navigate('/perfil')}>Regresar al perfil</button>
+                      <button className="btn btn-secondary mb-3" onClick={() => navigate('/perfil')}>Regresar al perfil</button>
 
                       <div className="product__details__pic">
                         <div className="product__details__pic__item">
@@ -108,10 +108,18 @@ const Membresia = () => {
                           </li>
                           <li><b>Compartir en</b>
                             <div className="share">
-                              <a href="#" role="button" onClick={(e) => e.preventDefault()}><i className="fa fa-facebook"></i></a>
-                              <a href="#" role="button" onClick={(e) => e.preventDefault()}><i className="fa fa-twitter"></i></a>
-                              <a href="#" role="button" onClick={(e) => e.preventDefault()}><i className="fa fa-instagram"></i></a>
-                              <a href="#" role="button" onClick={(e) => e.preventDefault()}><i className="fa fa-pinterest"></i></a>
+                              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-facebook"></i>
+                              </a>
+                              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-twitter"></i>
+                              </a>
+                              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-instagram"></i>
+                              </a>
+                              <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-pinterest"></i>
+                              </a>
                             </div>
                           </li>
                         </ul>

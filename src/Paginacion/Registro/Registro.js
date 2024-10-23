@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
+// import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../Esquema/Header.js';
 import Footer from '../../Esquema/Footer';
@@ -29,7 +30,7 @@ const Registro = () => {
   const [aceptarTerminos, setAceptarTerminos] = useState(false);
 
   const navigate = useNavigate();
-  const captcha = useRef(null);
+  // const captcha = useRef(null);
 
   useEffect(() => {
     // Verificar si todas las validaciones son exitosas
@@ -118,6 +119,7 @@ const Registro = () => {
         setMostrarConfirmarContrasena(true);
       } else {
         setMostrarConfirmarContrasena(false);
+        console.log(mostrarConfirmarContrasena)
       }
     } else {
       setContrasenaError(passwordErrorsFiltered);

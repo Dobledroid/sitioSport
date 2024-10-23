@@ -21,8 +21,8 @@ import Nosotros from './Empresa/Nosotros/Nosotros';
 
 import Registro from './Registro/Registro';
 import Login from './Login/Login';
-import Login2 from './Login/Login2';
-import MFA from './Login/MFA';
+// import Login2 from './Login/Login2';
+// import MFA from './Login/MFA';
 import Perfil from './Usuario/Perfil';
 // import IndexCargaRapida from './Accesibilidad/CargaRapida/IndexCargaRapida';
 // import TerminosCondicionesH from './Accesibilidad/CargaRapida/TerminosCondiciones/TerminosCondicionesH';
@@ -70,7 +70,7 @@ import PruebaAbrirModal from './Productos/PruebaAbrirModal';
 import AgregarDireccionesEnvio from './Productos/AgregarDireccionesEnvio';
 import Pregunta from './Recuperacion/Pregunta';
 import MisDirecciones from './Usuario/Direccion/MisDirecciones';
-import Login3 from './Login/Login3';
+// import Login3 from './Login/Login3';
 import EditarDireccionesEnvio from './Productos/EditarDireccionesEnvio';
 import CheckoutDirecciones from './Productos/CheckoutDirecciones';
 import ConfetiComponent from './utilidades/ConfetiComponent';
@@ -99,10 +99,12 @@ import GenerarToken from './Usuario/Alexa/GenerarToken';
 import Prediccion from '../Prediccion';
 // import Error from './Validaciones/Error404/Error';
 const Rutas = () => {
-  const [user, setUser] = useLocalStorage('user');
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn');
-  const [isLoggedInLogin, setIsLoggedInLogin] = useLocalStorage('isLoggedInTemp');
-  const [tokenCheckout, setTokenCheckout] = useLocalStorage('tokenCheckout');
+  const [user] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
+  const [isLoggedIn] = useLocalStorage('isLoggedIn');
+  // const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn');
+  // const [isLoggedInLogin, setIsLoggedInLogin] = useLocalStorage('isLoggedInTemp');
+  // const [tokenCheckout, setTokenCheckout] = useLocalStorage('tokenCheckout');
   const isAdmin = user && user.ID_rol === 1;
   console.log(isLoggedIn)
   // React.useEffect(() => {
