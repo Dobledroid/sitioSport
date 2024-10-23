@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
 import Breadcrumbs from "./Breadcrumbs"; // Ajusta la ruta de importación según la ubicación del archivo Breadcrumbs
@@ -6,8 +6,10 @@ import { baseURL } from '../api.js';
 import { useLocalStorage } from 'react-use';
 
 const Header = () => {
-  const [user, setUser] = useLocalStorage('user');
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn');
+  const [user] = useLocalStorage('user');
+  const [isLoggedIn] = useLocalStorage('isLoggedIn');
+  // const [user, setUser] = useLocalStorage('user');
+  // const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn');
   const [totalProductosEnCarrito, setTotalProductosEnCarrito] = useState(0);
   const [cantidadFavoritos, setCantidadFavoritos] = useState(0);
 
@@ -25,14 +27,8 @@ const Header = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchTotalProductosEnCarrito();
-      fetchCantidadFavoritos();
-    }
-  }, [isLoggedIn]);
 
-  const fetchTotalProductosEnCarrito = async () => {
+  const fetchTotalProductosEnCarrito = useCallback(async () => {
     try {
       const response = await fetch(`${baseURL}/carrito-compras-total-usuario/${user.ID_usuario}`);
       if (response.ok) {
@@ -44,14 +40,13 @@ const Header = () => {
     } catch (error) {
       console.error("Error de red:", error);
     }
-  };
+  }, [user]);
 
-  const fetchCantidadFavoritos = async () => {
+  const fetchCantidadFavoritos = useCallback(async () => {
     try {
       const response = await fetch(`${baseURL}/favoritos-cantidad/${user.ID_usuario}`);
       if (response.ok) {
         const data = await response.json();
-        // console.log("fetchCantidadFavoritos", data)
         setCantidadFavoritos(data.cantidad);
       } else {
         console.error("Error al obtener la cantidad de favoritos");
@@ -59,8 +54,14 @@ const Header = () => {
     } catch (error) {
       console.error("Error de red:", error);
     }
-  };
-
+  }, [user])
+  
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchTotalProductosEnCarrito();
+      fetchCantidadFavoritos();
+    }
+  }, [isLoggedIn, fetchTotalProductosEnCarrito, fetchCantidadFavoritos]);
 
   return (
     <>
@@ -85,24 +86,24 @@ const Header = () => {
           <ul>
             <li className="active"><Link to="/">Inicio</Link></li>
             <li><Link to="/tienda">Tienda</Link></li>
-            <li><Link to="/imc">Tienda</Link></li>
+            {/* <li><Link to="/imc">Tienda</Link></li> */}
             <li>
-              <a href="#">Empresa</a>
+              <p>Empresa</p>
               <ul className="header__menu__dropdown">
                 <li><Link to="/Nosotros">Nosotros</Link></li>
                 <li><Link to="/Contacto">Contacto</Link></li>
-                <li><a href="./checkout.html">Check Out</a></li>
-                <li><a href="./blog-details.html">Blog Details</a></li>
+                {/* <li><a href="./checkout.html">Check Out</a></li>
+                <li><a href="./blog-details.html">Blog Details</a></li> */}
               </ul>
             </li>
           </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
         <div className="header__top__right__social">
-          <a href="#"><i className="fa fa-facebook"></i></a>
-          <a href="#"><i className="fa fa-twitter"></i></a>
-          <a href="#"><i className="fa fa-linkedin"></i></a>
-          <a href="#"><i className="fa fa-pinterest-p"></i></a>
+          <a href="/"><i className="fa fa-facebook"></i></a>
+          <a href="/"><i className="fa fa-twitter"></i></a>
+          <a href="/"><i className="fa fa-linkedin"></i></a>
+          <a href="/"><i className="fa fa-pinterest-p"></i></a>
         </div>
         <div className="humberger__menu__contact">
           <ul>
