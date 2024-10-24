@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from '../../Esquema/Header';
 import Footer from '../../Esquema/Footer';
 import { useLocalStorage } from 'react-use';
@@ -47,11 +47,8 @@ const Membresias = () => {
     return regex.test(url);
   }
 
-  const handleRealizarPedidoActualizar = async (nombre, total, ID_tipoMembresia, ID_UnicoMembresia, fechaVencimientoAcumuladaFormateada) => {
-    const currentURL = new URL(window.location.href);
+  const handleRealizarPedidoActualizar = useCallback(async (nombre, total, ID_tipoMembresia, ID_UnicoMembresia, fechaVencimientoAcumuladaFormateada) => {
     const host = "http://localhost:3000";
-    // const host = currentURL.protocol + '//' + currentURL.hostname;
-    // console.log(host); 
     const id = user.ID_usuario;
     const createOrderResponse = await fetch(`${baseURL}/paypal/create-order-membresia-actualizar`, {
       method: 'POST',
@@ -73,7 +70,6 @@ const Membresias = () => {
 
     if (createOrderResponse.ok) {
       const data = await createOrderResponse.json();
-      // console.log(data);
       if (data.links && Array.isArray(data.links) && data.links.length >= 2) {
         const redirectUrl = data.links[1].href;
 
@@ -88,10 +84,11 @@ const Membresias = () => {
     } else {
       alert(`Hubo un error con la petición: ${createOrderResponse.status} ${createOrderResponse.statusText}`);
     }
-  };
+  }, [ID_membresiaUsuario, user, fechaVencimientoAcumulada]);
+
 
   const handleRealizarPedido = async (nombre, total, ID_tipoMembresia, ID_UnicoMembresia) => {
-    const currentURL = new URL(window.location.href);
+    // const currentURL = new URL(window.location.href);
     const host = "http://localhost:3000";
     // const host = currentURL.protocol + '//' + currentURL.hostname;
     // console.log(host); 
@@ -208,7 +205,15 @@ const Membresias = () => {
 
       setIsVencimientoCalculated(false); // Restablecer el flag
     }
-  }, [isVencimientoCalculated, fechaVencimientoAcumuladaFormateada]);
+  }, [isVencimientoCalculated, fechaVencimientoAcumulada,
+    fechaVencimientoAcumuladaFormateada, 
+    nombre, 
+    costo, 
+    ID_tipoMembresia, 
+    ID_UnicoMembresia, 
+    handleRealizarPedidoActualizar
+  ]);
+
 
   const fetchMembresia = async (planId) => {
     // alert(planId)
