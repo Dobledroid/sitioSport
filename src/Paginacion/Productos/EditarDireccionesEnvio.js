@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link} from "react-router-dom";
+import { useParams, Link} from "react-router-dom";
+// import { useParams, useNavigate, Link} from "react-router-dom";
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
 import { baseURL } from '../../api.js';
@@ -20,7 +21,7 @@ const EditarDireccionesEnvio = () => {
   const [telefono, setTelefono] = useState("");
   const [referencias, setReferencias] = useState("");
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDireccion = async () => {
@@ -30,6 +31,7 @@ const EditarDireccionesEnvio = () => {
           const data = await response.json();
           console.log(data)
           setDirrecionActualizar(data);
+          console.log(direccionActualizar);
           setNombre(data.nombre);
           setApellidos(data.apellidos);
           setPais(data.pais);
@@ -50,7 +52,7 @@ const EditarDireccionesEnvio = () => {
     };
 
     fetchDireccion();
-  }, []);
+  }, [ID_direccion, direccionActualizar]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

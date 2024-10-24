@@ -305,9 +305,14 @@ const ProductDetails = () => {
                   ) : (
                     <p>El producto no está disponible por falta de stock</p>
                   )}
-                  <a className="heart-icon" onClick={addToFavorites}>
+                  <button
+                    className="heart-icon"
+                    onClick={addToFavorites}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                    aria-label="Agregar a favoritos"
+                  >
                     <GoHeartFill size={18} style={{ color: isFavorite ? 'red' : 'gray' }} />
-                  </a>
+                  </button>
                   <ul>
                     <li><b>Disponibilidad</b> <span> ({product && product.length > 0 ? product[0].existencias : "NULL"}) En stock</span></li>
                     <li><b>Envío</b> <span>Mismo día de compra. <samp>Envío gratis unicamente en Huejutla</samp></span></li>

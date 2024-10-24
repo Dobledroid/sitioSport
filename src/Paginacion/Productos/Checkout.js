@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Card, Form } from 'react-bootstrap';
-import ListGroup from 'react-bootstrap/ListGroup';
+// import ListGroup from 'react-bootstrap/ListGroup';
 import { useLocalStorage } from 'react-use';
 import Header from "../../Esquema/Header";
 import Footer from "../../Esquema/Footer";
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+// import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { baseURL } from '../../api.js';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -14,7 +15,8 @@ import './Checkout.css';
 const stripePromise = loadStripe('pk_test_51PdbM8Hh07ihkU0MkAP9xASNG4k5d4iqbTroQL4D7q4nmrzZyMqb1R7vUYVGdBEc2MCw8PNGM6JscC7oJRiILvDU00g7ZpMGFR');
 
 const Checkout = () => {
-  const [user, setUser] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
   const [productos, setProductos] = useState([]);
   const [direccion, setDireccion] = useState(null);
   const location = useLocation();
@@ -78,7 +80,7 @@ const Checkout = () => {
 
     fetchDirecciones();
     fetchProductosPedidos();
-  }, []);
+  }, [user.ID_usuario]);
 
   const handleInputChange = (event) => {
     setCodigoDescuento(event.target.value);

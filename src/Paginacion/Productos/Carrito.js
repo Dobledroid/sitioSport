@@ -19,9 +19,10 @@ const Carrito = () => {
   const [productoAEliminar, setProductoAEliminar] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [codigoDescuento, setCodigoDescuento] = useState('');
-  const [descuentoAplicado, setDescuentoAplicado] = useState(false);
-  const [iva, setIVA] = useState(0);
+  // const [codigoDescuento, setCodigoDescuento] = useState('');
+  // const [descuentoAplicado, setDescuentoAplicado] = useState(false);
+  const [descuentoAplicado] = useState(false);
+  // const [iva, setIVA] = useState(0);
 
 
   const navigate = useNavigate();
@@ -176,37 +177,38 @@ const Carrito = () => {
     setIsModalOpen(false);
   };
 
-  const validacionCarrito = () => {
-    const cantidadExcedida = productos.some(producto => producto.cantidad > producto.existencias);
-    const cantidadInvalida = productos.some(producto => producto.cantidad < 1);
-    return !cantidadExcedida && !cantidadInvalida;
-  };
+  // const validacionCarrito = () => {
+  //   const cantidadExcedida = productos.some(producto => producto.cantidad > producto.existencias);
+  //   const cantidadInvalida = productos.some(producto => producto.cantidad < 1);
+  //   return !cantidadExcedida && !cantidadInvalida;
+  // };
 
-  const handleUpdateCart = () => {
-    if (validacionCarrito()) {
-      console.log("Datos actuales del carrito:", productos);
-      alert("Correcto");
-    } else {
-      console.log("No es posible actualizar por validaciones");
-      alert("No es posible actualizar por validaciones");
-    }
-  };
+  // const handleUpdateCart = () => {
+  //   if (validacionCarrito()) {
+  //     console.log("Datos actuales del carrito:", productos);
+  //     alert("Correcto");
+  //   } else {
+  //     console.log("No es posible actualizar por validaciones");
+  //     alert("No es posible actualizar por validaciones");
+  //   }
+  // };
 
-  const handleInputChange = (event) => {
-    setCodigoDescuento(event.target.value);
-  };
+  // const handleInputChange = (event) => {
+  //   setCodigoDescuento(event.target.value);
+  // };
 
-  const handleDescuentoSubmit = (event) => {
-    event.preventDefault();
-    if (codigoDescuento === 'SPORT100') {
-      // Código de descuento válido
-      setDescuentoAplicado(true);
-      // Aquí puedes agregar lógica adicional para aplicar el descuento
-    } else {
-      // Código de descuento inválido
-      alert('El código de descuento ingresado no es válido.');
-    }
-  };
+  // const handleDescuentoSubmit = (event) => {
+  //   event.preventDefault();
+  //   if (codigoDescuento === 'SPORT100') {
+  //     // Código de descuento válido
+  //     setDescuentoAplicado(true);
+  //     // Aquí puedes agregar lógica adicional para aplicar el descuento
+  //   } else {
+  //     // Código de descuento inválido
+  //     alert('El código de descuento ingresado no es válido.');
+  //   }
+  // };
+  
   const calcularSubtotal = () => {
     return productos.reduce((subtotal, producto) => subtotal + (producto.precioFinal * producto.cantidad), 0);
   };

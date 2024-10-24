@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+// import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from "../../../Esquema/Header.js";
 import Footer from "../../../Esquema/Footer";
 import { baseURL } from '../../../api.js';
@@ -9,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const Favoritos = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [favoritos, setFavoritos] = useState([]);
   const [userId, setUserId] = useState(null);
 
@@ -17,9 +18,10 @@ const Favoritos = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setUserId(user.ID_usuario);
+      console.log(userId);
       fetchFavoritos(user.ID_usuario);
     }
-  }, []);
+  }, [userId]);
 
   const fetchFavoritos = async (userId) => {
     try {
