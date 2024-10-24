@@ -110,9 +110,11 @@ const EditarProducto = () => {
       const data = await response.json();
       setSubcategorias(data);
       setMostrarSubcategoria(true); const responseMarcas = await fetch(`${baseURL}/marcasByIDCategoria/${selectedCategoriaId}`);
+      console.log(mostrarSubcategoria);
       const dataMarcas = await responseMarcas.json();
       setMarcas(dataMarcas);
       setMostrarMarca(true);
+      console.log(mostrarMarca);
     } else {
       setSubcategorias([]);
       setMostrarSubcategoria(false);
@@ -183,6 +185,7 @@ const EditarProducto = () => {
       <div className="col-2">
         <img
           src={file.preview}
+          alt = 'thumbs'
           style={img}
         />
       </div>
@@ -205,6 +208,7 @@ const EditarProducto = () => {
       <div className="col-2">
         <img
           src={file.preview}
+          alt = 'thumbs'
           style={img}
           onLoad={() => { URL.revokeObjectURL(file.preview) }}
         />
@@ -228,8 +232,10 @@ const EditarProducto = () => {
   }, [otrosFiles]);
 
 
-  const [isLoadingSubcategorias, setIsLoadingSubcategorias] = useState(false);
-  const [isLoadingMarcas, setIsLoadingMarcas] = useState(false);
+  const [isLoadingSubcategorias] = useState(false);
+  const [isLoadingMarcas] = useState(false);
+  // const [isLoadingSubcategorias, setIsLoadingSubcategorias] = useState(false);
+  // const [isLoadingMarcas, setIsLoadingMarcas] = useState(false);
 
   const [estadoInventario, setEstadoInventario] = useState('');
   const [cantidadExistencias, setCantidadExistencias] = useState('');

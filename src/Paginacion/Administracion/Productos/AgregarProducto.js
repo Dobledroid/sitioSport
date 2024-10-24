@@ -63,6 +63,7 @@ const AgregarProducto = () => {
       const data = await response.json();
       setSubcategorias(data);
       setMostrarSubcategoria(true); const responseMarcas = await fetch(`${baseURL}/marcasByIDCategoria/${selectedCategoriaId}`);
+      console.log(mostrarSubcategoria);
       const dataMarcas = await responseMarcas.json();
       setMarcas(dataMarcas);
       setMostrarMarca(true);
@@ -71,6 +72,7 @@ const AgregarProducto = () => {
       setMostrarSubcategoria(false);
       setMarcas([]);
       setMostrarMarca(false);
+      console.log(mostrarMarca);
     }
   };
 
@@ -128,6 +130,7 @@ const AgregarProducto = () => {
     <div key={file.name} className="row align-items-center mb-3">
       <div className="col-2">
         <img
+        alt = 'thumbs'
           src={file.preview}
           style={img}
           onLoad={() => { URL.revokeObjectURL(file.preview) }}
@@ -153,10 +156,14 @@ const AgregarProducto = () => {
   }, [files]);
 
 
-  const [isLoadingSubcategorias, setIsLoadingSubcategorias] = useState(false);
-  const [isLoadingMarcas, setIsLoadingMarcas] = useState(false);
+  const [isLoadingSubcategorias] = useState(false);
+  const [isLoadingMarcas] = useState(false);
+  const [estadoInventario] = useState('');
 
-  const [estadoInventario, setEstadoInventario] = useState('');
+  // const [isLoadingSubcategorias, setIsLoadingSubcategorias] = useState(false);
+  // const [isLoadingMarcas, setIsLoadingMarcas] = useState(false);
+  // const [estadoInventario, setEstadoInventario] = useState('');
+
   const [cantidadExistencias, setCantidadExistencias] = useState('');
 
   const [nombreProducto, setNombreProducto] = useState('');

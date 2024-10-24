@@ -23,13 +23,14 @@ const AdmMembresiasClientes = () => {
           return fechaInicio <= fechaVencimiento;
         });
         setMembresiasActivas(membresiasFiltradas);
+        console.log(membresiasActivas)
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchMembresias();
-  }, []);
+  }, [membresiasActivas]);
 
   return (
     <>

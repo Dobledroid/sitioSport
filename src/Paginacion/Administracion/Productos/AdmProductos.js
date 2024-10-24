@@ -48,6 +48,7 @@ const AdmProductos = () => {
       const data = await response.json();
       // console.log(data)
       setCategorias(data);
+      console.log(categorias);
     } catch (error) {
       console.error(error);
     }
@@ -62,6 +63,7 @@ const AdmProductos = () => {
       const data = await response.json();
       // console.log(data)
       setSubcategorias(data);
+      console.log(subcategorias);
     } catch (error) {
       console.error(error);
     }
@@ -76,6 +78,7 @@ const AdmProductos = () => {
       const data = await response.json();
       // console.log(data)
       setMarcas(data);
+      console.log(marcas)
     } catch (error) {
       console.error(error);
     }

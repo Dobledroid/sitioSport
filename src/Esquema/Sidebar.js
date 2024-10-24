@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { useLocalStorage } from 'react-use';
 
 const Sidebar = () => {
-  const [user, setUser] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
 
   useEffect(() => {
     const hamBurger = document.querySelector(".toggle-btn");
@@ -43,7 +44,7 @@ const Sidebar = () => {
               <span>Perfil</span>
             </Link>
           </li>
-          {user && user.ID_rol == '1' && (
+          {user && user.ID_rol === '1' && (
             <li className="sidebar-item">
               <Link className="sidebar-link collapsed has-dropdown" onClick={handleDropdownClick}>
                 <i className="icon-shopping-bag"></i>

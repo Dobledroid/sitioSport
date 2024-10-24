@@ -64,6 +64,7 @@ const CompraFinalizada = () => {
       if (response.ok) {
         const data = await response.json();
         setProductos(data);
+        console.log(productos);
         setLoading(false);
         const urls = data.map(producto => producto.imagenUrl);
         setImagenes(urls);
@@ -92,7 +93,7 @@ const CompraFinalizada = () => {
   };
 
   useEffect(() => {
-    if (tipo == 1) {
+    if (tipo === 1) {
       fetchValidarCompra(id)
     } else {
       fetchValidarMembresia()
@@ -110,7 +111,7 @@ const CompraFinalizada = () => {
           {!loading && (
             <div className="container">
               <div className="contenido">
-                {tipo == 1 ? (
+                {tipo === 1 ? (
                   <>
                     <div className="imagen-container mt-5">
                       {imagenes.map((url, index) => (
