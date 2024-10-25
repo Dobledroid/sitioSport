@@ -38,26 +38,26 @@ const Filtros = () => {
               <div className={`${styles.sidebarSection}`}>
                 <h3>Marca</h3>
                 <ul>
-                  <li><a href="#"><span>Marca 1</span></a></li>
-                  <li><a href="#"><span>Marca 2</span></a></li>
-                  <li><a href="#"><span>Marca 3</span></a></li>
+                  <li><a href="/"><span>Marca 1</span></a></li>
+                  <li><a href="/"><span>Marca 2</span></a></li>
+                  <li><a href="/"><span>Marca 3</span></a></li>
                   {/* Agrega más marcas según sea necesario */}
                 </ul>
               </div>
               <div className={`${styles.sidebarSection}`}>
                 <h3>Sabor</h3>
                 <ul>
-                  <li><a href="#"><span>Sabor 1</span></a></li>
-                  <li><a href="#"><span>Sabor 2</span></a></li>
-                  <li><a href="#"><span>Sabor 3</span></a></li>
+                  <li><a href="/"><span>Sabor 1</span></a></li>
+                  <li><a href="/"><span>Sabor 2</span></a></li>
+                  <li><a href="/"><span>Sabor 3</span></a></li>
                   {/* Agrega más sabores según sea necesario */}
                 </ul>
               </div>
               <div className={`${styles.sidebarSection}`}>
                 <h3>Precio</h3>
                 <ul>
-                  <li><a href="#"><span>Precio 1</span></a></li>
-                  <li><a href="#"><span>Precio 2</span></a></li>
+                  <li><a href="/"><span>Precio 1</span></a></li>
+                  <li><a href="/"><span>Precio 2</span></a></li>
                   {/* Agrega más precios según sea necesario */}
                 </ul>
                 <form>
@@ -81,26 +81,26 @@ const Filtros = () => {
                 <div className={`${styles.sidebarSection}`}>
                   <h3>Marca</h3>
                   <ul>
-                    <li><a href="#"><span>Marca 1</span></a></li>
-                    <li><a href="#"><span>Marca 2</span></a></li>
-                    <li><a href="#"><span>Marca 3</span></a></li>
+                    <li><a href="/"><span>Marca 1</span></a></li>
+                    <li><a href="/"><span>Marca 2</span></a></li>
+                    <li><a href="/"><span>Marca 3</span></a></li>
                     {/* Agrega más marcas según sea necesario */}
                   </ul>
                 </div>
                 <div className={`${styles.sidebarSection}`}>
                   <h3>Sabor</h3>
                   <ul>
-                    <li><a href="#"><span>Sabor 1</span></a></li>
-                    <li><a href="#"><span>Sabor 2</span></a></li>
-                    <li><a href="#"><span>Sabor 3</span></a></li>
+                    <li><a href="/"><span>Sabor 1</span></a></li>
+                    <li><a href="/"><span>Sabor 2</span></a></li>
+                    <li><a href="/"><span>Sabor 3</span></a></li>
                     {/* Agrega más sabores según sea necesario */}
                   </ul>
                 </div>
                 <div className={`${styles.sidebarSection}`}>
                   <h3>Precio</h3>
                   <ul>
-                    <li><a href="#"><span>Precio 1</span></a></li>
-                    <li><a href="#"><span>Precio 2</span></a></li>
+                    <li><a href="/"><span>Precio 1</span></a></li>
+                    <li><a href="/"><span>Precio 2</span></a></li>
                     {/* Agrega más precios según sea necesario */}
                   </ul>
                   <form>
