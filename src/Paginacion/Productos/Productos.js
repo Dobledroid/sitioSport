@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback  } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../Esquema/Header';
 import Footer from '../../Esquema/Footer';
@@ -42,7 +42,8 @@ function SidebarItem({ title, items, onFilter, type }) {
         )}
         {!selectedItem &&
           items.slice(0, showMore ? items.length : 5).map((item, index) => (
-            <li key={index}>
+            <li key={index}>  
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a href="#" onClick={() => handleItemClick(item)}>
                 {item.nombre}
               </a>
@@ -50,6 +51,7 @@ function SidebarItem({ title, items, onFilter, type }) {
           ))}
         {!selectedItem && items.length > 5 && (
           <li>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a href="#" onClick={handleToggleShowMore}>
               {showMore ? 'Ver menos' : 'Ver más'}
             </a>
@@ -163,12 +165,15 @@ function ProductItem({ product }) {
         <div className="product__item__pic set-bg">
           <img src={product.imagenUrl} alt={product.nombre} />
           <ul className="product__item__pic__hover">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <li><a href="#" onClick={toggleFavorite}><i className="fa fa-heart" style={{ color: isFavorite ? 'red' : 'black' }}></i></a></li>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <li><a href="#" onClick={shareProduct}><i className="fa fa-retweet"></i></a></li>
             {/* <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li> */}
           </ul>
         </div>
         <Link to={`/product-details/${product.ID_producto}`} className="product__item__text">
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <h6><a href="#">{product.nombre}</a></h6>
           <h5>${product.precioFinal}</h5>
         </Link>
@@ -191,85 +196,87 @@ const Productos = () => {
 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    handleFilter();
-
-  }, []);
-
-  const handleFilter = async (selectedItem, type) => {
-    const newFilters = { ...filters };
-    if (selectedItem) {
-      newFilters[type] = selectedItem;
-    } else if (type) {
-      delete newFilters[type];
+  const sortProducts = useCallback((order) => {
+    let sortedProducts = [...filteredProducts];
+    if (order === '1') {
+      sortedProducts.sort((a, b) => a.precioFinal - b.precioFinal);
+    } else if (order === '2') {
+      sortedProducts.sort((a, b) => b.precioFinal - a.precioFinal);
+    } else {
+      sortedProducts = [...products];
     }
-    setFilters(newFilters);
+    setFilteredProducts(sortedProducts);
+  }, [filteredProducts, products]);
+  
+const handleFilter = useCallback(async (selectedItem, type) => {
+  const newFilters = { ...filters };
+  if (selectedItem) {
+    newFilters[type] = selectedItem;
+  } else if (type) {
+    delete newFilters[type];
+  }
+  setFilters(newFilters);
 
-    const queryString = Object.keys(newFilters)
-      .map(key => {
-        const param = key === 'ID_categoria' ? 'ID_categoria' :
-          key === 'ID_marca' ? 'ID_marca' :
-            key === 'ID_subcategoria' ? 'ID_subcategoria' : '';
-        return `${param}=${newFilters[key][param]}`;
-      })
-      .join('&');
+  const queryString = Object.keys(newFilters)
+    .map(key => {
+      const param = 
+        key === 'ID_categoria' ? 'ID_categoria' :
+        key === 'ID_marca' ? 'ID_marca' :
+        key === 'ID_subcategoria' ? 'ID_subcategoria' : '';
+      return `${param}=${newFilters[key][param]}`;
+    })
+    .join('&');
 
-    // console.log("queryString", queryString);
-    try {
-      // Fetch para obtener los filtros actualizados
-      const filtersResponse = await fetch(`${baseURL}/filtrar-filtros?${queryString}`);
-      const filtersData = await filtersResponse.json();
-      // console.log("filtersData", filtersData);
+  try {
+    const filtersResponse = await fetch(`${baseURL}/filtrar-filtros?${queryString}`);
+    const filtersData = await filtersResponse.json();
 
-      // Filtrar y agrupar los datos para actualizar categorías, marcas y subcategorías
-      const uniqueCategories = [];
-      const uniqueBrands = [];
-      const uniqueSubcategories = [];
+    const uniqueCategories = [];
+    const uniqueBrands = [];
+    const uniqueSubcategories = [];
 
-      const categorySet = new Set();
-      const brandSet = new Set();
-      const subcategorySet = new Set();
+    const categorySet = new Set();
+    const brandSet = new Set();
+    const subcategorySet = new Set();
 
-      filtersData.forEach(item => {
-        if (!categorySet.has(item.ID_categoria)) {
-          categorySet.add(item.ID_categoria);
-          uniqueCategories.push({ ID_categoria: item.ID_categoria, nombre: item.nombre_categoria });
-        }
-        if (item.ID_marca && !brandSet.has(item.ID_marca)) {
-          brandSet.add(item.ID_marca);
-          uniqueBrands.push({ ID_marca: item.ID_marca, nombre: item.nombre_marca });
-        }
-        if (item.ID_subcategoria && !subcategorySet.has(item.ID_subcategoria)) {
-          subcategorySet.add(item.ID_subcategoria);
-          uniqueSubcategories.push({ ID_subcategoria: item.ID_subcategoria, nombre: item.nombre_subcategoria });
-        }
-      });
-
-      setCategorias(uniqueCategories);
-      setMarcas(uniqueBrands);
-      setSubcategorias(uniqueSubcategories);
-
-      // Fetch para obtener los productos filtrados con imagen principal
-      const productsResponse = await fetch(`${baseURL}/listar-productos-imagen-principal?${queryString}`);
-      const productsData = await productsResponse.json();
-      // console.log("productsData", productsData); // Imprimir los datos obtenidos
-
-      setProducts(productsData); // Actualizar los productos con los datos obtenidos
-      setLoading(false);
-      // console.log("products", productsData)
-      // console.log("filteredProducts", filteredProducts)
-      if (sortOrder !== '0') {
-        sortProducts(sortOrder);
-      } else {
-        // console.log("le pasamos 0")
-        sortProducts('0')
-        // console.log("...products", [...productsData])
-        setFilteredProducts([...productsData]);
+    filtersData.forEach(item => {
+      if (!categorySet.has(item.ID_categoria)) {
+        categorySet.add(item.ID_categoria);
+        uniqueCategories.push({ ID_categoria: item.ID_categoria, nombre: item.nombre_categoria });
       }
-    } catch (error) {
-      console.error('Error al obtener datos filtrados:', error);
+      if (item.ID_marca && !brandSet.has(item.ID_marca)) {
+        brandSet.add(item.ID_marca);
+        uniqueBrands.push({ ID_marca: item.ID_marca, nombre: item.nombre_marca });
+      }
+      if (item.ID_subcategoria && !subcategorySet.has(item.ID_subcategoria)) {
+        subcategorySet.add(item.ID_subcategoria);
+        uniqueSubcategories.push({ ID_subcategoria: item.ID_subcategoria, nombre: item.nombre_subcategoria });
+      }
+    });
+
+    setCategorias(uniqueCategories);
+    setMarcas(uniqueBrands);
+    setSubcategorias(uniqueSubcategories);
+
+    const productsResponse = await fetch(`${baseURL}/listar-productos-imagen-principal?${queryString}`);
+    const productsData = await productsResponse.json();
+
+    setProducts(productsData);
+    setLoading(false);
+
+    if (sortOrder !== '0') {
+      sortProducts(sortOrder);
+    } else {
+      setFilteredProducts([...productsData]);
     }
-  };
+  } catch (error) {
+    console.error('Error al obtener datos filtrados:', error);
+  }
+}, [filters, sortOrder, setCategorias, setMarcas, setSubcategorias, setProducts, setLoading, sortProducts, setFilteredProducts]);
+
+useEffect(() => {
+  handleFilter(); // Llamada inicial
+}, [handleFilter]); // Agregamos handleFilter como dependencia
 
   const handleSortChange = (e) => {
     const sortOrder = e.target.value;
@@ -278,28 +285,15 @@ const Productos = () => {
     sortProducts(sortOrder);
   };
 
-  const sortProducts = (order) => {
-    let sortedProducts = [...filteredProducts];
-    // console.log("sortedProducts", sortedProducts)
-    if (order === '1') {
-      sortedProducts.sort((a, b) => a.precioFinal - b.precioFinal);
-    } else if (order === '2') {
-      sortedProducts.sort((a, b) => b.precioFinal - a.precioFinal);
-    } else {
-      // Para el valor '0', simplemente muestra los productos sin orden específico
-      sortedProducts = [...products];
-    }
-    setFilteredProducts(sortedProducts);
-  };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   // Calcular los productos a mostrar en la página actual
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  // const indexOfLastProduct = currentPage * productsPerPage;
+  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;  
+  // const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   // Crear números de página
   const pageNumbers = [];
@@ -374,7 +368,8 @@ const Productos = () => {
                   ))}
                 </div>
                 <div className="product__pagination">
-                  {pageNumbers.map(number => (
+                  {pageNumbers.map(number => (    
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a
                       href="#"
                       key={number}
