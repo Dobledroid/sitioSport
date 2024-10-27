@@ -90,6 +90,7 @@
     ]
   },
   "devDependencies": {
+    "testcafe": "^3.6.2",
     "workbox-cli": "^7.1.0"
   }
 }
