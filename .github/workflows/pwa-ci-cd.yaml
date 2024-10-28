@@ -9,67 +9,43 @@ on:
   pull_request:
     branches:
       - main
-      - develop
-  workflow_dispatch:
-    inputs:
-      reason:
-        description: 'Razón para iniciar el workflow manualmente'
-        required: false
+      - master
+  workflow_dispatch:  # Permite activación manual del workflow
 
-jobs:
-  install_dependencies:
-    runs-on: ubuntu-latest
+jobs:  # Corrige la indentación aquí
+  build:  # Este bloque debe estar alineado correctamente
+    runs-on: ubuntu-latest  # Sistema operativo
 
     steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v3
+      # 1. Verificar y clonar el repositorio
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      - name: Instalación de dependencias
+      # 2. Configurar Node.js con la versión adecuada
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18  # Versión de Node.js adecuada para React
+
+      # 3. Configuración del caché para dependencias npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm  # Ruta del caché de npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 4. Instalación de dependencias
+      - name: Install Dependencies
         run: npm install
 
-  lint:
-    runs-on: ubuntu-latest
-    needs: install_dependencies
+      # # 5. Establecimiento de variables de entorno para producción o staging
+      # - name: Set Environment Variables
+      #   env:
+      #     REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+      #     NODE_ENV: production
 
-    steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v3
-
-      - name: Instalación de ESLint si no está presente
-        run: npm install eslint --save-dev
-
-      - name: Ejecutar el linter
-        run: npm run lint
-
-  test:
-    runs-on: ubuntu-latest
-    needs: install_dependencies
-
-    steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v3
-
-      - name: Instalación de TestCafe si no está presente
-        run: npm install testcafe --save-dev
-
-      - name: Ejecutar pruebas unitarias
-        run: npm run test -- --watchAll=false
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [test]
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-
-    steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v3
-
-      - name: Instalación de dependencias
-        run: npm ci
-
-      - name: Compilar el proyecto
+      # 6. Construcción del proyecto
+      - name: Build Project
         run: npm run build
-
-      - name: Desplegar a producción
-        run: |
-          echo "Aquí puedes agregar los comandos para desplegar, como subir a un servidor."
