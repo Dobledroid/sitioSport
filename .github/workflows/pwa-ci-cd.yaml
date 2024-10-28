@@ -6,13 +6,14 @@ on:
       - main
       - master
       - develop
+      - 'feature/*'  # Ramas de características para cada programador
   pull_request:
     branches:
-      - main
-      - master
+      - main  # Validación en PR hacia main
+      - master  # Validación en PR hacia master
   workflow_dispatch:  # Permite activación manual del workflow
 
-jobs:  # Corrige la indentación aquí
+jobs:
   build:  # Este bloque debe estar alineado correctamente
     runs-on: ubuntu-latest  # Sistema operativo
 
@@ -40,12 +41,64 @@ jobs:  # Corrige la indentación aquí
       - name: Install Dependencies
         run: npm install
 
-      # # 5. Establecimiento de variables de entorno para producción o staging
+      # 5. Construcción del proyecto
+      - name: Build Project
+        run: npm run build
+
+  test:  # Trabajo para ejecutar pruebas después de la compilación
+    runs-on: ubuntu-latest
+    needs: build  # Ejecuta después de la compilación
+
+    steps:
+      # 1. Verificar y clonar el repositorio
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # 2. Configurar Node.js con la versión adecuada
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      # 3. Instalación de dependencias
+      - name: Install Dependencies
+        run: npm install
+ # # 5. Establecimiento de variables de entorno para producción o staging
       # - name: Set Environment Variables
       #   env:
       #     REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
       #     NODE_ENV: production
 
-      # 6. Construcción del proyecto
+      # 4. Ejecución de pruebas con Jest
+      - name: Run Tests
+        run: npm test -- --coverage
+
+  deploy:  # Trabajo para el despliegue
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'  # Despliegue solo desde main o master
+    runs-on: ubuntu-latest
+    needs: [build, test]  # Solo se ejecuta si la compilación y las pruebas pasan
+
+    steps:
+      # 1. Verificar y clonar el repositorio
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # 2. Configurar Node.js con la versión adecuada
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      # 3. Instalación de dependencias
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. Construcción del proyecto para despliegue
       - name: Build Project
         run: npm run build
+
+      # # 5. Despliegue a Vercel con token secreto
+      # - name: Deploy to Vercel
+      #   env:
+      #     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      #   run: npx vercel deploy --prod
