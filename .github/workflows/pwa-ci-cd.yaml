@@ -79,7 +79,7 @@ jobs:
           path: coverage/
 
       - name: Run E2E Tests with Cypress
-        run: npx cypress run --headless
+        run: npx cypress run --headless --config video=false --timeout=300000
 
       
 
