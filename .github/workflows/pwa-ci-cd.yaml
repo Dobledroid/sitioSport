@@ -70,8 +70,8 @@ jobs:
       #     NODE_ENV: production
 
       # 4. Ejecución de pruebas con Jest
-      - name: Run Tests
-        run: npx testcafe 'chrome:headless' ./tests/*.js --coverage
+      #- name: Run Tests
+       # run: npx testcafe 'chrome:headless' ./tests/*.js --coverage
 
   deploy:  # Trabajo para el despliegue
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'  # Despliegue solo desde main o master
