@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { openDB } from 'idb'; // Importa la librería idb
+
 import Header from '../../Esquema/Header';
 import Footer from '../../Esquema/Footer';
 import { useLocalStorage } from 'react-use';
@@ -23,24 +25,56 @@ const Membresias = () => {
   const [ID_membresiaUsuario, setID_membresiaUsuario] = useState('');
 
   const [planDetails, setPlanDetails] = useState([]);
-
-  useEffect(() => {
-    const fetchPlanDetails = async () => {
-      try {
-        const response = await fetch(`${baseURL}/membershipTypes`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+  // Abre la base de datos o la crea si no existe
+  const openDatabase = async () => {
+    return openDB('membresiasDB', 1, {
+      upgrade(db) {
+        if (!db.objectStoreNames.contains('plans')) {
+          db.createObjectStore('plans', { keyPath: 'ID_UnicoMembresia' });
         }
-        const data = await response.json();
-        console.log("planDetails", data);
-        setPlanDetails(data);
-      } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
+      },
+    });
+  };
+  // Guarda los planes en IndexedDB
+  const savePlansToDB = useCallback(async (plans) => {
+    const db = await openDatabase();
+    const tx = db.transaction('plans', 'readwrite');
+    const store = tx.objectStore('plans');
+    plans.forEach((plan) => store.put(plan));
+    await tx.done;
+  }, []); // No tiene dependencias
+
+
+  const fetchPlanDetails = useCallback(async () => {
+    try {
+      const response = await fetch(`${baseURL}/membershipTypes`);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      setPlanDetails(data);
+      await savePlansToDB(data); // Guarda los planes en IndexedDB
+    } catch (error) {
+      console.error('Error fetching plans:', error);
+    }
+  }, [savePlansToDB]);
+  
+  const getPlansFromDB = useCallback(async () => {
+    const db = await openDatabase();
+    const tx = db.transaction('plans', 'readonly');
+    const store = tx.objectStore('plans');
+    return await store.getAll();
+  }, []);
+  // useEffect para cargar los planes al montar el componente
+  useEffect(() => {
+    const loadPlans = async () => {
+      const storedPlans = await getPlansFromDB();
+      if (storedPlans.length > 0) {
+        setPlanDetails(storedPlans); // Usa los planes almacenados localmente
+      } else {
+        fetchPlanDetails(); // Si no hay planes locales, hace fetch al servidor
       }
     };
-
-    fetchPlanDetails();
-  }, [user.ID_usuario]);
+    loadPlans();
+  }, [fetchPlanDetails, getPlansFromDB, user.ID_usuario]);
 
   function esURLSegura(url) {
     const regex = /^(ftp|http|https):\/\/[^ "]+$/;
@@ -206,11 +240,11 @@ const Membresias = () => {
       setIsVencimientoCalculated(false); // Restablecer el flag
     }
   }, [isVencimientoCalculated, fechaVencimientoAcumulada,
-    fechaVencimientoAcumuladaFormateada, 
-    nombre, 
-    costo, 
-    ID_tipoMembresia, 
-    ID_UnicoMembresia, 
+    fechaVencimientoAcumuladaFormateada,
+    nombre,
+    costo,
+    ID_tipoMembresia,
+    ID_UnicoMembresia,
     handleRealizarPedidoActualizar
   ]);
 
