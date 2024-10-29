@@ -71,7 +71,7 @@ jobs:
 
       # 4. Ejecución de pruebas con Jest
       - name: Run Tests
-        run: npm test -- --coverage
+        run: npx testcafe 'chrome:headless' ./tests/*.js --coverage
 
   deploy:  # Trabajo para el despliegue
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'  # Despliegue solo desde main o master
