@@ -69,9 +69,19 @@ jobs:
       #     REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
       #     NODE_ENV: production
 
-      # 4. Ejecución de pruebas con Jest
-      #- name: Run Tests
-       # run: npx testcafe 'chrome:headless' ./tests/*.js --coverage
+      - name: Run Unit Tests with Jest
+        run: npm test -- --coverage
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage/
+
+      - name: Run E2E Tests with Cypress
+        run: npx cypress run --headless
+
+      
 
   deploy:  # Trabajo para el despliegue
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'  # Despliegue solo desde main o master
