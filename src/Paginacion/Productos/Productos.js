@@ -668,6 +668,35 @@ const handleFilter = useCallback(async (selectedItem, type) => {
     console.error('Error al obtener datos filtrados:', error);
   }
 }, [filters, sortOrder, setCategorias, setMarcas, setSubcategorias, setProducts, setLoading, sortProducts, setFilteredProducts]);
+// Abrir o crear la base de datos
+const openDatabase = useCallback(async () => {
+  return openDB('productos-db', 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains('productos')) {
+        db.createObjectStore('productos', { keyPath: 'ID_producto' });
+      }
+    },
+  });
+}, []);
+
+
+// Guardar productos en IndexedDB
+const saveProductsToIndexedDB = useCallback(async (products) => {
+  const db = await openDatabase();
+  const tx = db.transaction('productos', 'readwrite');
+  const store = tx.objectStore('productos');
+  products.forEach(product => {
+    store.put(product);
+  });
+  await tx.done;
+}, [openDatabase]);
+
+const getProductsFromIndexedDB = useCallback(async () => {
+  const db = await openDatabase();
+  const tx = db.transaction('productos', 'readonly');
+  const store = tx.objectStore('productos');
+  return store.getAll();
+}, [openDatabase]);
 
 useEffect(() => {
   const fetchProducts = async () => {
@@ -696,7 +725,7 @@ useEffect(() => {
   };
 
   fetchProducts();
-}, []); // <-- Asegúrate de que la lista de dependencias esté vacía
+}, [saveProductsToIndexedDB, getProductsFromIndexedDB]);
 
 
   const handleSortChange = (e) => {
@@ -732,37 +761,6 @@ useEffect(() => {
 
     setFilteredProducts(filtered);
   };
-// Abrir o crear la base de datos
-const openDatabase = async () => {
-  return openDB('productos-db', 1, {
-    upgrade(db) {
-      if (!db.objectStoreNames.contains('productos')) {
-        db.createObjectStore('productos', { keyPath: 'ID_producto' });
-      }
-    },
-  });
-};
-
-// Guardar productos en IndexedDB
-const saveProductsToIndexedDB = async (products) => {
-  const db = await openDatabase();
-  const tx = db.transaction('productos', 'readwrite');
-  const store = tx.objectStore('productos');
-  products.forEach(product => {
-    store.put(product); // Guardar o actualizar cada producto
-  });
-  await tx.done;
-};
-
-// Obtener productos desde IndexedDB
-const getProductsFromIndexedDB = async () => {
-  const db = await openDatabase();
-  const tx = db.transaction('productos', 'readonly');
-  const store = tx.objectStore('productos');
-  return store.getAll(); // Obtener todos los productos almacenados
-  console.log('Productos desde IndexedDB:', products); // Verificar si se recuperan los productos
-
-};
 
   return (
     <>
