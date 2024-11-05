@@ -15,7 +15,7 @@ import iconAddress from "./images/address-svgrepo-com.svg";
 // import { FaUser, FaIdCard, FaShoppingCart, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 const Panel = () => {
-  const [userImage ] = useState(null);
+  const [userImage] = useState(null);
   // const [userImage, setUserImage] = useState(null);
   const [user, setUser] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -74,6 +74,10 @@ const Panel = () => {
 
   const handleHistorialMembresia = () => {
     navigate('/historialMembresias', { state: user });
+  };
+
+  const handleRespuestas = () => {
+    navigate('/respuestas');
   };
 
   return (
@@ -163,6 +167,22 @@ const Panel = () => {
                     <button onClick={() => navigate('/favoritos')} >Mis favoritos</button>
                   </div>
                 </li>
+
+                {user.ID_rol === "2" ? (
+                  <>
+                  </>
+                ) : (
+                  <li className="row my-3">
+                    <div className="col">
+                    <UserProfile userImage={iconUserId} />
+                    </div>
+                    <div className="col">
+                      <span>Encuenta de satisfacción</span>
+                      <p>Ver resultados de usuarios</p>
+                      <button onClick={() => navigate('/respuestas')} >Encuesta</button>
+                    </div>
+                  </li>
+                )}
               </ul>
             </div>
           </section>

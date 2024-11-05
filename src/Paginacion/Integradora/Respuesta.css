@@ -1,0 +1,7 @@
+/* En tu archivo CSS (e.g., styles.css) */
+.custom-height {
+    height: 70vh; /* Ajusta este valor según tus necesidades */
+    display: flex;
+    flex-direction: column;
+  }
+  

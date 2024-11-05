@@ -97,6 +97,9 @@ import slider2 from './slider2';
 import favoritos from './Productos/Favoritos/Favoritos';
 import GenerarToken from './Usuario/Alexa/GenerarToken';
 import Prediccion from '../Prediccion';
+
+import Respuestas from '../Paginacion/Integradora/Respuestas';
+
 // import Error from './Validaciones/Error404/Error';
 const Rutas = () => {
   const [user] = useLocalStorage('user');
@@ -143,6 +146,8 @@ const Rutas = () => {
            */}
           <Route path='/profile' element={<Profile />}></Route>
           <Route path='/detalle-compra/:ID_pedido' element={<DetalleCompra />}></Route>
+        
+          <Route path='/respuestas' element={<Respuestas />}></Route>
         
           <Route element={<ProtectedRoute canActivate={isAdmin} redirectPath='/perfil' />}>
             <Route path='/admMembresiasClientes' element={<AdmMembresiasClientes />}></Route>
