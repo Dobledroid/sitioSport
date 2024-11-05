@@ -1,11 +1,17 @@
-// jest.config.js
 module.exports = {
-    transform: {
-      '^.+\\.jsx?$': 'babel-jest',   // Transpila archivos .js y .jsx con Babel
-      '^.+\\.tsx?$': 'babel-jest',   // Transpila archivos .ts y .tsx si usas TypeScript
-    },
-    transformIgnorePatterns: [
-      '/node_modules/',              // Ignora node_modules, salvo que tengas dependencias de ES6
-    ],
-  };
-  
+  testEnvironment: 'jsdom', // Asegúrate de que Jest use jsdom
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+
+  transform: {
+    '^.+\\.[jt]sx?$': 'babel-jest',   // Transpila archivos .js, .jsx, .ts y .tsx con Babel
+  },
+  moduleNameMapper: {
+    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
+    "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
+    'react-leaflet': '<rootDir>/__mocks__/react-leaflet.js'
+    
+  },
+  transformIgnorePatterns: [
+    "/node_modules/(?!(react-leaflet|@react-leaflet/core|@babel/runtime)/)",
+  ]
+};

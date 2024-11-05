@@ -156,22 +156,22 @@ const Login = () => {
   // };
 
 
-//  const handleFacebook = async (event) => {
-//     const provider = new FacebookAuthProvider()
-//     try {
-//       const credentials = await signInWithPopup(auth, provider)
-//       console.log("credentials", credentials.user)
-//       const data = credentials.user;
-//       console.log("data", data)
-//       const user = { usuario: data.displayName, correo: data.email, id: data._id, tipo: data.typeUser, foto: data.photoURL };
-//       console.log("user", user)
-//       localStorage.setItem('isLoggedIn', true);
-//       localStorage.setItem('user', JSON.stringify(user));
-//       // navigate('/perfil')
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   } 
+  //  const handleFacebook = async (event) => {
+  //     const provider = new FacebookAuthProvider()
+  //     try {
+  //       const credentials = await signInWithPopup(auth, provider)
+  //       console.log("credentials", credentials.user)
+  //       const data = credentials.user;
+  //       console.log("data", data)
+  //       const user = { usuario: data.displayName, correo: data.email, id: data._id, tipo: data.typeUser, foto: data.photoURL };
+  //       console.log("user", user)
+  //       localStorage.setItem('isLoggedIn', true);
+  //       localStorage.setItem('user', JSON.stringify(user));
+  //       // navigate('/perfil')
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   } 
 
   const showAlert = (type, message) => {
     setAlert({ type, message });
@@ -350,9 +350,10 @@ const Login = () => {
                       </div>
                       <form onSubmit={handleLogin} className="row g-3 needs-validation">
                         <div className="col-12">
-                          <label className="form-label">Correo electrónico:</label>
+                          <label htmlFor="email" className="form-label">Correo electrónico:</label>
                           <div className="input-group has-validation">
                             <input
+                              id="email"
                               className="form-control bg-light"
                               type="email"
                               placeholder="Ingresa su correo"
@@ -363,9 +364,10 @@ const Login = () => {
                           </div>
                         </div>
                         <div className="col-12">
-                          <label className="form-label">Contraseña:</label>
+                          <label htmlFor="password" className="form-label">Contraseña:</label>
                           <div className="password-input-wrapper input-group has-validation">
                             <input
+                              id="password"
                               className="form-control bg-light"
                               type={mostrarContrasena ? 'text' : 'password'}
                               placeholder="Ingrese su contraseña"
