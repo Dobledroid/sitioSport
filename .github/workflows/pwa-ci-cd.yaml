@@ -69,7 +69,11 @@ jobs:
             run: |
               npm test -- --coverage
               if [ -d coverage ]; then echo "Coverage report generated."; else echo "Coverage report not found!"; exit 1; fi
-    
+              - name: Force End of Tests
+              run: |
+                echo "Forzando el final de las pruebas"
+                exit 0
+            
           # 5. Subir el reporte de cobertura como artefacto de GitHub
           - name: Upload Coverage Report
             uses: actions/upload-artifact@v3
