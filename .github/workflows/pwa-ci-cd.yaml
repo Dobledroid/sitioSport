@@ -6,16 +6,16 @@ on:
       - main
       - master
       - develop
-      - 'feature/*'  # Ramas de características para cada programador
+      - 'feature/*'
   pull_request:
     branches:
-      - main  # Validación en PR hacia main
-      - master  # Validación en PR hacia master
-  workflow_dispatch:  # Permite activación manual del workflow
+      - main
+      - master
+  workflow_dispatch:
 
 jobs:
-  build:  # Este bloque debe estar alineado correctamente
-    runs-on: ubuntu-latest  # Sistema operativo
+  build:
+    runs-on: ubuntu-latest
 
     steps:
       # 1. Verificar y clonar el repositorio
@@ -26,13 +26,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18  # Versión de Node.js adecuada para React
+          node-version: 18
 
       # 3. Configuración del caché para dependencias npm
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.npm  # Ruta del caché de npm
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -45,9 +45,9 @@ jobs:
       - name: Build Project
         run: npm run build
 
-  test:  # Trabajo para ejecutar pruebas después de la compilación
+  test:
     runs-on: ubuntu-latest
-    needs: build  # Ejecuta después de la compilación
+    needs: build
 
     steps:
       # 1. Verificar y clonar el repositorio
@@ -64,33 +64,24 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # 4. Ejecutar pruebas unitarias con Jest y generar reporte de cobertura
-      # - name: Run Unit Tests with Jest
-      #   run: |
-      #     npm test -- --coverage --forceExit --runInBand --bail
-      #     if [ -d coverage ]; then echo "Coverage report generated."; else echo "Coverage report not found!"; exit 1; fi
+      # 4. Iniciar servidor de desarrollo para pruebas E2E en el puerto 3000
+      - name: Start Development Server
+        run: npm start &
+        env:
+          PORT: 3000
 
-      # 5. Forzar el final de las pruebas (si queda algún proceso pendiente)
-      # - name: Force End of Tests
-      #   run: |
-      #     echo "Forzando el final de las pruebas"
-      #     exit 0
+      # 5. Esperar a que el servidor esté listo
+      - name: Wait for Server to be Ready
+        run: npx wait-on http://localhost:3000
 
-      # 6. Subir el reporte de cobertura como artefacto de GitHub
-      # - name: Upload Coverage Report
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: coverage-report
-      #     path: coverage/
-
-      # 7. Ejecutar pruebas E2E con Cypress
+      # 6. Ejecutar pruebas E2E con Cypress
       - name: Run E2E Tests with Cypress
         uses: cypress-io/github-action@v5
         with:
           config-file: cypress.json
           command: npx cypress run --headless --config video=false --timeout=300000
 
-      # 8. Subir videos o resultados de pruebas E2E como artefacto (opcional)
+      # 7. Subir videos o resultados de pruebas E2E como artefacto (opcional)
       - name: Upload Cypress Results
         if: success()
         uses: actions/upload-artifact@v3
@@ -98,7 +89,7 @@ jobs:
           name: cypress-results
           path: cypress/videos/
 
-      # 9. Generar reporte en PR si falla alguna prueba (opcional)
+      # 8. Notificación en PR si falla alguna prueba
       - name: Notify PR about Test Results
         if: failure()
         uses: actions/github-script@v4
@@ -106,13 +97,13 @@ jobs:
           script: |
             github.issues.createComment({
               issue_number: context.payload.pull_request.number,
-              body: ":x: Las pruebas han fallado. Por favor revisa los resultados."
+              body: ":x: Las pruebas E2E con Cypress han fallado. Por favor revisa los resultados."
             })
 
-  deploy:  # Trabajo para el despliegue
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'  # Despliegue solo desde main o master
+  deploy:
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    needs: [build, test]  # Solo se ejecuta si la compilación y las pruebas pasan
+    needs: [build, test]
 
     steps:
       # 1. Verificar y clonar el repositorio
@@ -133,7 +124,7 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      # # 5. Despliegue a Vercel con token secreto
+      # 5. Despliegue a Vercel (descomenta si usas Vercel para producción)
       # - name: Deploy to Vercel
       #   env:
       #     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
