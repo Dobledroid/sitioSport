@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
 import Sidebar from "../../Esquema/Sidebar.js";
@@ -13,7 +13,7 @@ const Respuestas = () => {
   const [fechaInicio, setFechaInicio] = useState(new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0]);
   const [fechaFin, setFechaFin] = useState(new Date().toISOString().split('T')[0]);
 
-  const fetchRespuestas = async () => {
+  const fetchRespuestas = useCallback(async () => {
     setCargando(true);
     try {
       const response = await fetch(`${baseURL}/respuestas-por-fecha?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
@@ -26,11 +26,11 @@ const Respuestas = () => {
     } catch (error) {
       console.error(error);
     }
-  };
-
+  }, [fechaInicio, fechaFin]);
+  
   useEffect(() => {
     fetchRespuestas();
-  }, [fechaInicio, fechaFin]);
+  }, [fechaInicio, fechaFin,fetchRespuestas]);
 
   const countResponses = (option) => respuestas.filter(resp => resp.Respuesta === option).length;
 
@@ -52,6 +52,7 @@ const Respuestas = () => {
 
   // Generación del texto de reporte
   const generateReport = () => {
+    // eslint-disable-next-line no-unused-vars
     const totalResponses = respuestas.length;
     const noMeGusto = countResponses('No me gustó');
     const neutral = countResponses('Neutral');

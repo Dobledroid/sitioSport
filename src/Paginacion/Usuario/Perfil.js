@@ -75,7 +75,8 @@ const Panel = () => {
   const handleHistorialMembresia = () => {
     navigate('/historialMembresias', { state: user });
   };
-
+  
+// eslint-disable-next-line no-unused-vars
   const handleRespuestas = () => {
     navigate('/respuestas');
   };
