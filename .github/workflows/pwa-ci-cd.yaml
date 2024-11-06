@@ -66,7 +66,7 @@ jobs:
 
       #4. Ejecutar pruebas unitarias con Jest y generar reporte de cobertura
       - name: Run Unit Tests with Jest
-      run: npm test -- --coverage --forceExit --runInBand --bail --detectOpenHandles
+        run: npm test -- --coverage --forceExit --runInBand --bail --detectOpenHandles
 
 
       # #5. Forzar el final de las pruebas (si queda algún proceso pendiente)
