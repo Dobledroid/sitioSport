@@ -67,7 +67,7 @@ jobs:
       # 4. Ejecutar pruebas unitarias con Jest y generar reporte de cobertura
       - name: Run Unit Tests with Jest
         run: |
-          npm test -- --coverage --forceExit --runInBand
+          npm test -- --coverage --forceExit --runInBand --bail
           if [ -d coverage ]; then echo "Coverage report generated."; else echo "Coverage report not found!"; exit 1; fi
 
       # 5. Forzar el final de las pruebas (si queda algún proceso pendiente)
