@@ -63,7 +63,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "test": "jest --watchAll",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"

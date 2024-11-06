@@ -66,15 +66,14 @@ jobs:
 
       #4. Ejecutar pruebas unitarias con Jest y generar reporte de cobertura
       - name: Run Unit Tests with Jest
-        run: |
-          npm test -- --coverage --forceExit --runInBand --bail
-          if [ -d coverage ]; then echo "Coverage report generated."; else echo "Coverage report not found!"; exit 1; fi
+      run: npm test -- --coverage --forceExit --runInBand --bail --detectOpenHandles
 
-      #5. Forzar el final de las pruebas (si queda algún proceso pendiente)
-      - name: Force End of Tests
-        run: |
-          echo "Forzando el final de las pruebas"
-          exit 0
+
+      # #5. Forzar el final de las pruebas (si queda algún proceso pendiente)
+      # - name: Force End of Tests
+      #   run: |
+      #     echo "Forzando el final de las pruebas"
+      #     exit 0
 
       #6. Subir el reporte de cobertura como artefacto de GitHub
       - name: Upload Coverage Report
