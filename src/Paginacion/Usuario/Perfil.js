@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import { useLocalStorage } from 'react-use';
+import { useNavigate } from 'react-router-dom';
+// import { Link, useNavigate } from 'react-router-dom';
+// import { useLocalStorage } from 'react-use';
 import { baseURL } from "../../api.js";
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
@@ -11,9 +12,11 @@ import ModalPregunta from "./ModalPregunta"; // Importa el componente del modal
 import iconUserId from "./images/user-id-icon.svg";
 import iconUser from "./images/user-icon.svg";
 import iconAddress from "./images/address-svgrepo-com.svg";
-import { FaUser, FaIdCard, FaShoppingCart, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
+// import { FaUser, FaIdCard, FaShoppingCart, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
 const Panel = () => {
-  const [userImage, setUserImage] = useState(null);
+  const [userImage] = useState(null);
+  // const [userImage, setUserImage] = useState(null);
   const [user, setUser] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showModal, setShowModal] = useState(false); // Estado para controlar si se muestra el modal
@@ -46,14 +49,17 @@ const Panel = () => {
         .then(data => {
           if (data) {
             // console.log("Respuesta de la API:", data);
+            console.log(isLoggedIn)
+
           } else {
             // console.log("La respuesta de la API está vacía");
             setShowModal(true);
+
           }
         })
         .catch(error => console.error("Error al obtener la pregunta:", error));
     }
-  }, []);
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -69,6 +75,11 @@ const Panel = () => {
   const handleHistorialMembresia = () => {
     navigate('/historialMembresias', { state: user });
   };
+  
+// eslint-disable-next-line no-unused-vars
+  const handleRespuestas = () => {
+    navigate('/respuestas');
+  };
 
   return (
     <>
@@ -83,7 +94,7 @@ const Panel = () => {
                   <UserProfile userImage={userImage} />
                 </div>
                 <div className="col second-col">
-                  {user.ID_rol == "2" ? (
+                  {user.ID_rol === "2" ? (
                     <>
                       <h5>Bienvenido, rol usuario</h5>
                       <button onClick={handleLogout} className='btn btn-warning'>Cerrar Sesión</button>
@@ -157,6 +168,22 @@ const Panel = () => {
                     <button onClick={() => navigate('/favoritos')} >Mis favoritos</button>
                   </div>
                 </li>
+
+                {user.ID_rol === "2" ? (
+                  <>
+                  </>
+                ) : (
+                  <li className="row my-3">
+                    <div className="col">
+                    <UserProfile userImage={iconUserId} />
+                    </div>
+                    <div className="col">
+                      <span>Encuenta de satisfacción</span>
+                      <p>Ver resultados de usuarios</p>
+                      <button onClick={() => navigate('/respuestas')} >Encuesta</button>
+                    </div>
+                  </li>
+                )}
               </ul>
             </div>
           </section>

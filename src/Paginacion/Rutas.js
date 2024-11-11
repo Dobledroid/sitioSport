@@ -12,6 +12,7 @@ import Footer from '../Esquema/Footer';
 import Productos from './Productos/Productos';
 
 import Filtros from './Productos/Filtros';
+import Respuestas from '../Paginacion/Integradora/Respuestas';
 
 import PrivacyPolicy from './Empresa/Privacidad/PrivacyPolicy';
 import Terminos from './Empresa/TerminosCondiciones/TerminosCondiciones';
@@ -141,7 +142,8 @@ const Rutas = () => {
            */}
           <Route path='/profile' element={<Profile />}></Route>
           <Route path='/detalle-compra/:ID_pedido' element={<DetalleCompra />}></Route>
-        
+          <Route path='/respuestas' element={<Respuestas />}></Route>
+
           <Route element={<ProtectedRoute canActivate={isAdmin} redirectPath='/perfil' />}>
             <Route path='/admMembresiasClientes' element={<AdmMembresiasClientes />}></Route>
             <Route path='/admtiposMembresias' element={<AdmTiposMembresias />}></Route>
