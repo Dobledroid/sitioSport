@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer";
 import { Link, useNavigate } from "react-router-dom";
@@ -84,10 +85,10 @@ const Recuperacion = () => {
                       <div class="col-12">
                         <label for="yourUsername" class="form-label">Correo electrónico:</label>
                         <div class="input-group has-validation">
-                        
-                          <input type="email" 
-                            name="email" 
-                            required 
+
+                          <input type="email"
+                            name="email"
+                            required
                             class="form-control"
                             placeholder="Ingrese tu correo electrónico"
                             value={correo}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { useNavigate } from 'react-router-dom';
+/* eslint-disable no-unused-vars */
 
 const ProductModal = ({ producto, onClose }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

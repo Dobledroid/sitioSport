@@ -1,3 +1,4 @@
+  /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer";
@@ -92,7 +93,7 @@ const CompraFinalizada = () => {
   };
 
   useEffect(() => {
-    if (tipo == 1) {
+    if (tipo === 1) {
       fetchValidarCompra(id)
     } else {
       fetchValidarMembresia()
@@ -110,7 +111,7 @@ const CompraFinalizada = () => {
           {!loading && (
             <div className="container">
               <div className="contenido">
-                {tipo == 1 ? (
+                {tipo === 1 ? (
                   <>
                     <div className="imagen-container mt-5">
                       {imagenes.map((url, index) => (

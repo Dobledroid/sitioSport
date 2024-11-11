@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Card, Form } from 'react-bootstrap';
 import { useLocalStorage } from 'react-use';
@@ -7,7 +8,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { baseURL } from '../../api.js';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import StripeCheckoutForm from './StripeCheckoutForm'; 
+import StripeCheckoutForm from './StripeCheckoutForm';
 import './Checkout.css';
 
 const stripePromise = loadStripe('pk_test_51PdbM8Hh07ihkU0MkAP9xASNG4k5d4iqbTroQL4D7q4nmrzZyMqb1R7vUYVGdBEc2MCw8PNGM6JscC7oJRiILvDU00g7ZpMGFR');

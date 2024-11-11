@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { baseURL } from '../../api.js';
@@ -11,7 +12,7 @@ const Precios = () => {
 
   return (
     <>
-    <Header />
+      <Header />
       <div class="card mb-3">
         <div class="card-body">
           <div class="row g-0">

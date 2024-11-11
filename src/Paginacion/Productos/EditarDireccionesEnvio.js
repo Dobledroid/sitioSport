@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link} from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
 import { baseURL } from '../../api.js';
@@ -153,8 +154,8 @@ const EditarDireccionesEnvio = () => {
                     <div class="col-lg-6">
                       <div class="checkout__input">
                         <p>Teléfono<span>*</span></p>
-                        <input className="text-dark" type="number" value={telefono} onChange={(e) => setTelefono(e.target.value)} 
-                        required />
+                        <input className="text-dark" type="number" value={telefono} onChange={(e) => setTelefono(e.target.value)}
+                          required />
                       </div>
                     </div>
                   </div>

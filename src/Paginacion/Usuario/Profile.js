@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
@@ -239,7 +240,7 @@ const Profile = () => {
       <div className="wrapper">
         <Sidebar />
         <div className="container my-4">
-        <button className="btn btn-secondary mb-3" onClick={() => navigate('/perfil')}>Regresar al perfil</button>
+          <button className="btn btn-secondary mb-3" onClick={() => navigate('/perfil')}>Regresar al perfil</button>
           <div className="card mb-3">
             <div className="card-header position-relative min-vh-25 mb-7">
               <div className="bg-holder rounded-3 rounded-bottom-0" style={{ backgroundImage: `url(${backgroundImage})` }}></div>

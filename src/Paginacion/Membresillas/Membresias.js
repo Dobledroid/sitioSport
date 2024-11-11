@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 
 const Membresias = () => {
+  /* eslint-disable no-unused-vars */
   const [user, setUser] = useLocalStorage('user');
   const [fechaVencimientoAcumulada, setFechaVencimientoAcumulada] = useState(null);
   const [fechaVencimientoAcumuladaFormateada, setFechaVencimientoAcumuladaFormateada] = useState(null);

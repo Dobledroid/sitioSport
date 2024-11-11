@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from "../../Esquema/Header.js";
@@ -59,7 +60,7 @@ const DetalleCompra = () => {
                     <strong className="me-2">Estatus: </strong>
                     <div className="badge text-bg-success">
                       {detallesPedido[0].operacion_status}
-                      <FaCheck className='ms-1'/>
+                      <FaCheck className='ms-1' />
                     </div>
                   </div>
                 </>

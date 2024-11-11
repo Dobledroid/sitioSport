@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -22,7 +23,7 @@ const Token = () => {
     if (event && typeof event.preventDefault === 'function') {
       event.preventDefault();
     }
-    
+
     try {
       const response = await fetch(`${baseURL}/sendMethod`, {
         method: 'POST',
@@ -156,7 +157,7 @@ const Token = () => {
                           <label for="yourUsername" class="form-label">Método de autentificación:</label>
                           <div class="input-group has-validation">
                             <input type="number" name="token" class="form-control" placeholder="Ingrese el código"
-                             />
+                            />
                           </div>
                         </div>
                         <p className='my-3'>Envíe un código de verificación a {dataUser.correoElectronico}</p>

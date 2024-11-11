@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from "../../Esquema/Header.js";
@@ -76,9 +77,9 @@ const Membresia = () => {
                 <div className="container">
 
                   <div className="row">
-                    
+
                     <div className="col-lg-6 col-md-6">
-                  <button className="btn btn-secondary mb-3" onClick={() => navigate('/perfil')}>Regresar al perfil</button>
+                      <button className="btn btn-secondary mb-3" onClick={() => navigate('/perfil')}>Regresar al perfil</button>
 
                       <div className="product__details__pic">
                         <div className="product__details__pic__item">

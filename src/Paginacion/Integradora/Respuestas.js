@@ -1,3 +1,4 @@
+  /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
