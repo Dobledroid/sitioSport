@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Card, Form } from 'react-bootstrap';
-import ListGroup from 'react-bootstrap/ListGroup';
 import { useLocalStorage } from 'react-use';
 import Header from "../../Esquema/Header";
 import Footer from "../../Esquema/Footer";
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { baseURL } from '../../api.js';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -22,9 +21,10 @@ const Checkout = () => {
 
   const [codigoDescuento, setCodigoDescuento] = useState('');
   const [descuentoAplicado, setDescuentoAplicado] = useState(false);
-  const [mercadoPagoSelected, setMercadoPagoSelected] = useState(false);
-  const [paypalSelected, setPaypalSelected] = useState(false);
-  const [stripeSelected, setStripeSelected] = useState(false);
+
+  // Estado comentado para Mercado Pago y PayPal
+  // const [mercadoPagoSelected, setMercadoPagoSelected] = useState(false);
+  // const [paypalSelected, setPaypalSelected] = useState(false);
 
   const { subtotal, total } = location.state;
 
@@ -93,90 +93,17 @@ const Checkout = () => {
     }
   };
 
-  const handleMercadoPagoChange = () => {
-    setMercadoPagoSelected(!mercadoPagoSelected);
-    if (paypalSelected) {
-      setPaypalSelected(false);
-    }
-    if (stripeSelected) {
-      setStripeSelected(false);
-    }
-  };
-
-  const handlePaypalChange = () => {
-    setPaypalSelected(!paypalSelected);
-    if (mercadoPagoSelected) {
-      setMercadoPagoSelected(false);
-    }
-    if (stripeSelected) {
-      setStripeSelected(false);
-    }
-  };
-
-  const handleStripeChange = () => {
-    setStripeSelected(!stripeSelected);
-    if (mercadoPagoSelected) {
-      setMercadoPagoSelected(false);
-    }
-    if (paypalSelected) {
-      setPaypalSelected(false);
-    }
-  };
-
-  function esURLSegura(url) {
-    const regex = /^(ftp|http|https):\/\/[^ "]+$/;
-    return regex.test(url);
-  }
-
+  // Función de realización de pedido, ahora sin uso directo
+  /*
   const handleRealizarPedido = async () => {
     if (!direccionSeleccionada) {
       alert('Debe seleccionar una dirección de envío');
       return;
     }
 
-    if (!mercadoPagoSelected && !paypalSelected && !stripeSelected) {
-      alert('Debe seleccionar un método de pago');
-      return;
-    }
-
-    const currentURL = new URL(window.location.href).origin; // Obtén el origen (host) de la URL
-    const id = user.ID_usuario;
-
-    if (paypalSelected) {
-      const createOrderResponse = await fetch(`${baseURL}/paypal/create-order`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ID_usuario: id,
-          total,
-          currentURL: currentURL,
-          ID_direccion: direccionSeleccionada,
-        }),
-      });
-
-      if (createOrderResponse.ok) {
-        const data = await createOrderResponse.json();
-        if (data.links && Array.isArray(data.links) && data.links.length >= 2) {
-          const redirectUrl = data.links[1].href;
-          if (esURLSegura(redirectUrl)) {
-            window.location.href = redirectUrl;
-          } else {
-            console.error("La URL de redirección no es segura.");
-          }
-        } else {
-          console.error("No se encontraron suficientes enlaces válidos en los datos proporcionados.");
-        }
-      } else {
-        alert(`Hubo un error con la petición: ${createOrderResponse.status} ${createOrderResponse.statusText}`);
-      }
-    }
-
-    if (stripeSelected) {
-      // Manejo del pago con Stripe, pasará al componente StripeCheckoutForm
-    }
+    // Lógica para realizar el pedido con Stripe como único método de pago
   };
+  */
 
   return (
     <>
@@ -266,42 +193,21 @@ const Checkout = () => {
                   <div className="checkout__order__total">Total <span>${total}</span></div>
                 </div>
                 <div className="payment-methods">
-                  <h5>Método de pago</h5>
-                  <Form.Check
-                    type="radio"
-                    id="mercadoPago"
-                    label="Mercado Pago"
-                    checked={mercadoPagoSelected}
-                    onChange={handleMercadoPagoChange}
-                  />
-                  <Form.Check
-                    type="radio"
-                    id="paypal"
-                    label="PayPal"
-                    checked={paypalSelected}
-                    onChange={handlePaypalChange}
-                  />
-                  <Form.Check
-                    type="radio"
-                    id="stripe"
-                    label="Stripe"
-                    checked={stripeSelected}
-                    onChange={handleStripeChange}
-                  />
-                  {stripeSelected && (
-                    <Elements stripe={stripePromise}>
-                      <StripeCheckoutForm
-                        amount={total}
-                        currency="mxn"
-                        productos={productos}
-                        userID={user.ID_usuario} // Pasa el userID
-                        currentURL={window.location.origin} // Pasa el currentURL
-                        ID_direccion={direccionSeleccionada} // Pasa el ID_direccion
-                      />
-                    </Elements>
-                  )}
+                  <Elements stripe={stripePromise}>
+                    <StripeCheckoutForm
+                      amount={total}
+                      currency="mxn"
+                      productos={productos}
+                      userID={user.ID_usuario} // Pasa el userID
+                      currentURL={window.location.origin} // Pasa el currentURL
+                      ID_direccion={direccionSeleccionada} // Pasa el ID_direccion
+                    />
+                  </Elements>
                 </div>
+                {/* Botón "REALIZAR PEDIDO" ahora removido, comentado para referencia */}
+                {/* 
                 <button type="button" className="site-btn" onClick={handleRealizarPedido}>REALIZAR PEDIDO</button>
+                */}
               </div>
             </div>
           </div>

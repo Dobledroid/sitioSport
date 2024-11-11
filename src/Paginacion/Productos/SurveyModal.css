@@ -1,0 +1,18 @@
+/* SurveyModal.css */
+.emoji-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .emoji {
+    font-size: 2.5rem; /* Aumenta el tamaño de los emojis */
+    transition: transform 0.3s ease; /* Animación de escala */
+    cursor: pointer;
+  }
+  
+  /* Animación de rebote al pasar el cursor */
+  .emoji:hover {
+    transform: scale(1.2); /* Agranda el emoji al pasar el cursor */
+  }
+  
