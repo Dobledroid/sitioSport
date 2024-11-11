@@ -2,9 +2,8 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import './SurveyModal.css';
-// import { baseURL } from '../../api.js';
-
 import { baseURL } from '../../api.js';
+
 const SurveyModal = ({ show, handleClose, ID_usuario, ID_pedido }) => {
 
   // Función para manejar la selección de emoji
@@ -20,7 +19,7 @@ const SurveyModal = ({ show, handleClose, ID_usuario, ID_pedido }) => {
     };
 
     try {
-      const apiUrl = `${baseURL}/respuestas`; // Asegúrate de tener la URL en el archivo .env
+      const apiUrl = `${baseURL}/respuestasWeb`; // Asegúrate de tener la URL en el archivo .env
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -32,12 +31,15 @@ const SurveyModal = ({ show, handleClose, ID_usuario, ID_pedido }) => {
       if (response.ok) {
         console.log('Respuesta guardada correctamente en la base de datos');
       } else {
-        console.error('Error al guardar la respuesta:', response.statusText);
+        // Lee el error como texto para evitar problemas si no es JSON
+        const errorText = await response.text();
+        console.error('Error al guardar la respuesta:', errorText);
       }
     } catch (error) {
       console.error('Error al guardar la respuesta:', error);
     } finally {
-      handleRedirect(); // Redirige después de guardar
+      // Redirige o realiza cualquier acción de limpieza
+      handleRedirect();
     }
   };
 

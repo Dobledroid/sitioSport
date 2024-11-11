@@ -36,7 +36,7 @@ const Respuestas = () => {
   const fetchRespuestasWeb = useCallback(async () => {
     setCargandoWeb(true);
     try {
-      const response = await fetch(`${baseURL}/respuestas-por-fecha?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
+      const response = await fetch(`${baseURL}/respuestas-por-fecha-Web?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
       if (!response.ok) {
         throw new Error('Error al obtener las respuestas de la web');
       }
