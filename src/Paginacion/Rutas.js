@@ -100,7 +100,6 @@ import favoritos from './Productos/Favoritos/Favoritos';
 import GenerarToken from './Usuario/Alexa/GenerarToken';
 import Prediccion from '../Prediccion';
 
-import Respuestas from '../Paginacion/Integradora/Respuestas';
 
 // import Error from './Validaciones/Error404/Error';
 const Rutas = () => {
