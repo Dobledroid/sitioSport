@@ -3,7 +3,7 @@ import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
-import IconPassword from "../Login/assets/password-icon.svg";
+// import IconPassword from "../Login/assets/password-icon.svg";
 import { baseURL, fetchData } from '../../api.js';
 import Alert from '../Validaciones/Alerts/Alert.js';
 

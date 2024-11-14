@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { openDB } from 'idb'; // Importa la librería idb
+
 import Header from '../../Esquema/Header';
 import Footer from '../../Esquema/Footer';
 import { useLocalStorage } from 'react-use';
@@ -10,8 +12,8 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 
 const Membresias = () => {
-  /* eslint-disable no-unused-vars */
-  const [user, setUser] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
   const [fechaVencimientoAcumulada, setFechaVencimientoAcumulada] = useState(null);
   const [fechaVencimientoAcumuladaFormateada, setFechaVencimientoAcumuladaFormateada] = useState(null);
   const [isVencimientoCalculated, setIsVencimientoCalculated] = useState(false);
@@ -23,35 +25,64 @@ const Membresias = () => {
   const [ID_membresiaUsuario, setID_membresiaUsuario] = useState('');
 
   const [planDetails, setPlanDetails] = useState([]);
-
-  useEffect(() => {
-    const fetchPlanDetails = async () => {
-      try {
-        const response = await fetch(`${baseURL}/membershipTypes`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+  // Abre la base de datos o la crea si no existe
+  const openDatabase = async () => {
+    return openDB('membresiasDB', 1, {
+      upgrade(db) {
+        if (!db.objectStoreNames.contains('plans')) {
+          db.createObjectStore('plans', { keyPath: 'ID_UnicoMembresia' });
         }
-        const data = await response.json();
-        console.log("planDetails", data);
-        setPlanDetails(data);
-      } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
+      },
+    });
+  };
+  // Guarda los planes en IndexedDB
+  const savePlansToDB = useCallback(async (plans) => {
+    const db = await openDatabase();
+    const tx = db.transaction('plans', 'readwrite');
+    const store = tx.objectStore('plans');
+    plans.forEach((plan) => store.put(plan));
+    await tx.done;
+  }, []); // No tiene dependencias
+
+
+  const fetchPlanDetails = useCallback(async () => {
+    try {
+      const response = await fetch(`${baseURL}/membershipTypes`);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      setPlanDetails(data);
+      await savePlansToDB(data); // Guarda los planes en IndexedDB
+    } catch (error) {
+      console.error('Error fetching plans:', error);
+    }
+  }, [savePlansToDB]);
+  
+  const getPlansFromDB = useCallback(async () => {
+    const db = await openDatabase();
+    const tx = db.transaction('plans', 'readonly');
+    const store = tx.objectStore('plans');
+    return await store.getAll();
+  }, []);
+  // useEffect para cargar los planes al montar el componente
+  useEffect(() => {
+    const loadPlans = async () => {
+      const storedPlans = await getPlansFromDB();
+      if (storedPlans.length > 0) {
+        setPlanDetails(storedPlans); // Usa los planes almacenados localmente
+      } else {
+        fetchPlanDetails(); // Si no hay planes locales, hace fetch al servidor
       }
     };
-
-    fetchPlanDetails();
-  }, []);
+    loadPlans();
+  }, [fetchPlanDetails, getPlansFromDB, user.ID_usuario]);
 
   function esURLSegura(url) {
     const regex = /^(ftp|http|https):\/\/[^ "]+$/;
     return regex.test(url);
   }
 
-  const handleRealizarPedidoActualizar = async (nombre, total, ID_tipoMembresia, ID_UnicoMembresia, fechaVencimientoAcumuladaFormateada) => {
-    const currentURL = new URL(window.location.href);
+  const handleRealizarPedidoActualizar = useCallback(async (nombre, total, ID_tipoMembresia, ID_UnicoMembresia, fechaVencimientoAcumuladaFormateada) => {
     const host = "http://localhost:3000";
-    // const host = currentURL.protocol + '//' + currentURL.hostname;
-    // console.log(host); 
     const id = user.ID_usuario;
     const createOrderResponse = await fetch(`${baseURL}/paypal/create-order-membresia-actualizar`, {
       method: 'POST',
@@ -73,7 +104,6 @@ const Membresias = () => {
 
     if (createOrderResponse.ok) {
       const data = await createOrderResponse.json();
-      // console.log(data);
       if (data.links && Array.isArray(data.links) && data.links.length >= 2) {
         const redirectUrl = data.links[1].href;
 
@@ -88,10 +118,11 @@ const Membresias = () => {
     } else {
       alert(`Hubo un error con la petición: ${createOrderResponse.status} ${createOrderResponse.statusText}`);
     }
-  };
+  }, [ID_membresiaUsuario, user, fechaVencimientoAcumulada]);
+
 
   const handleRealizarPedido = async (nombre, total, ID_tipoMembresia, ID_UnicoMembresia) => {
-    const currentURL = new URL(window.location.href);
+    // const currentURL = new URL(window.location.href);
     const host = "http://localhost:3000";
     // const host = currentURL.protocol + '//' + currentURL.hostname;
     // console.log(host); 
@@ -208,7 +239,15 @@ const Membresias = () => {
 
       setIsVencimientoCalculated(false); // Restablecer el flag
     }
-  }, [isVencimientoCalculated, fechaVencimientoAcumuladaFormateada]);
+  }, [isVencimientoCalculated, fechaVencimientoAcumulada,
+    fechaVencimientoAcumuladaFormateada,
+    nombre,
+    costo,
+    ID_tipoMembresia,
+    ID_UnicoMembresia,
+    handleRealizarPedidoActualizar
+  ]);
+
 
   const fetchMembresia = async (planId) => {
     // alert(planId)

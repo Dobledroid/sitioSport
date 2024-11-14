@@ -1,5 +1,5 @@
-  /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
+
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
 import Sidebar from "../../Esquema/Sidebar.js";
@@ -9,6 +9,7 @@ import { baseURL } from '../../api.js';
 import './Respuesta.css';
 
 const Respuestas = () => {
+
   const [respuestasMovil, setRespuestasMovil] = useState([]);
   const [respuestasWeb, setRespuestasWeb] = useState([]);
   const [cargandoMovil, setCargandoMovil] = useState(true);
@@ -49,27 +50,28 @@ const Respuestas = () => {
   }, [fechaInicio, fechaFin]);
   
   useEffect(() => {
-    fetchRespuestasMovil();
-    fetchRespuestasWeb();
-  }, [fechaInicio, fechaFin, fetchRespuestasMovil, fetchRespuestasWeb]);
 
-  const countResponses = (responses, option) => responses.filter(resp => resp.Respuesta === option).length;
+    fetchRespuestas();
+  }, [fechaInicio, fechaFin,fetchRespuestas]);
 
-  // Datos para la gráfica de la app móvil
-  const dataMovil = {
+  const countResponses = (option) => respuestas.filter(resp => resp.Respuesta === option).length;
+
+  // Datos para la gráfica
+  const data = {
     labels: ['No me gustó', 'Neutral', 'Me encantó'],
     datasets: [
       {
-        label: 'Cantidad de respuestas (App Móvil)',
+        label: 'Cantidad de respuestas',
         data: [
-          countResponses(respuestasMovil, 'No me gustó'),
-          countResponses(respuestasMovil, 'Neutral'),
-          countResponses(respuestasMovil, 'Me encantó')
+          countResponses('No me gustó'),
+          countResponses('Neutral'),
+          countResponses('Me encantó')
         ],
         backgroundColor: ['#ff6384', '#ffcd56', '#36a2eb'],
       },
     ],
   };
+
 
   // Datos para la gráfica de la web
   const dataWeb = {
@@ -102,6 +104,7 @@ const Respuestas = () => {
       return `En la plataforma ${platform}, la mayoría de los usuarios están satisfechos entre ${fechaInicio} y ${fechaFin}. Esto indica una experiencia positiva.`;
     } else {
       return `La distribución de respuestas en la plataforma ${platform} es equilibrada entre ${fechaInicio} y ${fechaFin}. Analizar más detalles para identificar mejoras.`;
+
     }
   };
 
@@ -117,6 +120,7 @@ const Respuestas = () => {
             <input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
             <label className="ms-3">Fecha Fin:</label>
             <input type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
+
             <button onClick={() => { fetchRespuestasMovil(); fetchRespuestasWeb(); }} className="btn btn-primary ms-3">Actualizar</button>
           </div>
           {cargandoMovil || cargandoWeb ? (
@@ -144,6 +148,7 @@ const Respuestas = () => {
                 <div className="report-text mt-4">
                   <h6>Reporte de Nivel de Satisfacción (Web)</h6>
                   <p>{generateReport(respuestasWeb, 'Web')}</p>
+
                 </div>
               </div>
             </div>

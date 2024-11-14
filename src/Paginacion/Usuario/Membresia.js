@@ -11,7 +11,8 @@ const Membresia = () => {
   const [membresiaData, setMembresiaData] = useState(null);
   const [tipoMembresiaData, settipoMembresiaData] = useState(null);
 
-  const [user, setUser] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
   const navigate = useNavigate();
   const [membresiaVencida, setMembresiaVencida] = useState(false);
 
@@ -60,7 +61,7 @@ const Membresia = () => {
       }
     };
     fetchMembresia();
-  }, []);
+  }, [user.ID_usuario]);
 
 
 
@@ -108,10 +109,18 @@ const Membresia = () => {
                           </li>
                           <li><b>Compartir en</b>
                             <div className="share">
-                              <a href="#"><i className="fa fa-facebook"></i></a>
-                              <a href="#"><i className="fa fa-twitter"></i></a>
-                              <a href="#"><i className="fa fa-instagram"></i></a>
-                              <a href="#"><i className="fa fa-pinterest"></i></a>
+                              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-facebook"></i>
+                              </a>
+                              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-twitter"></i>
+                              </a>
+                              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-instagram"></i>
+                              </a>
+                              <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-pinterest"></i>
+                              </a>
                             </div>
                           </li>
                         </ul>

@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { FiMoreVertical } from 'react-icons/fi';
 import { FaHome } from "react-icons/fa";
-import { Card, OverlayTrigger, Popover } from 'react-bootstrap';
+// import { Card, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Header from "../../../Esquema/Header.js";
 import Footer from "../../../Esquema/Footer.js";
 import Modal from 'react-bootstrap/Modal';
@@ -11,20 +12,21 @@ import Button from 'react-bootstrap/Button';
 import Sidebar from "../../../Esquema/Sidebar.js";
 import { baseURL } from '../../../api.js';
 import Swal from 'sweetalert2';
-import iconAddress from "../images/address-svgrepo-com.svg";
+// import iconAddress from "../images/address-svgrepo-com.svg";
 
 const MisDirecciones = () => {
-  const [userImage, setUserImage] = useState(null);
+  // const [userImage, setUserImage] = useState(null);
   const [direcciones, setDirecciones] = useState([]);
   const [user, setUser] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [direccionEliminar, setDirrecionEliminar] = useState(null);
 
-  const [showMenu, setShowMenu] = useState(false);
+  // const [showMenu, setShowMenu] = useState(false);
 
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
+  // const toggleMenu = () => {
+  //   setShowMenu(!showMenu);
+  // };
+
   const modalStyles = {
     modalTransparent: {
       backgroundColor: 'rgba(0, 0, 0, 0.5)' // Fondo del modal transparente con opacidad

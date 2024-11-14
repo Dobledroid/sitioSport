@@ -10,8 +10,8 @@ import { baseURL } from '../../api.js';
 const Compras = () => {
   const [detallesPorPedido, setDetallesPorPedido] = useState({});
   const [cargando, setCargando] = useState(true);
-
-  const [user, setUser] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
   const navigate = useNavigate();
 
   useEffect(() => {

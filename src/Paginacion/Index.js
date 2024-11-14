@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // import Carousel from 'react-bootstrap/Carousel';
 import Header from '../Esquema/Header';
 import Footer from '../Esquema/Footer';

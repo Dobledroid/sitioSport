@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
 import { baseURL } from '../../api.js';
@@ -13,47 +13,47 @@ const AgregarDireccionesEnvio = () => {
   const [direccion, setDireccion] = useState("");
   const [ciudad, setCiudad] = useState("Huejutla de reyes");
   const [colonia, setColonia] = useState("");
-  const [localidades, setLocalidades] = useState([]);
+  // const [localidades, setLocalidades] = useState([]);
   const [estado, setEstado] = useState("Hidalgo");
   const [codigoPostal, setCodigoPostal] = useState("");
   const [telefono, setTelefono] = useState("");
   const [referencias, setReferencias] = useState("");
-  const [predeterminado, setPredeterminado] = useState(true);
+  const [predeterminado] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
   // Función para validar el código postal
-  const validarCodigoPostal = () => {
-    // Sustituye 'TU_API_KEY' con tu propia clave de API
-    const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${codigoPostal},+Mexico&key=${apiKey}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'OK') {
-          // Aquí puedes manejar la respuesta, por ejemplo, extrayendo la ciudad y el estado
-          console.log(data);
-          const resultado = data.results[0];
-          const direccionCompleta = resultado.formatted_address;
-          const localidades = data.results[0]?.postcode_localities;
-          if (localidades) {
-            setLocalidades(localidades);
-            // Opcionalmente, puedes seleccionar automáticamente la primera localidad
-            setCiudad(localidades[0]);
-          } else {
-            // Si no hay localidades específicas, podrías manejarlo de otra manera
-            alert("No se encontraron localidades para este código postal.");
-          }
-          alert(`Dirección encontrada: ${direccionCompleta}`);
-          // Actualiza los estados de ciudad y país si es necesario
-        } else {
-          alert("Código postal no encontrado.");
-        }
-      })
-      .catch(error => {
-        console.error('Error al validar el código postal:', error);
-        alert("Error al validar el código postal. Por favor, intenta nuevamente.");
-      });
-  };
+  // const validarCodigoPostal = () => {
+  //   // Sustituye 'TU_API_KEY' con tu propia clave de API
+  //   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+  //   fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${codigoPostal},+Mexico&key=${apiKey}`)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       if (data.status === 'OK') {
+  //         // Aquí puedes manejar la respuesta, por ejemplo, extrayendo la ciudad y el estado
+  //         console.log(data);
+  //         const resultado = data.results[0];
+  //         const direccionCompleta = resultado.formatted_address;
+  //         const localidades = data.results[0]?.postcode_localities;
+  //         if (localidades) {
+  //           setLocalidades(localidades);
+  //           // Opcionalmente, puedes seleccionar automáticamente la primera localidad
+  //           setCiudad(localidades[0]);
+  //         } else {
+  //           // Si no hay localidades específicas, podrías manejarlo de otra manera
+  //           alert("No se encontraron localidades para este código postal.");
+  //         }
+  //         alert(`Dirección encontrada: ${direccionCompleta}`);
+  //         // Actualiza los estados de ciudad y país si es necesario
+  //       } else {
+  //         alert("Código postal no encontrado.");
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Error al validar el código postal:', error);
+  //       alert("Error al validar el código postal. Por favor, intenta nuevamente.");
+  //     });
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

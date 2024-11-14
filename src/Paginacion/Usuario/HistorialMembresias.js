@@ -12,7 +12,8 @@ const HistorialMembresias = () => {
   const [cargando, setCargando] = useState(true);
   const navigate = useNavigate();
 
-  const [user, setUser] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
 
   useEffect(() => {
     const id = user.ID_usuario;
@@ -31,7 +32,7 @@ const HistorialMembresias = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [user.ID_usuario]);
 
   return (
     <>

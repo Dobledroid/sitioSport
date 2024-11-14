@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { FaStar } from 'react-icons/fa';
+// import { FaStar } from 'react-icons/fa';
 import { baseURL } from '../../../api.js';
 import moment from 'moment';
 import 'moment/locale/es';

@@ -3,13 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
-import { useLocalStorage } from 'react-use';
+// import { useLocalStorage } from 'react-use';
 import { baseURL } from '../../api.js';
 import Sidebar from "../../Esquema/Sidebar.js";
 import paypal from '../assest/paypal_checkout.png';
 import { FaCheck } from "react-icons/fa";
 const DetalleCompra = () => {
-  const [user, setUser] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
   const { ID_pedido } = useParams();
   const navigate = useNavigate();
   const [detallesPedido, setDetallesPedido] = useState([]);

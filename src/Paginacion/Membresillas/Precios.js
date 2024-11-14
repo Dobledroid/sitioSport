@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { baseURL } from '../../api.js';
@@ -52,7 +52,7 @@ const Precios = () => {
                     </li>
                     <li class="py-1"><span class="me-2 fas fa-check text-success"> </span> Private teams & projects
                     </li>
-                  </ul><a class="btn btn-link" href="#">More about Single</a>
+                  </ul><a class="btn btn-link" href="/">More about Single</a>
                 </div>
               </div>
             </div>
@@ -78,7 +78,7 @@ const Precios = () => {
                     </li>
                     <li class="py-1"><span class="me-2 fas fa-check text-success"> </span> Lock custom fields
                     </li>
-                  </ul><a class="btn btn-link" href="#">More about Business</a>
+                  </ul><a class="btn btn-link" href="/">More about Business</a>
                 </div>
               </div>
             </div>
@@ -102,13 +102,13 @@ const Precios = () => {
                     </li>
                     <li class="py-1"><span class="me-2 fas fa-check text-success"> </span> Resource Management
                     </li>
-                  </ul><a class="btn btn-link" href="#">More about Extended</a>
+                  </ul><a class="btn btn-link" href="/">More about Extended</a>
                 </div>
               </div>
             </div>
             <div class="col-12 text-center">
               <h5 class="mt-5">Looking for personal or small team task management?</h5>
-              <p class="fs-8">Try the <a href="#">basic version</a> of Falcon</p>
+              <p class="fs-8">Try the <a href="/">basic version</a> of Falcon</p>
             </div>
           </div>
         </div>

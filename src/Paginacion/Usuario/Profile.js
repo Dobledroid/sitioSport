@@ -13,8 +13,8 @@ import { useNavigate } from 'react-router-dom';
 
 import ProgressBar from 'react-bootstrap/ProgressBar';
 const Profile = () => {
-  const [user, setUser] = useLocalStorage('user');
-  const [isLoggedInOAuth, setIsLoggedInOAuth] = useLocalStorage('isLoggedInOAuth');
+  const [user] = useLocalStorage('user');
+  const [isLoggedInOAuth] = useLocalStorage('isLoggedInOAuth');
 
   const [usuario, setUsuario] = useState(null);
   const [ubicacion, setUbicacion] = useState(null);

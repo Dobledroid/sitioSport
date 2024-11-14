@@ -97,7 +97,8 @@ function IMCCalculator() {
           }
         }
       }
-    });
+    });  console.log(myChart);
+
   };
 
   return (

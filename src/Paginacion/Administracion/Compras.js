@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 
 const ComprasAdm1 = () => {
   const [compras, setCompras] = useState([]);
-  const [productos, setProductos] = useState([]);
+  // const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCompra, setSelectedCompra] = useState(null);
   const [userDetails, setUserDetails] = useState(null);

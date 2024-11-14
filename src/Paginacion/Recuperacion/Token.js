@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer";
-import IconTime from "../Login/assets/time-cronometer-svgrepo-com.svg";
+// import IconTime from "../Login/assets/time-cronometer-svgrepo-com.svg";
 import Alert from '../Validaciones/Alerts/Alert.js';
 import { baseURL } from '../../api.js';
 
 const Token = () => {
   const [method, setMethod] = useState('1');
-  const [tokenUser, setTokenUser] = useState('1');
+  // const [tokenUser, setTokenUser] = useState('1');
   const [alert, setAlert] = useState(null);
   const [showTokenForm, setShowTokenForm] = useState(false);
   const [showResendButton, setShowResendButton] = useState(false); // Nuevo estado para mostrar el botón de reenviar código

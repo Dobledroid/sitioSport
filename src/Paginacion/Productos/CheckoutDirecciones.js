@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Card, Form } from 'react-bootstrap';
-import ListGroup from 'react-bootstrap/ListGroup';
+// import ListGroup from 'react-bootstrap/ListGroup';
 import { useLocalStorage } from 'react-use';
 import Header from "../../Esquema/Header";
 import Footer from "../../Esquema/Footer";
@@ -10,7 +10,8 @@ import { baseURL } from '../../api.js';
 import './Checkout.css';
 
 const CheckoutDirecciones = () => {
-  const [user, setUser] = useLocalStorage('user');
+  // const [user, setUser] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
   const [productos, setProductos] = useState([]);
   const [direcciones, setDirecciones] = useState([]);
   const location = useLocation();
@@ -100,7 +101,7 @@ const CheckoutDirecciones = () => {
 
     fetchDirecciones();
     fetchProductosPedidos();
-  }, []);
+  }, [user.ID_usuario]);
 
   const handleAgregarNuevaDireccion = async () => {
     // console.log(location.pathname);

@@ -63,6 +63,7 @@ const MyImageUploader = () => {
       <div style={thumbInner}>
         <img
           src={file.preview}
+          alt = 'thumbs'
           style={img}
           onLoad={() => { URL.revokeObjectURL(file.preview) }}
         />
