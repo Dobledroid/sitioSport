@@ -1,7 +1,9 @@
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-// import { baseURL } from '../../api.js';
-// import { obtenerFechaHoraActual } from "../utilidades/dateUtils.js";
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { baseURL } from '../../api.js';
+import { obtenerFechaHoraActual } from "../utilidades/dateUtils.js";
+
 import Header from '../../Esquema/Header.js';
 import Footer from '../../Esquema/Footer';
 
@@ -10,7 +12,7 @@ const Precios = () => {
 
   return (
     <>
-    <Header />
+      <Header />
       <div class="card mb-3">
         <div class="card-body">
           <div class="row g-0">

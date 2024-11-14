@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer";
@@ -99,7 +100,7 @@ const Sidebar = () => {
               <ul>
                 <li className="row my-3">
                   <div className="col">
-                  <UserProfile userImage={iconUserId} />
+                    <UserProfile userImage={iconUserId} />
                   </div>
                   <div className="col second-col">
                     <span>Información personal</span>
@@ -108,7 +109,7 @@ const Sidebar = () => {
                 </li>
                 <li className="row my-3">
                   <div className="col">
-                  <UserProfile userImage={iconUser} />
+                    <UserProfile userImage={iconUser} />
                   </div>
                   <div className="col">
                     <span>Datos de tu cuenta</span>
@@ -117,7 +118,7 @@ const Sidebar = () => {
                 </li>
                 <li className="row my-3">
                   <div className="col">
-                  <UserProfile userImage={iconAddress} />
+                    <UserProfile userImage={iconAddress} />
                   </div>
                   <div className="col">
                     <span>Direcciones</span>

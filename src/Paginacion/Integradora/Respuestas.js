@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback} from 'react';
+
 import Header from "../../Esquema/Header.js";
 import Footer from "../../Esquema/Footer.js";
 import Sidebar from "../../Esquema/Sidebar.js";
@@ -8,27 +9,48 @@ import { baseURL } from '../../api.js';
 import './Respuesta.css';
 
 const Respuestas = () => {
-  const [respuestas, setRespuestas] = useState([]);
-  const [cargando, setCargando] = useState(true);
+
+  const [respuestasMovil, setRespuestasMovil] = useState([]);
+  const [respuestasWeb, setRespuestasWeb] = useState([]);
+  const [cargandoMovil, setCargandoMovil] = useState(true);
+  const [cargandoWeb, setCargandoWeb] = useState(true);
   const [fechaInicio, setFechaInicio] = useState(new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0]);
   const [fechaFin, setFechaFin] = useState(new Date().toISOString().split('T')[0]);
 
-  const fetchRespuestas = useCallback(async () => {
-    setCargando(true);
+  // Función para obtener respuestas de la app móvil
+  const fetchRespuestasMovil = useCallback(async () => {
+    setCargandoMovil(true);
     try {
       const response = await fetch(`${baseURL}/respuestas-por-fecha?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
       if (!response.ok) {
-        throw new Error('Error al obtener las respuestas');
+        throw new Error('Error al obtener las respuestas de la app móvil');
       }
       const data = await response.json();
-      setRespuestas(data);
-      setCargando(false);
+      setRespuestasMovil(data);
+      setCargandoMovil(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [fechaInicio, fechaFin]);
+
+  // Función para obtener respuestas de la web
+  const fetchRespuestasWeb = useCallback(async () => {
+    setCargandoWeb(true);
+    try {
+      const response = await fetch(`${baseURL}/respuestas-por-fecha-Web?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
+      if (!response.ok) {
+        throw new Error('Error al obtener las respuestas de la web');
+      }
+      const data = await response.json();
+      setRespuestasWeb(data);
+      setCargandoWeb(false);
     } catch (error) {
       console.error(error);
     }
   }, [fechaInicio, fechaFin]);
   
   useEffect(() => {
+
     fetchRespuestas();
   }, [fechaInicio, fechaFin,fetchRespuestas]);
 
@@ -50,22 +72,39 @@ const Respuestas = () => {
     ],
   };
 
-  // Generación del texto de reporte
-  const generateReport = () => {
-    // eslint-disable-next-line no-unused-vars
-    const totalResponses = respuestas.length;
-    const noMeGusto = countResponses('No me gustó');
-    const neutral = countResponses('Neutral');
-    const meEncanto = countResponses('Me encantó');
+
+  // Datos para la gráfica de la web
+  const dataWeb = {
+    labels: ['No me gustó', 'Neutral', 'Me encantó'],
+    datasets: [
+      {
+        label: 'Cantidad de respuestas (Web)',
+        data: [
+          countResponses(respuestasWeb, 'No me gustó'),
+          countResponses(respuestasWeb, 'Neutral'),
+          countResponses(respuestasWeb, 'Me encantó')
+        ],
+        backgroundColor: ['#4bc0c0', '#ff9f40', '#9966ff'],
+      },
+    ],
+  };
+
+  // Generación del reporte de satisfacción
+  const generateReport = (responses, platform) => {
+    const totalResponses = responses.length;
+    const noMeGusto = countResponses(responses, 'No me gustó');
+    const neutral = countResponses(responses, 'Neutral');
+    const meEncanto = countResponses(responses, 'Me encantó');
 
     if (noMeGusto > neutral && noMeGusto > meEncanto) {
-      return `El resultado obtenido del nivel de satisfacción del usuario en el módulo de compra de productos entre ${fechaInicio} y ${fechaFin} indica que la mayoría de los usuarios no están satisfechos. Esto sugiere que este proceso presenta problemas que deben ser mejorados de forma prioritaria.`;
+      return `En la plataforma ${platform}, la mayoría de los usuarios no están satisfechos entre ${fechaInicio} y ${fechaFin}. Se sugiere mejorar este proceso.`;
     } else if (neutral > noMeGusto && neutral > meEncanto) {
-      return `Entre las fechas ${fechaInicio} y ${fechaFin}, el nivel de satisfacción en el módulo de compra es mayormente neutral. Esto indica que los usuarios están relativamente satisfechos, pero existe margen para optimizar y mejorar la experiencia.`;
+      return `En la plataforma ${platform}, el nivel de satisfacción es mayormente neutral entre ${fechaInicio} y ${fechaFin}. Existe margen para mejorar.`;
     } else if (meEncanto > noMeGusto && meEncanto > neutral) {
-      return `En el periodo entre ${fechaInicio} y ${fechaFin}, el nivel de satisfacción del usuario en el módulo de compra es mayormente positivo. Esto sugiere que el proceso cumple adecuadamente con las expectativas de los usuarios.`;
+      return `En la plataforma ${platform}, la mayoría de los usuarios están satisfechos entre ${fechaInicio} y ${fechaFin}. Esto indica una experiencia positiva.`;
     } else {
-      return `La distribución de respuestas entre las fechas ${fechaInicio} y ${fechaFin} es equilibrada. Se recomienda analizar con más detalle las áreas específicas para identificar posibles mejoras.`;
+      return `La distribución de respuestas en la plataforma ${platform} es equilibrada entre ${fechaInicio} y ${fechaFin}. Analizar más detalles para identificar mejoras.`;
+
     }
   };
 
@@ -81,23 +120,35 @@ const Respuestas = () => {
             <input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
             <label className="ms-3">Fecha Fin:</label>
             <input type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
-            <button onClick={fetchRespuestas} className="btn btn-primary ms-3">Actualizar</button>
+
+            <button onClick={() => { fetchRespuestasMovil(); fetchRespuestasWeb(); }} className="btn btn-primary ms-3">Actualizar</button>
           </div>
-          {cargando ? (
+          {cargandoMovil || cargandoWeb ? (
             <div>Cargando respuestas...</div>
           ) : (
             <div className="row">
-              {/* Columna izquierda: Gráfica */}
+              {/* Gráfica para App Móvil */}
               <div className="col-md-6">
+                <h6>Respuestas App Móvil</h6>
                 <div style={{ maxWidth: '600px', margin: 'auto' }}>
-                  <Bar data={data} options={{ responsive: true, maintainAspectRatio: false }} />
+                  <Bar data={dataMovil} options={{ responsive: true, maintainAspectRatio: false }} />
+                </div>
+                <div className="report-text mt-4">
+                  <h6>Reporte de Nivel de Satisfacción (App Móvil)</h6>
+                  <p>{generateReport(respuestasMovil, 'App Móvil')}</p>
                 </div>
               </div>
-              {/* Columna derecha: Reporte textual */}
+
+              {/* Gráfica para Web */}
               <div className="col-md-6">
-                <div className="report-text">
-                  <h6>Reporte de Nivel de Satisfacción</h6>
-                  <p>{generateReport()}</p>
+                <h6>Respuestas Web</h6>
+                <div style={{ maxWidth: '600px', margin: 'auto' }}>
+                  <Bar data={dataWeb} options={{ responsive: true, maintainAspectRatio: false }} />
+                </div>
+                <div className="report-text mt-4">
+                  <h6>Reporte de Nivel de Satisfacción (Web)</h6>
+                  <p>{generateReport(respuestasWeb, 'Web')}</p>
+
                 </div>
               </div>
             </div>

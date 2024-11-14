@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { FaEyeSlash } from 'react-icons/fa';
 // import { FaEye, FaEyeSlash } from 'react-icons/fa';
 // import Swal from 'sweetalert2';
+
 import Alert from '../Validaciones/Alerts/Alert.js';
 import { baseURL, fetchData } from '../../api.js';
 import Header from '../../Esquema/Header.js';
@@ -71,8 +72,8 @@ const ResetPassword = () => {
     const newPassword = event.target.value;
     setPassword(newPassword);
     const errors = validarContrasena(newPassword, confirmacion);
-     setContrasenaError(errors);
-     setContrasenaFuerza(calcularFuerzaContrasena(errors));
+    setContrasenaError(errors);
+    setContrasenaFuerza(calcularFuerzaContrasena(errors));
     // if (errors.length === 0) {
     //   // Si no hay errores de validación, verificar si la contraseña está en la lista negra
     //   verificarContraseñaEnListaNegra(newPassword);
@@ -110,22 +111,22 @@ const ResetPassword = () => {
     try {
       const data = location.state;
       // if (contrasenaError.length === 0 && !blacklisted) {
-        const response = await fetchData(`${baseURL}/users/update-password/${data.ID_usuario}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contraseña: password,
-          }),
-        });
+      const response = await fetchData(`${baseURL}/users/update-password/${data.ID_usuario}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contraseña: password,
+        }),
+      });
 
-        if (!response.ok) {
-          throw new Error('Fallo al actualizar');
-        }
+      if (!response.ok) {
+        throw new Error('Fallo al actualizar');
+      }
 
 
-        
+
 
       // }
     } catch (error) {

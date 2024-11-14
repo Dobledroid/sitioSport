@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 // import { Link } from "react-router-dom";
 // import Carousel from 'react-bootstrap/Carousel';
@@ -23,11 +24,11 @@ const Index = () => {
             </div>
             <div class="carousel-item">
               <img src="/images/Carrusel/2.jpg" class="d-block w-100" alt="..." />
-              
+
             </div>
             <div class="carousel-item">
               <img src="/images/Carrusel/1.jpg" class="d-block w-100" alt="..." />
-              
+
             </div>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">

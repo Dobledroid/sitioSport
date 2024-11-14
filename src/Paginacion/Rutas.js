@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
@@ -12,6 +13,7 @@ import Footer from '../Esquema/Footer';
 import Productos from './Productos/Productos';
 
 import Filtros from './Productos/Filtros';
+import Respuestas from '../Paginacion/Integradora/Respuestas';
 
 import PrivacyPolicy from './Empresa/Privacidad/PrivacyPolicy';
 import Terminos from './Empresa/TerminosCondiciones/TerminosCondiciones';
@@ -146,14 +148,13 @@ const Rutas = () => {
            */}
           <Route path='/profile' element={<Profile />}></Route>
           <Route path='/detalle-compra/:ID_pedido' element={<DetalleCompra />}></Route>
-        
           <Route path='/respuestas' element={<Respuestas />}></Route>
         
           <Route element={<ProtectedRoute canActivate={isAdmin} redirectPath='/perfil' />}>
             <Route path='/admMembresiasClientes' element={<AdmMembresiasClientes />}></Route>
             <Route path='/admtiposMembresias' element={<AdmTiposMembresias />}></Route>
           </Route>
-        
+
         </Route>
 
         <Route path='/header' element={<Header />}></Route>
@@ -225,18 +226,18 @@ const Rutas = () => {
         <Route path='/confeti' Component={ConfetiComponent}></Route>
         <Route path='/spiner' Component={Spinner}></Route>
         <Route path='/simple' Component={SimpleSlider}></Route>
-        <Route path='/multi' Component={ MultiImageUploadForm }></Route>
+        <Route path='/multi' Component={MultiImageUploadForm}></Route>
 
-        <Route path='/imc' Component={ IMCCalculator }></Route>
+        <Route path='/imc' Component={IMCCalculator}></Route>
 
-        <Route path='/m' Component={ MyImageUploader }></Route>
+        <Route path='/m' Component={MyImageUploader}></Route>
 
-        <Route path='/slider' Component={ slider }></Route>
-        <Route path='/slider2' Component={ slider2 }></Route>
+        <Route path='/slider' Component={slider}></Route>
+        <Route path='/slider2' Component={slider2}></Route>
 
-        <Route path='/favoritos' Component={ favoritos }></Route>
+        <Route path='/favoritos' Component={favoritos}></Route>
 
-        <Route path='/prediccion' Component={ Prediccion }></Route>
+        <Route path='/prediccion' Component={Prediccion}></Route>
 
         <Route path='*' Component={Error404}></Route>
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../../Esquema/Header';
 import Footer from '../../../Esquema/Footer';
+  /* eslint-disable no-unused-vars */
 
 import Sidebar from "../../../Esquema/Sidebar";
 import { useDropzone } from 'react-dropzone';

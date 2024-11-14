@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../../Esquema/Header';
 import Footer from '../../../Esquema/Footer';
+/* eslint-disable no-unused-vars */
 
 import Sidebar from "../../../Esquema/Sidebar";
 import { useDropzone } from 'react-dropzone';
@@ -53,7 +54,7 @@ const EditarProducto = () => {
       const response = await fetch(`${baseURL}/products-editar/${id}`);
       const data = await response.json();
       console.log("data", data)
-      
+
       setNombreProducto(data.nombre);
       setDescripcionProducto(data.descripcion);
       setPrecioBase(data.precio);
@@ -73,11 +74,11 @@ const EditarProducto = () => {
         const subcategoriesResponse = await fetch(`${baseURL}/subcategoriasByIDCategoria/${data.ID_categoria}`);
         const subcategoriesData = await subcategoriesResponse.json();
         setSubcategorias(subcategoriesData);
-  
+
         const brandsResponse = await fetch(`${baseURL}/marcasByIDCategoria/${data.ID_categoria}`);
         const brandsData = await brandsResponse.json();
         setMarcas(brandsData);
-  
+
         setSubcategoriaId(data.ID_subcategoria);
         setMarcaId(data.ID_marca);
       }
@@ -264,9 +265,9 @@ const EditarProducto = () => {
     otrosFiles.forEach(file => {
       formData.append('images', file);
     });
-  
+
     formData.append('existingImages', JSON.stringify(existingImageUrls.map(file => file.preview)));
-  
+
     try {
       const response = await fetch(`${baseURL}/products/${id}`, {
         method: 'PUT',

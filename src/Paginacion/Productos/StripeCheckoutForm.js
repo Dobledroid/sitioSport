@@ -1,53 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { baseURL } from '../../api.js';
+import Swal from 'sweetalert2';
+import SurveyModal from './SurveyModal';
 
 const StripeCheckoutForm = ({ amount, currency, productos, userID, currentURL, ID_direccion }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [showSurvey, setShowSurvey] = useState(false); // Estado para el modal de encuesta
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Verifica que Stripe y los elementos estén disponibles
-    if (!stripe || !elements) {
+    if (!ID_direccion) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Debe seleccionar una dirección de envío antes de proceder al pago.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
       return;
     }
 
-    const cardElement = elements.getElement(CardElement);
+    if (!stripe || !elements) return;
 
-    // Crea un PaymentMethod usando Stripe.js
+    const cardElement = elements.getElement(CardElement);
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: cardElement,
     });
 
     if (error) {
-      console.log('[error]', error);
-      // Maneja el error aquí si es necesario
+      console.error('[error]', error);
+      Swal.fire({ title: 'Error de validación', text: error.message, icon: 'error', confirmButtonText: 'Aceptar' });
     } else {
-      console.log('[PaymentMethod]', paymentMethod);
-
       try {
-        // Envia los detalles del pago al backend
         const response = await fetch(`${baseURL}/procesar-pago`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            paymentMethodId: paymentMethod.id,
-            amount: amount,
-            currency: currency,
-            ID_usuario: userID, // Incluye userID
-            currentURL: currentURL, // Incluye currentURL
-            ID_direccion: ID_direccion, // Incluye ID_direccion
-          }),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentMethodId: paymentMethod.id, amount, currency, ID_usuario: userID, currentURL, ID_direccion }),
         });
+
         if (response.ok) {
           const data = await response.json();
           console.log('Pago exitoso:', data);
-          // Maneja la respuesta aquí si es necesario
+          
+          // Mostrar el modal de encuesta
+          setShowSurvey(true);
         } else {
           console.error('Error en el pago:', response.statusText);
         }
@@ -57,13 +56,20 @@ const StripeCheckoutForm = ({ amount, currency, productos, userID, currentURL, I
     }
   };
 
+  const handleCloseSurvey = () => {
+    setShowSurvey(false);
+    window.location.href = "/tienda";
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe}>
-        Pagar ${amount} {currency.toUpperCase()}
-      </button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <CardElement />
+        <button type="submit" disabled={!stripe}>Pagar ${amount} {currency.toUpperCase()}</button>
+      </form>
+      <SurveyModal show={showSurvey} handleClose={handleCloseSurvey} ID_usuario={userID}        // Pasa el ID de usuario
+  ID_pedido={ID_direccion}     />
+    </>
   );
 };
 
