@@ -3,137 +3,156 @@ name: PWA CI/CD Workflow
 on:
   push:
     branches:
-      - main
-      - master
-      - develop
-      - 'feature/*'  # Ramas de características para cada programador
+      - '*'
   pull_request:
     branches:
-      - main  # Validación en PR hacia main
-      - master  # Validación en PR hacia master
-  workflow_dispatch:  # Permite activación manual del workflow
+      - 'main'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  build:  # Este bloque debe estar alineado correctamente
-    runs-on: ubuntu-latest  # Sistema operativo
-
-    steps:
-      # 1. Verificar y clonar el repositorio
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      # 2. Configurar Node.js con la versión adecuada
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18  # Versión de Node.js adecuada para React
-
-      # 3. Configuración del caché para dependencias npm
-      - name: Cache npm dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm  # Ruta del caché de npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      # 4. Instalación de dependencias
-      - name: Install Dependencies
-        run: npm install
-
-      # 5. Construcción del proyecto
-      - name: Build Project
-        run: npm run build
-
-  test:  # Trabajo para ejecutar pruebas después de la compilación
+  build-and-test:
     runs-on: ubuntu-latest
-    needs: build  # Ejecuta después de la compilación
 
     steps:
-      # 1. Verificar y clonar el repositorio
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # 2. Configurar Node.js con la versión adecuada
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
+          cache: 'npm'
 
-      # 3. Instalación de dependencias
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      #4. Ejecutar pruebas unitarias con Jest y generar reporte de cobertura
-      - name: Run Unit Tests with Jest
-        run: npm test -- --coverage --forceExit --runInBand --bail --detectOpenHandles
+      - name: Run lint
+        run: npm run lint 
 
+      - name: Run unit tests with Jest
+        run: npm test -- --coverage --debug
 
-      # #5. Forzar el final de las pruebas (si queda algún proceso pendiente)
-      # - name: Force End of Tests
-      #   run: |
-      #     echo "Forzando el final de las pruebas"
-      #     exit 0
-
-      #6. Subir el reporte de cobertura como artefacto de GitHub
-      - name: Upload Coverage Report
+      - name: Upload coverage report
+        if: success()
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: coverage/
 
-      # 7. Ejecutar pruebas E2E con Cypress
-      - name: Run E2E Tests with Cypress
-        uses: cypress-io/github-action@v5
+      - name: Run E2E tests with Cypress
+        if: startsWith(github.ref, 'refs/heads/LAC-')
+        uses: cypress-io/github-action@v6
         with:
-          config-file: cypress.json
-          command: npx cypress run --headless --config video=false --timeout=300000
+          start: npm start
+          wait-on: 'http://localhost:3000'
+          record: true
+          parallel: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 8. Subir videos o resultados de pruebas E2E como artefacto (opcional)
-      - name: Upload Cypress Results
-        if: success()
+      - name: Upload E2E test results
+        if: success() && startsWith(github.ref, 'refs/heads/LAC-')
         uses: actions/upload-artifact@v3
         with:
-          name: cypress-results
-          path: cypress/videos/
+          name: e2e-results
+          path: cypress/results/
 
-      # 9. Generar reporte en PR si falla alguna prueba (opcional)
-      - name: Notify PR about Test Results
+      - name: Notify of test failure
         if: failure()
-        uses: actions/github-script@v4
+        uses: dawidd6/action-send-mail@v3
         with:
-          script: |
-            github.issues.createComment({
-              issue_number: context.payload.pull_request.number,
-              body: ":x: Las pruebas han fallado. Por favor revisa los resultados."
-            })
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "❌ Las pruebas fallaron en ${{ github.ref }}"
+          body: "Las pruebas fallaron en la rama: ${{ github.ref }}. Revisa los detalles del fallo en la acción de GitHub."
+          to: ${{ secrets.MAIL_RECIPIENT }}
+          from: ${{ secrets.MAIL_USERNAME }}
 
-  deploy:  # Trabajo para el despliegue
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'  # Despliegue solo desde main o master
+  build:
+    needs: build-and-test
     runs-on: ubuntu-latest
-    needs: [build, test]  # Solo se ejecuta si la compilación y las pruebas pasan
 
     steps:
-      # 1. Verificar y clonar el repositorio
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # 2. Configurar Node.js con la versión adecuada
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '16'
+          cache: 'npm'
 
-      # 3. Instalación de dependencias
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      # 4. Construcción del proyecto para despliegue
-      - name: Build Project
+      - name: Build the project
         run: npm run build
 
-      # # 5. Despliegue a Vercel con token secreto
-      # - name: Deploy to Vercel
-      #   env:
-      #     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      #   run: npx vercel deploy --prod
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: dist/
+
+      - name: Notify of build failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "❌ La compilación falló en ${{ github.ref }}"
+          body: "La compilación falló en la rama: ${{ github.ref }}. Revisa los detalles del fallo en la acción de GitHub."
+          to: ${{ secrets.MAIL_RECIPIENT }}
+          from: ${{ secrets.MAIL_USERNAME }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && success()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} 
+        run: npx vercel --prod --token $VERCEL_TOKEN  
+        
+      - name: Descargar y configurar sentry-cli
+        run: |
+          curl -sL https://sentry.io/get-cli/ | bash
+          export PATH="$HOME/.sentry-cli:$PATH"
+
+      - name: Sentry Release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: uthh-26 
+          SENTRY_PROJECT: javascript-react 
+        run: |
+          sentry-cli releases new "$GITHUB_SHA" --org "$SENTRY_ORG" --project "$SENTRY_PROJECT"
+          sentry-cli releases set-commits "$GITHUB_SHA" --auto --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" --ignore-missing
+          sentry-cli releases finalize "$GITHUB_SHA" --org "$SENTRY_ORG" --project "$SENTRY_PROJECT"
+
+      - name: Notify of deployment success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "🚀 Despliegue exitoso en ${{ github.ref }}"
+          body: "El despliegue fue exitoso en la rama: ${{ github.ref }}."
+          to: ${{ secrets.MAIL_RECIPIENT }}
+          from: ${{ secrets.MAIL_USERNAME }}
+
+
