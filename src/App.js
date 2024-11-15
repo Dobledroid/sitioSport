@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Rutas from './Paginacion/Rutas';
 import { messaging, getToken, onMessage } from './firebase-config.js';
 import { baseURL } from './api.js';
@@ -6,31 +6,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+  // eslint-disable-next-line
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
   useEffect(() => {
-    let deferredPrompt;
-
-    const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('install-button').style.display = 'block';
-    };
-
-    const handleInstallClick = () => {
-      document.getElementById('install-button').style.display = 'none';
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('Usuario aceptó la instalación');
-        } else {
-          console.log('Usuario rechazó la instalación');
-        }
-        deferredPrompt = null;
-      });
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    document.getElementById('install-button').addEventListener('click', handleInstallClick);
-
     const requestNotificationPermission = async () => {
       try {
         const permission = await Notification.requestPermission();
@@ -80,9 +59,24 @@ function App() {
       toast.info(`Nueva notificación: ${payload.notification.title} - ${payload.notification.body}`);
     });
 
+    // Monitorear cambios en la conexión a internet
+    const updateOnlineStatus = () => {
+      const currentStatus = navigator.onLine;
+      console.log(`Estado de conexión: ${currentStatus ? 'En línea' : 'Desconectado'}`);
+      setIsOnline(currentStatus);
+      if (currentStatus) {
+        toast.success('Conexión a internet restaurada');
+      } else {
+        toast.error('Se perdió la conexión a internet');
+      }
+    };
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      document.getElementById('install-button').removeEventListener('click', handleInstallClick);
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOnlineStatus);
     };
   }, []);
 

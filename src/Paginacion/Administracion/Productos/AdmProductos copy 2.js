@@ -150,8 +150,9 @@ const AdmProductos = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    const producto = productos.find(p => p.ID_producto === id);
+  const handleDelete = async (id) => { 
+    // eslint-disable-next-line
+    const producto = productos.find(p => p.ID_producto == id);
     if (!producto) {
       Swal.fire('Error', 'El producto no fue encontrado.', 'error');
       return;

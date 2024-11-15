@@ -109,7 +109,8 @@ const Rutas = () => {
   // const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn');
   // const [isLoggedInLogin, setIsLoggedInLogin] = useLocalStorage('isLoggedInTemp');
   // const [tokenCheckout, setTokenCheckout] = useLocalStorage('tokenCheckout');
-  const isAdmin = user && user.ID_rol === 1;
+    // eslint-disable-next-line
+  const isAdmin = user && user.ID_rol == 1;
   console.log(isLoggedIn)
   // React.useEffect(() => {
   //   if (tokenCheckout) {

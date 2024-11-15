@@ -36,8 +36,9 @@ const AdmTiposMembresias = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    const membresia = membresias.find(m => m.ID_tipoMembresia === id);
+  const handleDelete = async (id) => {  
+    // eslint-disable-next-line
+    const membresia = membresias.find(m => m.ID_tipoMembresia == id);
     if (!membresia) {
       Swal.fire('Error', 'Membresía no encontrada.', 'error');
       return;

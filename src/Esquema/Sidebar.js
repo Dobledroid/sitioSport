@@ -44,7 +44,9 @@ const Sidebar = () => {
               <span>Perfil</span>
             </Link>
           </li>
-          {user && user.ID_rol === '1' && (
+          {user  
+          // eslint-disable-next-line eqeqeq
+           && user.ID_rol == '1' && (
             <li className="sidebar-item">
               <Link className="sidebar-link collapsed has-dropdown" onClick={handleDropdownClick}>
                 <i className="icon-shopping-bag"></i>
