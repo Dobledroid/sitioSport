@@ -83,8 +83,9 @@ function App() {
   return (
     <>
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
-      <Rutas />
-    </>
+      <div style={{ height: '100vh', overflowY: 'auto' }}>
+        <Rutas />
+      </div>    </>
   );
 }
 
