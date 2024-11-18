@@ -31,6 +31,8 @@ function SidebarItem({ title, items, onFilter, type }) {
     onFilter(null, type);
   };
 
+  
+
   return (
     <div className="sidebar__item">
       <h4>{title}</h4>
@@ -447,12 +449,33 @@ useEffect(() => {
 };
 
 
-Productos.propTypes = {
-  // Assuming filteredProducts are passed to child components
-  filteredProducts: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  // Define other props as needed for this component
+ProductItem.propTypes = {
+  product: PropTypes.shape({
+    ID_producto: PropTypes.number.isRequired,
+    imagenUrl: PropTypes.string.isRequired,
+    nombre: PropTypes.string.isRequired,
+    precioFinal: PropTypes.number.isRequired,
+  }).isRequired,
 };
+
+
+SidebarItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  items: PropTypes.array.isRequired,
+  onFilter: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+};
+
+ProductItem.propTypes = {
+  product: PropTypes.shape({
+    ID_producto: PropTypes.number.isRequired,
+    imagenUrl: PropTypes.string.isRequired,
+    nombre: PropTypes.string.isRequired,
+    precioFinal: PropTypes.number.isRequired,
+  }).isRequired,
+};
+
+
 
 export default Productos;
 
