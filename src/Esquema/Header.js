@@ -141,7 +141,7 @@ const Header = () => {
             <div className="col-lg-3">
               <div className="header__cart">
                 <ul>
-                  <li><Link to="/favoritos"><i class="fa fa-heart"></i> <span>{cantidadFavoritos}</span></Link></li>
+                  <li><Link to="/favoritos"><i className="fa fa-heart"></i> <span>{cantidadFavoritos}</span></Link></li>
                   <li><Link to="/carrito"><i className="fa fa-shopping-bag"></i> <span>{totalProductosEnCarrito}</span></Link></li>
                 </ul>
                 {isLoggedIn ? (
