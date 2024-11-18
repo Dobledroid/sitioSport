@@ -70,7 +70,7 @@ const Compras = () => {
           <h4 className='text-center mb-4'>Mis compras</h4>
           <section className="mb-4 custom-section">
             <button className="btn btn-secondary mb-3" onClick={() => navigate('/perfil')}>Regresar al perfil</button> {/* Botón de regreso */}
-            <p className=''>Mi registro de compras</p>
+            <p>Mi registro de compras</p>
             <div className="row">
               <div className="card">
 

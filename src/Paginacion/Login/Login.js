@@ -430,34 +430,34 @@ const Login = () => {
             </div>
           </section>
         ) : (
-          <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-0">
-            <div class="container">
-              <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-                  <div class="card mb-3">
-                    <div class="card-body">
-                      <div class="pt-4 pb-2">
-                        <h5 class="card-title text-center pb-0 fs-4" >Verifica tu identidad</h5>
-                        <p class="text-center small"></p>
+          <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-0">
+            <div className="container">
+              <div className="row justify-content-center">
+                <div className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                  <div className="card mb-3">
+                    <div className="card-body">
+                      <div className="pt-4 pb-2">
+                        <h5 className="card-title text-center pb-0 fs-4" >Verifica tu identidad</h5>
+                        <p className="text-center small"></p>
                       </div>
                       {!showTokenForm ? (
-                        <form onSubmit={handleMFA} class="row g-3 needs-validation">
-                          <div class="col-12">
+                        <form onSubmit={handleMFA} className="row g-3 needs-validation">
+                          <div className="col-12">
                             <p className='my-3'>Envíe un código de verificación a {dataUser.correoElectronico}</p>
-                            <button class="btn btn-primary w-100" type="submit">Enviar código</button>
+                            <button className="btn btn-primary w-100" type="submit">Enviar código</button>
                           </div>
                         </form>
                       ) : (
-                        <form onSubmit={handleTokenSubmit} class="row g-3 needs-validation">
-                          <div class="col-12">
-                            <label for="yourUsername" class="form-label">Método de autentificación:</label>
-                            <div class="input-group has-validation">
-                              <input type="number" name="token" class="form-control" placeholder="Ingrese el código" />
+                        <form onSubmit={handleTokenSubmit} className="row g-3 needs-validation">
+                          <div className="col-12">
+                            <label for="yourUsername" className="form-label">Método de autentificación:</label>
+                            <div className="input-group has-validation">
+                              <input type="number" name="token" className="form-control" placeholder="Ingrese el código" />
                             </div>
                           </div>
                           <p className='my-3'>Envíe un código de verificación a {dataUser.correoElectronico}</p>
-                          <div class="col-12">
-                            <button class="btn btn-primary w-100" type="submit">Enviar código</button>
+                          <div className="col-12">
+                            <button className="btn btn-primary w-100" type="submit">Enviar código</button>
                           </div>
                           {showResendButton && (
                             <button

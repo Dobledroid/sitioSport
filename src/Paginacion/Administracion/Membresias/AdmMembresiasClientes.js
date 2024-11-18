@@ -40,8 +40,8 @@ const AdmMembresiasClientes = () => {
         <div className='container my-4'>
 
           <div className="card">
-            <div class="table-responsive scrollbar">
-              <table class="table table-hover table-striped overflow-hidden">
+            <div className="table-responsive scrollbar">
+              <table className="table table-hover table-striped overflow-hidden">
                 <thead>
                   <tr>
                     <th scope="col">Nombre</th>
@@ -55,13 +55,13 @@ const AdmMembresiasClientes = () => {
                 </thead>
                 <tbody>
                   {membresias.map((membresia) => (
-                    <tr key={membresia.ID_membresiaUsuario} class="align-middle">
-                      <td class="text-nowrap">{membresia.usuario}</td>
-                      <td class="text-nowrap">{membresia.correoElectronico}</td>
-                      <td class="text-nowrap">{membresia.telefono}</td>
-                      <td class="text-nowrap">{membresia.nombreMembresia}</td>
-                      <td class="text-nowrap">{new Date(membresia.fechaInicio).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
-                      <td class="text-nowrap">{new Date(membresia.fechaVencimiento).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
+                    <tr key={membresia.ID_membresiaUsuario} className="align-middle">
+                      <td className="text-nowrap">{membresia.usuario}</td>
+                      <td className="text-nowrap">{membresia.correoElectronico}</td>
+                      <td className="text-nowrap">{membresia.telefono}</td>
+                      <td className="text-nowrap">{membresia.nombreMembresia}</td>
+                      <td className="text-nowrap">{new Date(membresia.fechaInicio).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
+                      <td className="text-nowrap">{new Date(membresia.fechaVencimiento).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
                       <td style={{
                         color: new Date() > new Date(membresia.fechaVencimiento) ? 'red' : 'green',
                         backgroundColor: new Date() > new Date(membresia.fechaVencimiento) ? 'lightcoral' : 'lightgreen'

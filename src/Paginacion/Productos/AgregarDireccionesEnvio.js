@@ -119,43 +119,43 @@ const AgregarDireccionesEnvio = () => {
   return (
     <>
       <Header />
-      <section class="checkout spad">
-        <div class="container">
-          <div class="checkout__form">
+      <section className="checkout spad">
+        <div className="container">
+          <div className="checkout__form">
             <h4>Detalles de envio</h4>
             <form onSubmit={handleSubmit}>
-              <div class="row">
+              <div className="row">
                 <div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="checkout__input">
+                  <div className="row">
+                    <div className="col-lg-6">
+                      <div className="checkout__input">
                         <p>Nombre<span>*</span></p>
                         <input className="text-dark" type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
                       </div>
                     </div>
-                    <div class="col-lg-6">
-                      <div class="checkout__input">
+                    <div className="col-lg-6">
+                      <div className="checkout__input">
                         <p>Apellidos<span>*</span></p>
                         <input className="text-dark" type="text" value={apellidos} onChange={(e) => setApellidos(e.target.value)} required />
                       </div>
                     </div>
                   </div>
-                  <div class="checkout__input">
+                  <div className="checkout__input">
                     <p>País<span>*</span></p>
                     <input className="text-dark" type="text" value={pais} onChange={(e) => setPais(e.target.value)} required />
                   </div>
-                  <div class="checkout__input">
+                  <div className="checkout__input">
                     <p>Código postal<span>*</span></p>
                     <input className="text-dark" type="text" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} required />
                     {/* <button type="button" onClick={validarCodigoPostal} className="site-btn mt-3">Validar Código Postal</button> */}
                   </div>
-                  <div class="checkout__input">
+                  <div className="checkout__input">
                     <p>Estado<span>*</span></p>
                     <input className="text-dark" type="text" value={estado} onChange={(e) => setEstado(e.target.value)} required />
                   </div>
-                  <div class="checkout__input">
+                  <div className="checkout__input">
                     <p>Ciudad<span>*</span></p>
-                    <input className="text-dark" type="text" value={ciudad} onChange={(e) => setCiudad(e.target.value)} required class="checkout__input__add" />
+                    <input className="text-dark" type="text" value={ciudad} onChange={(e) => setCiudad(e.target.value)} required className="checkout__input__add" />
                   </div>
                   {/* <div class="checkout__input">
                     <p>Ciudad<span>*</span></p>
@@ -169,26 +169,26 @@ const AgregarDireccionesEnvio = () => {
                       <input type="text" value={colonia} onChange={(e) => setColonia(e.target.value)} required />
                     )}
                   </div> */}
-                  <div class="checkout__input">
+                  <div className="checkout__input">
                     <p>Colonia<span>*</span></p>
-                    <input className="text-dark" type="text" value={colonia} onChange={(e) => setColonia(e.target.value)} required class="checkout__input__add" />
+                    <input classNameName="text-dark checkout__input__add" type="text" value={colonia} onChange={(e) => setColonia(e.target.value)} required />
                   </div>
-                  <div class="checkout__input">
+                  <div className="checkout__input">
                     <p>Dirección<span>*</span></p>
-                    <input className="text-dark" type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} required class="checkout__input__add" />
+                    <input className="text-dark checkout__input__add" type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
                   </div>
-                  <div class="checkout__input">
+                  <div className="checkout__input">
                     <p>Teléfono<span>*</span></p>
-                    <input className="text-dark" type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} required class="checkout__input__add" />
+                    <input className="text-dark checkout__input__add" type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
                   </div>
-                  <div class="checkout__input">
+                  <div className="checkout__input">
                     <p>Pedidos<span>*</span></p>
                     <input className="text-dark" type="text"
                       placeholder="Notas sobre su pedido, por ejemplo, notas especiales de entrega."
                       value={referencias} onChange={(e) => setReferencias(e.target.value)} required />
                   </div>
-                  <button type="submit" class="site-btn">Guardar dirreción de envio</button>
-                  <button onClick={() => handleRegresar()} class="site-btn ms-5">Regresar</button>
+                  <button type="submit" className="site-btn">Guardar dirreción de envio</button>
+                  <button onClick={() => handleRegresar()} className="site-btn ms-5">Regresar</button>
                 </div>
 
               </div>

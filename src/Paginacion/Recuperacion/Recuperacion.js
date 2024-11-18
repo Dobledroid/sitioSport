@@ -64,47 +64,47 @@ const Recuperacion = () => {
   return (
     <div>
       <Header />
-      <div class="container">
+      <div className="container">
 
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+        <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-                <div class="card mb-3">
+                <div className="card mb-3">
 
-                  <div class="card-body">
+                  <div className="card-body">
 
-                    <div class="pt-4 pb-2">
-                      <h5 class="card-title text-center pb-0 fs-4">Recuperar Contraseña</h5>
-                      <p class="text-center small">Ingrese su correo electrónico para continuar</p>
+                    <div className="pt-4 pb-2">
+                      <h5 className="card-title text-center pb-0 fs-4">Recuperar Contraseña</h5>
+                      <p className="text-center small">Ingrese su correo electrónico para continuar</p>
                     </div>
 
-                    <form onSubmit={handleRecuperacion} class="row g-3 needs-validation" >
+                    <form onSubmit={handleRecuperacion} className="row g-3 needs-validation" >
 
-                      <div class="col-12">
-                        <label for="yourUsername" class="form-label">Correo electrónico:</label>
-                        <div class="input-group has-validation">
+                      <div className="col-12">
+                        <label for="yourUsername" className="form-label">Correo electrónico:</label>
+                        <div className="input-group has-validation">
 
                           <input type="email"
                             name="email"
                             required
-                            class="form-control"
+                            className="form-control"
                             placeholder="Ingrese tu correo electrónico"
                             value={correo}
                             onChange={(event) => setCorreo(event.target.value)} />
-                          <div class="invalid-feedback">Por favor, ingrese su correo electrónico.</div>
+                          <div className="invalid-feedback">Por favor, ingrese su correo electrónico.</div>
                         </div>
                       </div>
 
-                      <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit">Acceso</button>
+                      <div className="col-12">
+                        <button className="btn btn-primary w-100" type="submit">Acceso</button>
                       </div>
                       {alert && alert.type === 'danger' && (
                         <Alert type="danger" message={alert.message} onClose={closeAlert} />
                       )}
-                      <div class="col-12">
-                        <p class="small mb-0">¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link></p>
+                      <div className="col-12">
+                        <p className="small mb-0">¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link></p>
                       </div>
 
                     </form>
