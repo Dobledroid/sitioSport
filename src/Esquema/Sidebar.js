@@ -47,10 +47,10 @@ const Sidebar = () => {
           </li>
           {user && user.ID_rol === '1' && (
             <li className="sidebar-item">
-              <Link className="sidebar-link collapsed has-dropdown" onClick={handleDropdownClick}>
+              <button className="sidebar-link collapsed has-dropdown" onClick={handleDropdownClick}>
                 <i className="icon-shopping-bag"></i>
                 <span>Administrador</span>
-              </Link>
+              </button>
               <ul id="auth" className="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                 <li className="sidebar-item">
                   <Link to="/AdmTiposMembresias" className="sidebar-link">Membresías</Link>

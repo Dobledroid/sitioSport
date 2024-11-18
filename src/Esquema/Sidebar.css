@@ -119,6 +119,16 @@ a.sidebar-link {
   border-left: 3px solid transparent;
 }
 
+
+a.sidebar-link {
+  padding: 0.625rem 1.625rem;
+  color: #fff;
+  display: block;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border-left: 3px solid transparent;
+}
+
 .sidebar-link i {
   font-size: 1.1rem;
   margin-right: 0.75rem;
@@ -200,4 +210,29 @@ li {
 .col i {
   font-size: 24px; /* Tamaño del ícono */
   margin-right: 10px; /* Margen derecho del ícono */
+}
+
+
+button.sidebar-link {
+  padding: 0.625rem 1.625rem;
+  color: #fff;
+  background-color: transparent;
+  display: block;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border: none;
+  text-align: left;
+  width: 100%;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+
+button.sidebar-link i {
+  font-size: 1.1rem;
+  margin-right: 0.75rem;
+}
+
+button.sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.075);
+  border-left: 3px solid #3b7ddd;
 }
