@@ -7,11 +7,16 @@ export default [
     files: ["**/*.{js,mjs,cjs,jsx}"],
     languageOptions: { globals: globals.browser }
   },
-  pluginReact.configs.recommended, // Aplica las reglas recomendadas de eslint-plugin-react
+  {
+    plugins: {
+      react: pluginReact // Definir react como un objeto plugin
+    }
+  },
+  pluginReact.configs.recommended, // Usar las reglas recomendadas de react
   {
     settings: {
       react: {
-        version: "detect" // Esto le indica a ESLint que detecte automáticamente la versión de React
+        version: "detect" // Detectar la versión de React automáticamente
       }
     }
   }
