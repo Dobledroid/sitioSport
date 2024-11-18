@@ -67,7 +67,8 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": "react-app",
