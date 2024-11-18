@@ -40,7 +40,7 @@ const Sidebar = () => {
         </div>
         <ul className="sidebar-nav">
           <li className="sidebar-item">
-            <Link to="/perfil" className="sidebar-link">
+            <Link to="/perfil" className="sidebar-link" passHref>
               <i className="icon-user"></i>
               <span>Perfil</span>
             </Link>
@@ -53,16 +53,16 @@ const Sidebar = () => {
               </button>
               <ul id="auth" className="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                 <li className="sidebar-item">
-                  <Link to="/AdmTiposMembresias" className="sidebar-link">Membresías</Link>
+                  <Link to="/AdmTiposMembresias" className="sidebar-link" passHref >Membresías</Link>
                 </li>
                 <li className="sidebar-item">
-                  <Link to="/AdmMembresiasClientes" className="sidebar-link">Membresías clientes</Link>
+                  <Link to="/AdmMembresiasClientes" className="sidebar-link" passHref>Membresías clientes</Link>
                 </li>
                 <li className="sidebar-item">
-                  <Link to="/AdmProductos" className="sidebar-link">Productos</Link>
+                  <Link to="/AdmProductos" className="sidebar-link" passHref>Productos</Link>
                 </li>
                 <li className="sidebar-item">
-                  <Link to="/Compras" className="sidebar-link">Compras</Link>
+                  <Link to="/Compras" className="sidebar-link" passHref>Compras</Link>
                 </li>
               </ul>
             </li>

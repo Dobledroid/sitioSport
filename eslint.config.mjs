@@ -16,7 +16,7 @@ export default [
         "error",
         {
           components: ["Link"], // Componentes a los que se aplica
-          specialLink: ["to"],   // Propiedades especiales del enlace
+          specialLink: ["to", "hrefLeft", "hrefRight"],   // Propiedades especiales del enlace
           aspects: ["noHref", "invalidHref", "preferButton"] // Ignora enlaces con `#` o vacíos
         }
       ]
