@@ -17,7 +17,7 @@ export default [
         {
           components: ["Link"], // Componentes a los que se aplica
           specialLink: ["to"],   // Propiedades especiales del enlace
-          aspects: ["invalidHref"] // Ignora enlaces con `#` o vacíos
+          aspects: ["noHref", "invalidHref", "preferButton"] // Ignora enlaces con `#` o vacíos
         }
       ]
     }
