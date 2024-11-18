@@ -1,15 +1,31 @@
 import globals from "globals";
 import pluginReact from "eslint-plugin-react";
+import pluginJSXA11y from "eslint-plugin-jsx-a11y"; // Importar el plugin
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  { files: ["**/*.{js,mjs,cjs,jsx}"] },
-  { languageOptions: { globals: globals.browser } },
-  pluginReact.configs.flat.recommended,
+  {
+    files: ["**/*.{js,mjs,cjs,jsx}"], // Incluye archivos .js, .mjs, .cjs y .jsx
+    languageOptions: { globals: globals.browser },
+    plugins: {
+      react: pluginReact, // Registrar el plugin React
+      "jsx-a11y": pluginJSXA11y // Registrar el plugin JSX Accessibility
+    },
+    rules: {
+      "jsx-a11y/anchor-is-valid": [
+        "error",
+        {
+          components: ["Link"], // Componentes a los que se aplica
+          specialLink: ["to"]   // Propiedades especiales del enlace
+        }
+      ]
+    }
+  },
+  pluginReact.configs.flat.recommended, // Reglas recomendadas de React
   {
     settings: {
       react: {
-        version: "detect" // Esto le indica a ESLint que detecte automáticamente la versión de React
+        version: "detect" // Detectar automáticamente la versión de React
       }
     }
   }
