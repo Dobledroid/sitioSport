@@ -14,7 +14,7 @@ function TerminosCondiciones() {
 
         <section className={styles.section}>
           <p className={styles.p}>
-            <p>Este sitio web es operado por Sport Gym Center. Los términos “nosotros”, “nos” y “nuestro” se refieren a Sport Gym Center. Al acceder a nuestro sitio y/o comprar algo, aceptas nuestros términos y condiciones (“Términos de Servicio”). Estos se aplican a todos los usuarios del sitio, incluidos navegadores, proveedores, clientes, comerciantes y colaboradores de contenido.</p>
+            <p>Este sitio web es operado por Sport Gym Center. Los términos “nosotros”, “nos” y “nuestro” se refieren a Sport Gym Center. Al acceder a nuestro sitio y/o comprar algo, aceptas nuestros términos y condiciones (&quot;Términos de Servicio&quot;).. Estos se aplican a todos los usuarios del sitio, incluidos navegadores, proveedores, clientes, comerciantes y colaboradores de contenido.</p>
 <p>Por favor, lee estos Términos de Servicio antes de usar nuestro sitio web. Al acceder o usar cualquier parte del sitio, aceptas estos términos. Si no estás de acuerdo, no accedas ni uses el sitio.</p>
 <p>Cualquier nueva función o herramienta añadida estará sujeta a estos Términos de Servicio. Nos reservamos el derecho de actualizar o cambiar los Términos de Servicio en cualquier momento. Es tu responsabilidad revisar esta página periódicamente para estar al tanto de los cambios. Tu uso continuo del sitio web tras la publicación de cambios implica la aceptación de esos cambios.</p>
 
@@ -299,7 +299,7 @@ function TerminosCondiciones() {
   <p>Proceso de Devolución:</p>
   <p>Contacto con Atención al Cliente:</p>
   <p>
-    Antes de devolver cualquier producto, comunícate con nuestro equipo de atención al cliente a través de los canales especificados en nuestros "Canales de Atención para Devoluciones" para recibir instrucciones detalladas.
+    Antes de devolver cualquier producto, comunícate con nuestro equipo de atención al cliente a través de los canales especificados en nuestros &quotCanales de Atención para Devoluciones&quot para recibir instrucciones detalladas.
   </p>
   <p>Inspección del Producto:</p>
   <p>
@@ -322,7 +322,7 @@ function TerminosCondiciones() {
   <p><strong>Proceso de Reembolso Parcial:</strong></p>
   <p>1.- Notificación de la Situación:</p>
   <p>
-    Cuando un cliente identifica una situación que podría dar lugar a un reembolso parcial, debe notificar a nuestro equipo de atención al cliente de inmediato. Esto puede realizarse a través de los canales de atención especificados en nuestros "Canales de Atención para Devoluciones".
+    Cuando un cliente identifica una situación que podría dar lugar a un reembolso parcial, debe notificar a nuestro equipo de atención al cliente de inmediato. Esto puede realizarse a través de los canales de atención especificados en nuestros &quotCanales de Atención para Devoluciones&quot.
   </p>
   <p>2.- Registro de la Solicitud:</p>
   <p>

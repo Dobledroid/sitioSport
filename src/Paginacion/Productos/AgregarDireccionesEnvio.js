@@ -122,7 +122,7 @@ const AgregarDireccionesEnvio = () => {
                   </div>
                   <div className="checkout__input">
                     <p>Ciudad<span>*</span></p>
-                    <input className="text-dark" type="text" value={ciudad} onChange={(e) => setCiudad(e.target.value)} required className="checkout__input__add" />
+                    <input className="text-dark checkout__input__add" type="text" value={ciudad} onChange={(e) => setCiudad(e.target.value)} required />
                   </div>
                   {/* <div class="checkout__input">
                     <p>Ciudad<span>*</span></p>

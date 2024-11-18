@@ -9,6 +9,7 @@ import SearchBar from '../SearchBar.js';
 import { openDB } from 'idb';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 function SidebarItem({ title, items, onFilter, type }) {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -443,6 +444,14 @@ useEffect(() => {
       <Footer />
     </>
   );
+};
+
+
+Productos.propTypes = {
+  // Assuming filteredProducts are passed to child components
+  filteredProducts: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
+  // Define other props as needed for this component
 };
 
 export default Productos;
