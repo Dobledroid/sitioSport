@@ -35,7 +35,7 @@ const Sidebar = () => {
           </button>
           <div className="sidebar-logo">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <Link to="#">Mi cuenta</Link>
+            <p>Mi cuenta</p>
           </div>
         </div>
         <ul className="sidebar-nav">
@@ -68,13 +68,7 @@ const Sidebar = () => {
             </li>
           )}
         </ul>
-        <div className="sidebar-footer">
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link to="#" className="sidebar-link">
-            <i className="lni lni-exit"></i>
-            <span>Logout</span>
-          </Link>
-        </div>
+        
       </aside>
     </>
   );
