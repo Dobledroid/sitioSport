@@ -83,7 +83,7 @@ const Recuperacion = () => {
                     <form onSubmit={handleRecuperacion} className="row g-3 needs-validation" >
 
                       <div className="col-12">
-                        <label for="yourUsername" className="form-label">Correo electrónico:</label>
+                        <label htmlFor="yourUsername" className="form-label">Correo electrónico:</label>
                         <div className="input-group has-validation">
 
                           <input type="email"

@@ -132,7 +132,7 @@ const Token = () => {
                           <div className="input-group has-validation">
                             <select
                               id="method"
-                              classNameName="form-select"
+                              className="form-select"
                               value={method}
                               onChange={(e) => setMethod(e.target.value)}
                               aria-label="Default select example"
@@ -142,7 +142,7 @@ const Token = () => {
                             </select>
                           </div>
                         </div>
-                        <p classNameName='my-3'>Envíe un código de verificación a {dataUser.correoElectronico}</p>
+                        <p className='my-3'>Envíe un código de verificación a {dataUser.correoElectronico}</p>
 
 
                         <div className="col-12">
@@ -154,7 +154,7 @@ const Token = () => {
                       <form onSubmit={handleTokenSubmit} className="row g-3 needs-validation">
 
                         <div className="col-12">
-                          <label for="yourUsername" className="form-label">Método de autentificación:</label>
+                          <label htmlFor="yourUsername" className="form-label">Método de autentificación:</label>
                           <div className="input-group has-validation">
                             <input type="number" name="token" className="form-control" placeholder="Ingrese el código"
                             />

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'; // Importar PropTypes
 import Modal from 'react-bootstrap/Modal';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { useNavigate } from 'react-router-dom';
-/* eslint-disable no-unused-vars */
 
 const ProductModal = ({ producto, onClose }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -61,6 +61,18 @@ const ProductModal = ({ producto, onClose }) => {
       </Modal>
     </>
   );
+};
+
+// Definición de las prop types
+ProductModal.propTypes = {
+  producto: PropTypes.shape({
+    nombre: PropTypes.string.isRequired,
+    imagenUrl: PropTypes.string.isRequired,
+    ID_producto: PropTypes.string.isRequired,
+    descripcion: PropTypes.string.isRequired,
+    precioFinal: PropTypes.number.isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default ProductModal;

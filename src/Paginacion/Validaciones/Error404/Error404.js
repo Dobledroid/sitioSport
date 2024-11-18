@@ -11,7 +11,7 @@ const Error404 = () => {
 
   return (
     <section className="page-404">
-      <div className="container" >
+      <div className="container">
         <div className="row">
           <div className="col-md-12">
             <img src="/gif/kobayashi-san.gif" alt="site logo" width="170px" className="mt-5" onClick={handleInicio} />

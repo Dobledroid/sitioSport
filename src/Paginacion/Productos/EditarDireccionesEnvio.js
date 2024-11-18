@@ -133,21 +133,10 @@ const EditarDireccionesEnvio = () => {
                     <p>Ciudad<span>*</span></p>
                     <input className="text-dark checkout__input__add" type="text" value={ciudad} onChange={(e) => setCiudad(e.target.value)} required/>
                   </div>
-                  {/* <div class="checkout__input">
-                    <p>Ciudad<span>*</span></p>
-                    {localidades.length > 0 ? (
-                      <select value={ciudad} onChange={(e) => setCiudad(e.target.value)}>
-                        {localidades.map((localidad, index) => (
-                          <option key={index} value={localidad}>{localidad}</option>
-                        ))}
-                      </select>
-                    ) : (
-                      <input type="text" value={colonia} onChange={(e) => setColonia(e.target.value)} required />
-                    )}
-                  </div> */}
+          
                   <div className="checkout__input">
                     <p>Colonia<span>*</span></p>
-                    <input classNameName="text-dark checkout__input__add" type="text" value={colonia} onChange={(e) => setColonia(e.target.value)} required/>
+                    <input className="text-dark checkout__input__add" type="text" value={colonia} onChange={(e) => setColonia(e.target.value)} required/>
                   </div>
                   <div className="checkout__input">
                     <p>Dirección<span>*</span></p>

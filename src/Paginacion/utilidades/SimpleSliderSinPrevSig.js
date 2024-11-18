@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 
 import "slick-carousel/slick/slick.css";
@@ -58,5 +59,10 @@ function SimpleSliderSinPrevSig({ imagenes }) {
     </div>
   );
 }
+
+// PropTypes validation
+SimpleSliderSinPrevSig.propTypes = {
+  imagenes: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default SimpleSliderSinPrevSig;

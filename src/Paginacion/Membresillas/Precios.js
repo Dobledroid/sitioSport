@@ -20,10 +20,10 @@ const Precios = () => {
                   <h5 className="d-inline-block">Billed Annually</h5><span className="badge badge-subtle-success rounded-pill ms-2">Save 25%</span>
                 </div>
                 <div className="col-sm-auto d-flex justify-content-center mt-1 mt-sm-0">
-                  <label className="form-check-label me-2" for="customSwitch1">Monthly</label>
+                  <label className="form-check-label me-2" htmlFor="customSwitch1">Monthly</label>
                   <div className="form-check form-switch mb-0">
                     <input className="form-check-input falcon-dual-switch" id="customSwitch1" type="checkbox" checked="checked" />
-                    <label className="form-check-label align-top" for="customSwitch1">Yearly</label>
+                    <label className="form-check-label align-top" htmlFor="customSwitch1">Yearly</label>
                   </div>
                 </div>
               </div>

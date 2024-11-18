@@ -1,10 +1,22 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+
 
 const Eliminar = () => {
+  // Simulación de datos del usuario para demostración
+  const [usuario ] = useState({
+    nombre: "Nombre de Ejemplo",
+    correo: "correo@ejemplo.com",
+    idUsuario: 123,
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Lógica para manejar la eliminación del usuario
+    console.log(`El usuario con ID ${usuario.idUsuario} ha sido eliminado.`);
+  };
+
   return (
-    <div className="modal fade" id="basicModal" tabindex="-1">
+    <div className="modal fade" id="basicModal" tabIndex="-1">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header bg-success">
@@ -13,14 +25,15 @@ const Eliminar = () => {
           </div>
 
           <div className="modal-body">
-            <form asp-controller="AdmUsuarios" asp-action="BorrarAdmUsuario">
-              <div asp-validation-summary="ModelOnly" className="text-danger"></div>
+            <form onSubmit={handleSubmit}>
+              <div className="text-danger">
+                {/* Aquí se pueden mostrar errores de validación si es necesario */}
+              </div>
               <div className="mb-3">
                 <p>¿Estás seguro de eliminar este usuario?</p>
-                <p>Nombre del usuario: @Model.Nombre</p>
-                <p>Correo: @Model.Correo</p>
-                <input type="hidden" asp-for="IdUsuario" className="form-control" />
-                <span asp-validation-for="IdUsuario" className="text-danger"></span>
+                <p>Nombre del usuario: {usuario.nombre}</p>
+                <p>Correo: {usuario.correo}</p>
+                <input type="hidden" value={usuario.idUsuario} className="form-control" />
               </div>
 
               <div className="modal-footer pb-1">

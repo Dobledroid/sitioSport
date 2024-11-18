@@ -169,7 +169,7 @@ const MFA = () => {
                     ) : (
                       <form onSubmit={handleTokenSubmit} className="row g-3 needs-validation">
                         <div className="col-12">
-                          <label for="yourUsername" className="form-label">Método de autentificación:</label>
+                          <label htmlFor="yourUsername" className="form-label">Método de autentificación:</label>
                           <div className="input-group has-validation">
                             <input type="number" name="token" className="form-control" placeholder="Ingrese el código" />
                           </div>

@@ -195,14 +195,14 @@ const CheckoutDirecciones = () => {
                   <div className="checkout__order__total">Total <span>${total.toFixed(2)}</span></div>
 
                   <div className="checkout__input__checkbox">
-                    <label for="payment">
+                    <label htmlFor="payment">
                       Check Payment
                       <input type="checkbox" id="payment" />
                       <span className="checkmark"></span>
                     </label>
                   </div>
                   <div className="checkout__input__checkbox">
-                    <label for="paypal">
+                    <label htmlFor="paypal">
                       Paypal
                       <input type="checkbox" id="paypal" />
                       <span className="checkmark"></span>

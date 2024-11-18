@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types'; // Importación de PropTypes
 import ReactRating from 'react-rating';
 import { FaStar } from 'react-icons/fa';
 import Swal from 'sweetalert2';
@@ -29,7 +30,6 @@ const ReviewForm = ({ productId, userId }) => {
       return;
     }
 
-    // Validar la calificación
     if (rating < 1 || rating > 5) {
       Swal.fire({
         title: 'Calificación no válida',
@@ -63,7 +63,6 @@ const ReviewForm = ({ productId, userId }) => {
           icon: 'success',
           confirmButtonText: 'Ok'
         });
-        // Resetear el formulario
         setRating(0);
         setReview('');
       } else {
@@ -114,6 +113,12 @@ const ReviewForm = ({ productId, userId }) => {
       </form>
     </div>
   );
+};
+
+// Definición de las prop types
+ReviewForm.propTypes = {
+  productId: PropTypes.string.isRequired, // O `PropTypes.number` si es un ID numérico
+  userId: PropTypes.string, // O `PropTypes.number` si es un ID numérico
 };
 
 export default ReviewForm;

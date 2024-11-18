@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types'; // Importación de PropTypes
 import { FaStar } from 'react-icons/fa';
 import { baseURL } from '../../../api.js';
 
@@ -52,6 +53,11 @@ const ProductRating = ({ productId }) => {
       <span>({totalReviews} reseñas)</span>
     </div>
   );
+};
+
+// Definición de las prop types
+ProductRating.propTypes = {
+  productId: PropTypes.string.isRequired, // O `PropTypes.number` si es un ID numérico
 };
 
 export default ProductRating;

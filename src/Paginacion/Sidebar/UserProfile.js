@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import PropTypes from "prop-types";  // Importa PropTypes
 import ImagenDefault from "./images/user.svg";
 import ImagenCambio from "./images/image-pen.svg";
 
@@ -44,30 +45,34 @@ const UserProfile = ({ userImage }) => {
     <div className="user-profile">
       <div className="image-container">
         <div className="container">
-        <img
-          src={userImage ? userImage : ImagenDefault}
-          alt="Imagen del usuario"
-          className="user-image p-2"
-          onClick={handleClick}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          ref={inputRef}
-          style={{ display: "none" }}
-          onChange={handleFileChange}
-        />
-        <img
-          src={ImagenCambio}
-          alt="Cambiar imagen"
-          className="change-image"
-          onClick={handleClick}
-        />
+          <img
+            src={userImage ? userImage : ImagenDefault}
+            alt="Imagen del usuario"
+            className="user-image p-2"
+            onClick={handleClick}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            ref={inputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+          <img
+            src={ImagenCambio}
+            alt="Cambiar imagen"
+            className="change-image"
+            onClick={handleClick}
+          />
         </div>
-        
       </div>
     </div>
   );
+};
+
+// Validación de los props usando PropTypes
+UserProfile.propTypes = {
+  userImage: PropTypes.string,  // Aseguramos que userImage sea una cadena (string)
 };
 
 export default UserProfile;

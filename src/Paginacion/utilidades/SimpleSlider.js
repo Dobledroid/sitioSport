@@ -1,6 +1,8 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import PropTypes from 'prop-types';
+
 
 // Importa los estilos de slick-carousel
 import "slick-carousel/slick/slick.css";
@@ -87,5 +89,22 @@ function SimpleSlider({ imagenes }) { // Agregar el parámetro 'imagenes'
     </div>
   );
 }
+
+SampleNextArrow.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+  onClick: PropTypes.func
+};
+
+SamplePrevArrow.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+  onClick: PropTypes.func
+};
+
+SimpleSlider.propTypes = {
+  imagenes: PropTypes.arrayOf(PropTypes.string).isRequired // Ajusta según el tipo de datos de tus imágenes
+};
+
 
 export default SimpleSlider;

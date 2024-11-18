@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';  // Importar PropTypes
 import QRCode from 'react-qr-code';
 
 const UsuarioQRCode = ({ userData }) => {
@@ -13,6 +14,11 @@ const UsuarioQRCode = ({ userData }) => {
       {/* <pre>{userDataJSON}</pre> */}
     </div>
   );
+};
+
+// Validación de los props usando PropTypes
+UsuarioQRCode.propTypes = {
+  userData: PropTypes.object.isRequired,  // Asegura que userData sea un objeto y es requerido
 };
 
 export default UsuarioQRCode;
