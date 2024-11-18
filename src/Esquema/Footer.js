@@ -36,7 +36,7 @@ function Footer() {
                 <h6>Enlaces útiles</h6>
                 <ul>
                   <li><Link to="/nosotros">Sobre nosotros</Link></li>
-                  <li><Link to="#">Quienes somos</Link></li>
+                  
                   <li><Link to="/contacto">Contacto</Link></li>
                 </ul>
                 <ul>
@@ -50,15 +50,10 @@ function Footer() {
               <div className="footer__widget">
                 <h6>Síguenos</h6>
                 <p>Buscanos en las siguientes redes sociales.</p>
-                {/* <form action="#">
-                  <input type="text" placeholder="Enter your mail" />
-                  <button type="submit" className="site-btn">Subscribe</button>
-                </form> */}
+                
                 <div className="footer__widget__social">
                   <a href="https://www.facebook.com/profile.php?id=100063449692054"><FontAwesomeIcon icon={faFacebook} /></a>
-                  {/* <a href="#"><FontAwesomeIcon icon={faInstagram} /></a>
-                  <a href="#"><FontAwesomeIcon icon={faTwitter} /></a>
-                  <a href="#"><FontAwesomeIcon icon={faPinterest} /></a> */}
+                  
                 </div>
               </div>
             </div>
