@@ -129,6 +129,7 @@ const Header = () => {
                   {/* <li><Link to="/prediccion">Predecir</Link></li> */}
                   {/* <li><Link to="/imc">Calculadora</Link></li> */}
                   <li>
+                      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <Link to="#">Empresa</Link>
                     <ul className="header__menu__dropdown">
                       <li><Link to="/nosotros">Nosotros</Link></li>
