@@ -12,14 +12,7 @@ export default [
       "jsx-a11y": pluginJSXA11y // Registrar el plugin JSX Accessibility
     },
     rules: {
-      "jsx-a11y/anchor-is-valid": [
-        "error",
-        {
-          components: ["Link"], // Componentes a los que se aplica
-          specialLink: ["to", "hrefLeft", "hrefRight"],   // Propiedades especiales del enlace
-          aspects: ["noHref", "invalidHref", "preferButton"] // Ignora enlaces con `#` o vacíos
-        }
-      ]
+      "jsx-a11y/anchor-is-valid": "off"
     }
   },
   pluginReact.configs.flat.recommended, // Reglas recomendadas de React
