@@ -9,12 +9,23 @@ import 'fake-indexeddb/auto';
 fetchMock.enableMocks();
 
 // Mock de los módulos y componentes que dependen de servicios externos
-jest.mock('../../Esquema/Header', () => () => <div data-testid="header">Header</div>);
-jest.mock('../../Esquema/Footer', () => () => <div data-testid="footer">Footer</div>);
-jest.mock('../../api.js', () => ({
-  baseURL: 'http://fakeapi.com',
-}));
-jest.mock('../utilidades/Spinner', () => () => <div data-testid="spinner">Loading...</div>);
+jest.mock('../../Esquema/Header', () => {
+  const Header = () => <div data-testid="header">Header</div>;
+  Header.displayName = 'Header';
+  return Header;
+});
+
+jest.mock('../../Esquema/Footer', () => {
+  const Footer = () => <div data-testid="footer">Footer</div>;
+  Footer.displayName = 'Footer';
+  return Footer;
+});
+
+jest.mock('../utilidades/Spinner', () => {
+  const Spinner = () => <div data-testid="spinner">Loading...</div>;
+  Spinner.displayName = 'Spinner';
+  return Spinner;
+});
 
 describe('Productos Component', () => {
   beforeEach(() => {
