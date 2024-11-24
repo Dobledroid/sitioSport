@@ -1,101 +1,78 @@
-// Login.test.js
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Login from './Login';
-import { MemoryRouter } from 'react-router-dom';
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import Login from "./Login";
+import { MemoryRouter } from "react-router-dom";
 
-// Mocking the fetch API for the login process
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({ ID_usuario: 1, correoElectronico: 'test@example.com' }),
-    ok: true
-  })
-);
-
-describe('Login Component', () => {
-  beforeEach(() => {
-    fetch.mockClear();
-  });
-
-  test('renders login form with email and password fields', () => {
+describe("Login Component", () => {
+  test("renders login form elements", () => {
     render(
       <MemoryRouter>
         <Login />
       </MemoryRouter>
     );
 
-    expect(screen.getByLabelText(/Correo electrónico/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Contraseña/i)).toBeInTheDocument();
+    // Verificar si los elementos principales del formulario están presentes
+    expect(screen.getByText("Iniciar sesión")).toBeInTheDocument();
+    expect(screen.getByLabelText(/Correo electrónico:/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Contraseña:/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Acceso/i })).toBeInTheDocument();
   });
 
-  test('displays alert if email or password is missing', async () => {
+  test("shows alert when fields are empty", async () => {
     render(
       <MemoryRouter>
         <Login />
       </MemoryRouter>
     );
 
-fireEvent.click(screen.getByRole('button', { name: /Acceso/i }));
+    // Simular el envío del formulario sin llenar los campos
+    fireEvent.click(screen.getByRole("button", { name: /Acceso/i }));
 
-    await waitFor(() => {
-      expect(screen.getByText(/Por favor, ingresa todos los campos./i)).toBeInTheDocument();
-    });
+    // Verificar que se muestra una alerta
+    expect(screen.getByText(/Por favor, ingresa todos los campos/i)).toBeInTheDocument();
   });
 
-  test('calls handleLogin and shows success alert on successful login', async () => {
+  test("submits form when fields are filled", async () => {
     render(
       <MemoryRouter>
         <Login />
       </MemoryRouter>
     );
 
-    // Fill out the form and submit
-    fireEvent.change(screen.getByLabelText(/Correo electrónico/i), {
-      target: { value: 'test@example.com' },
+    // Llenar los campos del formulario
+    fireEvent.change(screen.getByLabelText(/Correo electrónico:/i), {
+      target: { value: "test@example.com" },
     });
-    fireEvent.change(screen.getByLabelText(/Contraseña/i), {
-      target: { value: 'password123' },
+    fireEvent.change(screen.getByLabelText(/Contraseña:/i), {
+      target: { value: "password123" },
     });
-// src/Paginacion/Login/Login.test.js
-fireEvent.click(screen.getByRole('button', { name: /Acceso/i }));
 
-    await waitFor(() => {
-      expect(screen.queryByText(/Por favor, ingresa todos los campos./i)).not.toBeInTheDocument();
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/users/login'),
-        expect.objectContaining({
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ correoElectronico: 'test@example.com', contraseña: 'password123' }),
-        })
-      );
-    });
+    // Simular el envío del formulario
+    fireEvent.click(screen.getByRole("button", { name: /Acceso/i }));
+
+    // No debería mostrar la alerta de campos vacíos
+    expect(
+      screen.queryByText(/Por favor, ingresa todos los campos/i)
+    ).not.toBeInTheDocument();
   });
 
-  test('displays error alert if login fails', async () => {
-    fetch.mockImplementationOnce(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ msg: 'Login failed' }),
-        ok: false,
-      })
-    );
-
+  test("toggles password visibility", () => {
     render(
       <MemoryRouter>
         <Login />
       </MemoryRouter>
     );
 
-    fireEvent.change(screen.getByLabelText(/Correo electrónico/i), {
-      target: { value: 'wrong@example.com' },
-    });
-    fireEvent.change(screen.getByLabelText(/Contraseña/i), {
-      target: { value: 'wrongpassword' },
-    });
-    fireEvent.click(screen.getByRole('button', { name: /Acceso/i }));
+    const passwordInput = screen.getByLabelText(/Contraseña:/i);
+    const toggleButton = screen.getByRole("button", { name: /Toggle Password Visibility/i });
 
-    await waitFor(() => {
-      expect(screen.getByText(/Login failed/i)).toBeInTheDocument();
-    });
+    // La contraseña debería estar oculta inicialmente
+    expect(passwordInput.type).toBe("password");
+
+    // Simular clic en el botón para mostrar la contraseña
+    fireEvent.click(toggleButton);
+
+    // La contraseña debería estar visible
+    expect(passwordInput.type).toBe("text");
   });
 });

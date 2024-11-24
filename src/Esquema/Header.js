@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery';

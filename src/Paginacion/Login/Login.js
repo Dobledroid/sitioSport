@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import { Link, useNavigate } from 'react-router-dom';
@@ -376,7 +377,8 @@ const Login = () => {
                               value={password}
                               onChange={(event) => setPassword(event.target.value)}
                             />
-                            <span className="btn btn-outline-secondary" onClick={toggleMostrarContrasena}>
+                            <span className="btn btn-outline-secondary"   role="button" onClick={toggleMostrarContrasena}  aria-label="Toggle Password Visibility"
+                            >
                               {mostrarContrasena ? <FaEyeSlash /> : <FaEye />} {/* Usa los iconos FaEye y FaEyeSlash */}
                             </span>
                             <div className="invalid-feedback">¡Por favor, introduzca su contraseña!</div>

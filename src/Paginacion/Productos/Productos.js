@@ -207,7 +207,7 @@
 //     }
 //     setFilteredProducts(sortedProducts);
 //   }, [filteredProducts, products]);
-  
+
 // const handleFilter = useCallback(async (selectedItem, type) => {
 //   const newFilters = { ...filters };
 //   if (selectedItem) {
@@ -300,7 +300,7 @@
 //   for (let i = 1; i <= Math.ceil(filteredProducts.length / productsPerPage); i++) {
 //     pageNumbers.push(i);
 //   }
-  
+
 //   const handleSearch = (query) => {
 //     console.log("Buscando:", query);
 
@@ -341,7 +341,7 @@
 //                   <div className="row">
 //                     <div className="col-lg-4 col-md-5">
 //                       <div className="filter__sort">
-//                         <span>Ordenar por </span>
+//   <label htmlFor="sort-select">Ordenar por</label>
 //                         <select value={sortOrder} onChange={handleSortChange} className='ms-2'>
 //                           <option value="0">Más relevantes</option>
 //                           <option value="1">Menor precio</option>
@@ -393,7 +393,7 @@
 // export default Productos;
 
 
-import React, { useEffect, useState, useCallback  } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../Esquema/Header';
 import Footer from '../../Esquema/Footer';
@@ -437,8 +437,8 @@ function SidebarItem({ title, items, onFilter, type }) {
         )}
         {!selectedItem &&
           items.slice(0, showMore ? items.length : 5).map((item, index) => (
-            <li key={index}>  
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <li key={index}>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a href="#" onClick={() => handleItemClick(item)}>
                 {item.nombre}
               </a>
@@ -446,7 +446,7 @@ function SidebarItem({ title, items, onFilter, type }) {
           ))}
         {!selectedItem && items.length > 5 && (
           <li>
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a href="#" onClick={handleToggleShowMore}>
               {showMore ? 'Ver menos' : 'Ver más'}
             </a>
@@ -560,16 +560,16 @@ function ProductItem({ product }) {
         <div className="product__item__pic set-bg">
           <img src={product.imagenUrl} alt={product.nombre} />
           <ul className="product__item__pic__hover">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <li><a href="#" onClick={toggleFavorite}><i className="fa fa-heart" style={{ color: isFavorite ? 'red' : 'black' }}></i></a></li>
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <li><a href="#" onClick={toggleFavorite} aria-label="Toggle Favorite"><i className="fa fa-heart" style={{ color: isFavorite ? 'red' : 'black' }}></i></a></li>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <li><a href="#" onClick={shareProduct}><i className="fa fa-retweet"></i></a></li>
             {/* <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li> */}
           </ul>
         </div>
         <Link to={`/product-details/${product.ID_producto}`} className="product__item__text">
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <h6><a href="#">{product.nombre}</a></h6>
+          <h6>{product.nombre}</h6>
           <h5>${product.precioFinal}</h5>
         </Link>
       </div>
@@ -602,130 +602,130 @@ const Productos = () => {
     }
     setFilteredProducts(sortedProducts);
   }, [filteredProducts, products]);
-  
-const handleFilter = useCallback(async (selectedItem, type) => {
-  const newFilters = { ...filters };
-  if (selectedItem) {
-    newFilters[type] = selectedItem;
-  } else if (type) {
-    delete newFilters[type];
-  }
-  setFilters(newFilters);
 
-  const queryString = Object.keys(newFilters)
-    .map(key => {
-      const param = 
-        key === 'ID_categoria' ? 'ID_categoria' :
-        key === 'ID_marca' ? 'ID_marca' :
-        key === 'ID_subcategoria' ? 'ID_subcategoria' : '';
-      return `${param}=${newFilters[key][param]}`;
-    })
-    .join('&');
-
-  try {
-    const filtersResponse = await fetch(`${baseURL}/filtrar-filtros?${queryString}`);
-    const filtersData = await filtersResponse.json();
-
-    const uniqueCategories = [];
-    const uniqueBrands = [];
-    const uniqueSubcategories = [];
-
-    const categorySet = new Set();
-    const brandSet = new Set();
-    const subcategorySet = new Set();
-
-    filtersData.forEach(item => {
-      if (!categorySet.has(item.ID_categoria)) {
-        categorySet.add(item.ID_categoria);
-        uniqueCategories.push({ ID_categoria: item.ID_categoria, nombre: item.nombre_categoria });
-      }
-      if (item.ID_marca && !brandSet.has(item.ID_marca)) {
-        brandSet.add(item.ID_marca);
-        uniqueBrands.push({ ID_marca: item.ID_marca, nombre: item.nombre_marca });
-      }
-      if (item.ID_subcategoria && !subcategorySet.has(item.ID_subcategoria)) {
-        subcategorySet.add(item.ID_subcategoria);
-        uniqueSubcategories.push({ ID_subcategoria: item.ID_subcategoria, nombre: item.nombre_subcategoria });
-      }
-    });
-
-    setCategorias(uniqueCategories);
-    setMarcas(uniqueBrands);
-    setSubcategorias(uniqueSubcategories);
-
-    const productsResponse = await fetch(`${baseURL}/listar-productos-imagen-principal?${queryString}`);
-    const productsData = await productsResponse.json();
-
-    setProducts(productsData);
-    setLoading(false);
-
-    if (sortOrder !== '0') {
-      sortProducts(sortOrder);
-    } else {
-      setFilteredProducts([...productsData]);
+  const handleFilter = useCallback(async (selectedItem, type) => {
+    const newFilters = { ...filters };
+    if (selectedItem) {
+      newFilters[type] = selectedItem;
+    } else if (type) {
+      delete newFilters[type];
     }
-  } catch (error) {
-    console.error('Error al obtener datos filtrados:', error);
-  }
-}, [filters, sortOrder, setCategorias, setMarcas, setSubcategorias, setProducts, setLoading, sortProducts, setFilteredProducts]);
-// Abrir o crear la base de datos
-const openDatabase = useCallback(async () => {
-  return openDB('productos-db', 1, {
-    upgrade(db) {
-      if (!db.objectStoreNames.contains('productos')) {
-        db.createObjectStore('productos', { keyPath: 'ID_producto' });
-      }
-    },
-  });
-}, []);
+    setFilters(newFilters);
 
+    const queryString = Object.keys(newFilters)
+      .map(key => {
+        const param =
+          key === 'ID_categoria' ? 'ID_categoria' :
+            key === 'ID_marca' ? 'ID_marca' :
+              key === 'ID_subcategoria' ? 'ID_subcategoria' : '';
+        return `${param}=${newFilters[key][param]}`;
+      })
+      .join('&');
 
-// Guardar productos en IndexedDB
-const saveProductsToIndexedDB = useCallback(async (products) => {
-  const db = await openDatabase();
-  const tx = db.transaction('productos', 'readwrite');
-  const store = tx.objectStore('productos');
-  products.forEach(product => {
-    store.put(product);
-  });
-  await tx.done;
-}, [openDatabase]);
-
-const getProductsFromIndexedDB = useCallback(async () => {
-  const db = await openDatabase();
-  const tx = db.transaction('productos', 'readonly');
-  const store = tx.objectStore('productos');
-  return store.getAll();
-}, [openDatabase]);
-
-useEffect(() => {
-  const fetchProducts = async () => {
     try {
-      const productsResponse = await fetch(`${baseURL}/listar-productos-imagen-principal`);
-      if (!productsResponse.ok) throw new Error('Error al obtener datos de la API');
+      const filtersResponse = await fetch(`${baseURL}/filtrar-filtros?${queryString}`);
+      const filtersData = await filtersResponse.json();
 
+      const uniqueCategories = [];
+      const uniqueBrands = [];
+      const uniqueSubcategories = [];
+
+      const categorySet = new Set();
+      const brandSet = new Set();
+      const subcategorySet = new Set();
+
+      filtersData.forEach(item => {
+        if (!categorySet.has(item.ID_categoria)) {
+          categorySet.add(item.ID_categoria);
+          uniqueCategories.push({ ID_categoria: item.ID_categoria, nombre: item.nombre_categoria });
+        }
+        if (item.ID_marca && !brandSet.has(item.ID_marca)) {
+          brandSet.add(item.ID_marca);
+          uniqueBrands.push({ ID_marca: item.ID_marca, nombre: item.nombre_marca });
+        }
+        if (item.ID_subcategoria && !subcategorySet.has(item.ID_subcategoria)) {
+          subcategorySet.add(item.ID_subcategoria);
+          uniqueSubcategories.push({ ID_subcategoria: item.ID_subcategoria, nombre: item.nombre_subcategoria });
+        }
+      });
+
+      setCategorias(uniqueCategories);
+      setMarcas(uniqueBrands);
+      setSubcategorias(uniqueSubcategories);
+
+      const productsResponse = await fetch(`${baseURL}/listar-productos-imagen-principal?${queryString}`);
       const productsData = await productsResponse.json();
+
       setProducts(productsData);
-      setFilteredProducts(productsData);
       setLoading(false);
 
-      // Guardar los productos en IndexedDB
-      await saveProductsToIndexedDB(productsData);
-    } catch (error) {
-      console.error('Error al obtener productos:', error);
-
-      // Cargar productos desde IndexedDB si falla la API
-      const productsFromIndexedDB = await getProductsFromIndexedDB();
-      if (productsFromIndexedDB.length > 0) {
-        setProducts(productsFromIndexedDB);
-        setFilteredProducts(productsFromIndexedDB);
+      if (sortOrder !== '0') {
+        sortProducts(sortOrder);
+      } else {
+        setFilteredProducts([...productsData]);
       }
-      setLoading(false);
+    } catch (error) {
+      console.error('Error al obtener datos filtrados:', error);
     }
-  };
+  }, [filters, sortOrder, setCategorias, setMarcas, setSubcategorias, setProducts, setLoading, sortProducts, setFilteredProducts]);
+  // Abrir o crear la base de datos
+  const openDatabase = useCallback(async () => {
+    return openDB('productos-db', 1, {
+      upgrade(db) {
+        if (!db.objectStoreNames.contains('productos')) {
+          db.createObjectStore('productos', { keyPath: 'ID_producto' });
+        }
+      },
+    });
+  }, []);
 
-  fetchProducts();
-}, [saveProductsToIndexedDB, getProductsFromIndexedDB]);
+
+  // Guardar productos en IndexedDB
+  const saveProductsToIndexedDB = useCallback(async (products) => {
+    const db = await openDatabase();
+    const tx = db.transaction('productos', 'readwrite');
+    const store = tx.objectStore('productos');
+    products.forEach(product => {
+      store.put(product);
+    });
+    await tx.done;
+  }, [openDatabase]);
+
+  const getProductsFromIndexedDB = useCallback(async () => {
+    const db = await openDatabase();
+    const tx = db.transaction('productos', 'readonly');
+    const store = tx.objectStore('productos');
+    return store.getAll();
+  }, [openDatabase]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productsResponse = await fetch(`${baseURL}/listar-productos-imagen-principal`);
+        if (!productsResponse.ok) throw new Error('Error al obtener datos de la API');
+
+        const productsData = await productsResponse.json();
+        setProducts(productsData);
+        setFilteredProducts(productsData);
+        setLoading(false);
+
+        // Guardar los productos en IndexedDB
+        await saveProductsToIndexedDB(productsData);
+      } catch (error) {
+        console.error('Error al obtener productos:', error);
+
+        // Cargar productos desde IndexedDB si falla la API
+        const productsFromIndexedDB = await getProductsFromIndexedDB();
+        if (productsFromIndexedDB.length > 0) {
+          setProducts(productsFromIndexedDB);
+          setFilteredProducts(productsFromIndexedDB);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [saveProductsToIndexedDB, getProductsFromIndexedDB]);
 
 
   const handleSortChange = (e) => {
@@ -750,7 +750,7 @@ useEffect(() => {
   for (let i = 1; i <= Math.ceil(filteredProducts.length / productsPerPage); i++) {
     pageNumbers.push(i);
   }
-  
+
   const handleSearch = (query) => {
     console.log("Buscando:", query);
 
@@ -764,7 +764,7 @@ useEffect(() => {
 
   return (
     <>
-      <Header />            
+      <Header />
       <SearchBar onSearch={handleSearch} />
       <ToastContainer />
       <section className="product spad">
@@ -791,8 +791,8 @@ useEffect(() => {
                   <div className="row">
                     <div className="col-lg-4 col-md-5">
                       <div className="filter__sort">
-                        <span>Ordenar por </span>
-                        <select value={sortOrder} onChange={handleSortChange} className='ms-2'>
+                        <label htmlFor="sort-select">Ordenar por</label>
+                        <select value={sortOrder} id="sort-select" onChange={handleSortChange} className='ms-2' aria-label="Ordenar por">
                           <option value="0">Más relevantes</option>
                           <option value="1">Menor precio</option>
                           <option value="2">Mayor precio</option>
@@ -818,7 +818,7 @@ useEffect(() => {
                   ))}
                 </div>
                 <div className="product__pagination">
-                  {pageNumbers.map(number => (    
+                  {pageNumbers.map(number => (
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a
                       href="#"

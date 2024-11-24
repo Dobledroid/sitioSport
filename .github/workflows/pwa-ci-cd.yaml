@@ -3,157 +3,82 @@ name: PWA CI/CD Workflow
 on:
   push:
     branches:
-      - '*'
+      - main       # Ramas de producción
+      - master     # Otra rama para producción
+      - develop    # Rama para pruebas internas
+      - feature/*  # Ramas de características de los programadores
+      - release/*  # Ramas para versiones de producción
   pull_request:
     branches:
-      - 'main'
-  workflow_dispatch:
-
-permissions:
-  contents: read
+      - main
+      - master
+      - develop
+  workflow_dispatch: # Activación manual opcional
+    inputs:
+      environment:
+        description: 'Selecciona el entorno (staging o producción)'
+        required: true
+        default: 'staging'
 
 jobs:
-  build-and-test:
+  ci-cd:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run lint
-        run: npm run lint 
-
-      - name: Run Unit Tests
-        run: jest --coverage
-        continue-on-error: true
-
-      - name: Upload coverage report
-        if: success()
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: coverage/
-
-      - name: Run E2E tests with Cypress
-        if: startsWith(github.ref, 'refs/heads/LAC-')
-        uses: cypress-io/github-action@v6
-        with:
-          start: npm start
-          wait-on: 'http://localhost:3000'
-          record: true
-          parallel: true
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload E2E test results
-        if: success() && startsWith(github.ref, 'refs/heads/LAC-')
-        uses: actions/upload-artifact@v3
-        with:
-          name: e2e-results
-          path: cypress/results/
-
-      - name: Notify of test failure
-        if: failure()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "❌ Las pruebas fallaron en ${{ github.ref }}"
-          body: "Las pruebas fallaron en la rama: ${{ github.ref }}. Revisa los detalles del fallo en la acción de GitHub."
-          to: ${{ secrets.MAIL_RECIPIENT }}
-          from: ${{ secrets.MAIL_USERNAME }}
-
-  build:
-    needs: build-and-test
-    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+      REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
+      REACT_APP_GOOGLE_MAPS_API_KEY: ${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY }}
+      REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # 1. Configuración del repositorio
+    - name: Checkout código
+      uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'npm'
+    # 2. Configuración de Node.js
+    - name: Configurar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+    # 3. Configuración del caché para dependencias
+    - name: Configurar caché de dependencias
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
 
-      - name: Build the project
-        run: npm run build
+    # 4. Instalación de dependencias
+    - name: Instalar dependencias
+      run: npm install
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: dist/
+    # 5. Pruebas y compilación (solo para ramas develop y feature/*)
+    - name: Ejecutar pruebas y compilación
+      if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature/')
+      run: |
+        npm run test -- --coverage
+        npm run build
 
-      - name: Notify of build failure
-        if: failure()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "❌ La compilación falló en ${{ github.ref }}"
-          body: "La compilación falló en la rama: ${{ github.ref }}. Revisa los detalles del fallo en la acción de GitHub."
-          to: ${{ secrets.MAIL_RECIPIENT }}
-          from: ${{ secrets.MAIL_USERNAME }}
+    # 6. Compilación del proyecto
+    - name: Compilar el proyecto
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
+      run: npm run build
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && success()
+    # 7. Subir artefacto de compilación
+    - name: Subir artefacto de compilación
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifact
+        path: build/
+        retention-days: 5
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Deploy to Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} 
-        run: npx vercel --prod --token $VERCEL_TOKEN  
-        
-      - name: Descargar y configurar sentry-cli
-        run: |
-          curl -sL https://sentry.io/get-cli/ | bash
-          export PATH="$HOME/.sentry-cli:$PATH"
-
-      - name: Sentry Release
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: uthh-26 
-          SENTRY_PROJECT: javascript-react 
-        run: |
-          sentry-cli releases new "$GITHUB_SHA" --org "$SENTRY_ORG" --project "$SENTRY_PROJECT"
-          sentry-cli releases set-commits "$GITHUB_SHA" --auto --org "$SENTRY_ORG" --project "$SENTRY_PROJECT" --ignore-missing
-          sentry-cli releases finalize "$GITHUB_SHA" --org "$SENTRY_ORG" --project "$SENTRY_PROJECT"
-
-      - name: Notify of deployment success
-        if: success()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "🚀 Despliegue exitoso en ${{ github.ref }}"
-          body: "El despliegue fue exitoso en la rama: ${{ github.ref }}."
-          to: ${{ secrets.MAIL_RECIPIENT }}
-          from: ${{ secrets.MAIL_USERNAME }}
-
-
+    # 8. Despliegue a producción
+    - name: Desplegar a producción
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
+      run: |
+        npm install -g vercel
+        vercel deploy --token=$VERCEL_TOKEN --prod
