@@ -62,10 +62,10 @@ jobs:
         npm run test -- --coverage
         npm run build
 
-    # 6. Compilación del proyecto
-    - name: Compilar el proyecto
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
-      run: npm run build
+    # # 6. Compilación del proyecto
+    # - name: Compilar el proyecto
+    #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
+    #   run: npm run build
 
     # 7. Subir artefacto de compilación
     - name: Subir artefacto de compilación
