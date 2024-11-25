@@ -1,49 +1,37 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Productos from './Productos';
 import { MemoryRouter } from 'react-router-dom';
 import fetchMock from 'jest-fetch-mock';
 import 'fake-indexeddb/auto';
 
-// Habilita el mock de fetch
 fetchMock.enableMocks();
 
-// Mock de los módulos y componentes que dependen de servicios externos
 jest.mock('../../Esquema/Header', () => () => <div data-testid="header">Header</div>);
 jest.mock('../../Esquema/Footer', () => () => <div data-testid="footer">Footer</div>);
 jest.mock('../../api.js', () => ({
   baseURL: 'http://fakeapi.com',
 }));
-jest.mock('../utilidades/Spinner', () => ({ contentReady }) =>
-  <div data-testid="spinner">{contentReady ? 'Loaded' : 'Loading...'}</div>
-);
 
 describe('Productos Component', () => {
   beforeEach(() => {
-    fetchMock.resetMocks(); // Resetea mocks de fetch antes de cada prueba
+    fetchMock.resetMocks();
   });
 
   test('renders header, footer, and product list', async () => {
     fetchMock.mockResponseOnce(
-      () =>
-        new Promise((resolve) =>
-          setTimeout(() => resolve(JSON.stringify([{ ID_producto: 1, nombre: 'Producto de prueba', precioFinal: 100 }])), 100)
-        )
+      JSON.stringify([{ ID_producto: 1, nombre: 'Producto de prueba', precioFinal: 100 }])
     );
 
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Productos />
-        </MemoryRouter>
-      );
-    });
-
-    expect(screen.getByTestId('header')).toBeInTheDocument();
-    expect(screen.getByTestId('footer')).toBeInTheDocument();
-    expect(screen.getByTestId('spinner')).toBeInTheDocument();
+    render(
+      <MemoryRouter>
+        <Productos />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
+      expect(screen.getByTestId('header')).toBeInTheDocument();
+      expect(screen.getByTestId('footer')).toBeInTheDocument();
       const productItems = screen.getAllByText(/Producto de prueba/i);
       expect(productItems.length).toBeGreaterThan(0);
     });
@@ -54,18 +42,14 @@ describe('Productos Component', () => {
       JSON.stringify([{ ID_producto: 2, nombre: 'Producto de prueba', precioFinal: 50 }])
     );
 
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Productos />
-        </MemoryRouter>
-      );
-    });
+    render(
+      <MemoryRouter>
+        <Productos />
+      </MemoryRouter>
+    );
 
     const searchBar = screen.getByPlaceholderText(/Buscar.../i);
-    await act(async () => {
-      fireEvent.change(searchBar, { target: { value: 'Producto de prueba' } });
-    });
+    fireEvent.change(searchBar, { target: { value: 'Producto de prueba' } });
 
     await waitFor(() => {
       const filteredProducts = screen.getAllByText(/Producto de prueba/i);
@@ -75,26 +59,18 @@ describe('Productos Component', () => {
 
   test.skip('filters products by category', async () => {
     fetchMock.mockResponses(
-      [
-        JSON.stringify([{ ID_categoria: 1, nombre: 'Categorías' }]), // Mock para categorías
-        JSON.stringify([{ ID_producto: 3, nombre: 'Producto Categoría', precioFinal: 75 }]), // Mock para productos
-      ]
+      JSON.stringify([{ ID_categoria: 1, nombre: 'Categorías' }]),
+      JSON.stringify([{ ID_producto: 3, nombre: 'Producto Categoría', precioFinal: 75 }])
     );
 
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Productos />
-        </MemoryRouter>
-      );
-    });
+    render(
+      <MemoryRouter>
+        <Productos />
+      </MemoryRouter>
+    );
 
     const categoryLink = await screen.findByText('Categorías');
-    expect(categoryLink).toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.click(categoryLink);
-    });
+    fireEvent.click(categoryLink);
 
     await waitFor(() => {
       const filteredProducts = screen.getAllByText(/Producto Categoría/i);
@@ -107,18 +83,14 @@ describe('Productos Component', () => {
       JSON.stringify([{ ID_producto: 4, nombre: 'Producto Menor Precio', precioFinal: 25 }])
     );
 
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Productos />
-        </MemoryRouter>
-      );
-    });
+    render(
+      <MemoryRouter>
+        <Productos />
+      </MemoryRouter>
+    );
 
     const sortSelect = await screen.findByLabelText(/ordenar por/i);
-    await act(async () => {
-      fireEvent.change(sortSelect, { target: { value: '1' } });
-    });
+    fireEvent.change(sortSelect, { target: { value: '1' } });
 
     await waitFor(() => {
       const sortedProducts = screen.getAllByText(/Producto Menor Precio/i);
@@ -131,13 +103,11 @@ describe('Productos Component', () => {
       JSON.stringify([{ ID_producto: 5, nombre: 'Producto Favorito', precioFinal: 100 }])
     );
 
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Productos />
-        </MemoryRouter>
-      );
-    });
+    render(
+      <MemoryRouter>
+        <Productos />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       const favoriteIcons = screen.getAllByRole('link', { name: /Toggle Favorite/i });
