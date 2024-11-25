@@ -55,30 +55,40 @@ jobs:
     - name: Instalar dependencias
       run: npm install
 
-    # 5. Pruebas y compilación (solo para ramas develop y feature/*)
+    # 5. Ejecutar pruebas unitarias con Jest
+    - name: Ejecutar pruebas unitarias con Jest
+      run: |
+        npm run test -- --coverage
+      env:
+        CI: true
+
+    # 6. Subir reporte de cobertura como artefacto (opcional)
+    - name: Subir reporte de cobertura
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage/
+        retention-days: 5
+
+    # 7. Compilación del proyecto (solo para ramas develop y feature/*)
     - name: Ejecutar pruebas y compilación
       if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature/')
       run: |
-        npm run test -- --coverage
         npm run build
 
-    # # 6. Compilación del proyecto
-    # - name: Compilar el proyecto
+    # # 8. Subir artefacto de compilación
+    # - name: Subir artefacto de compilación
     #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
-    #   run: npm run build
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: build-artifact
+    #     path: build/
+    #     retention-days: 5
 
-    # 7. Subir artefacto de compilación
-    - name: Subir artefacto de compilación
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
-      uses: actions/upload-artifact@v3
-      with:
-        name: build-artifact
-        path: build/
-        retention-days: 5
-
-    # 8. Despliegue a producción
-    - name: Desplegar a producción
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
-      run: |
-        npm install -g vercel
-        vercel deploy --token=$VERCEL_TOKEN --prod
+    # # 9. Despliegue a producción
+    # - name: Desplegar a producción
+    #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release/')
+    #   run: |
+    #     npm install -g vercel
+    #     vercel deploy --token=$VERCEL_TOKEN --prod
