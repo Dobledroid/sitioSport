@@ -54,7 +54,7 @@ jobs:
 
     # 4. Instalación de dependencias
     - name: Instalar dependencias
-      run: npm install
+      run: npm install --include=dev
 
     # 5. Ejecutar pruebas unitarias con Jest
     - name: Ejecutar pruebas unitarias con Jest
