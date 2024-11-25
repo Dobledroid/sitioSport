@@ -1,3 +1,4 @@
+# Archivo YAML actualizado con Jest
 name: PWA CI/CD Workflow
 
 on:
@@ -57,24 +58,23 @@ jobs:
 
     # 5. Ejecutar pruebas unitarias con Jest
     - name: Ejecutar pruebas unitarias con Jest
-      run: |
-        npm run test -- --coverage
+      run: npm run test:coverage
       env:
-        CI: true
+        CI: true # Asegura que Jest se ejecuta en modo continuo
 
-    # 6. Subir reporte de cobertura como artefacto (opcional)
-    - name: Subir reporte de cobertura
-      if: always()
+    # 6. Generar reporte de cobertura
+    - name: Subir reporte de cobertura como artefacto
       uses: actions/upload-artifact@v3
       with:
-        name: coverage-report
+        name: cobertura-jest
         path: coverage/
-        retention-days: 5
+        retention-days: 7
 
-    # 7. Compilación del proyecto (solo para ramas develop y feature/*)
+    # 7. Pruebas y compilación (solo para ramas develop y feature/*)
     - name: Ejecutar pruebas y compilación
       if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature/')
       run: |
+        npm run test -- --coverage
         npm run build
 
     # # 8. Subir artefacto de compilación
