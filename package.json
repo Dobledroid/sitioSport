@@ -69,7 +69,8 @@
     "test:coverage": "jest --coverage",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:puppeteer": "node testsPuppeteer/runner.js"
+    "test:puppeteer": "node testsPuppeteer/runner.js",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {
     "extends": "react-app",
