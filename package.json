@@ -68,7 +68,8 @@
     "test": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "test:puppeteer": "node testsPuppeteer/runner.js"
   },
   "eslintConfig": {
     "extends": "react-app",
@@ -119,6 +120,7 @@
     "jest-fetch-mock": "^3.0.3",
     "jsdom": "^25.0.1",
     "matchmedia-polyfill": "^0.3.2",
+    "puppeteer": "^23.9.0",
     "whatwg-fetch": "^3.6.20",
     "workbox-cli": "^7.1.0"
   }
