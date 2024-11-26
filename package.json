@@ -70,7 +70,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "test:puppeteer": "node testsPuppeteer/runner.js",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": "react-app",

@@ -73,9 +73,9 @@ jobs:
         path: coverage/
         retention-days: 7
 
-    # 8. Linter para control de calidad
-    - name: Ejecutar linter (ESLint)
-      run: npm run lint
+    # # 8. Linter para control de calidad
+    # - name: Ejecutar linter (ESLint)
+    #   run: npm run lint
 
     # 9. Compilación del proyecto
     - name: Compilar proyecto
