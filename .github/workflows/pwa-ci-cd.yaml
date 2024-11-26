@@ -32,9 +32,14 @@ jobs:
       - name: Run lint
         run: npm run lint 
 
-      - name: Run Unit Tests
-        run: jest --coverage
-        continue-on-error: true
+      - name: Ejecutar pruebas unitarias con Jest
+        run: npm run test:coverage
+        env:
+          CI: true
+          
+    # 6. Ejecutar pruebas E2E con Puppeteer
+      - name: Ejecutar pruebas E2E con Puppeteer
+        run: npm run test:puppetee
 
       - name: Upload coverage report
         if: success()
