@@ -153,7 +153,7 @@ jobs:
       - name: Sentry Release
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: uthh-26 
+          SENTRY_ORG: dd-wo
           SENTRY_PROJECT: javascript-react 
         run: |
           sentry-cli releases new "$GITHUB_SHA" --org "$SENTRY_ORG" --project "$SENTRY_PROJECT"
