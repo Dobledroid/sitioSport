@@ -118,17 +118,17 @@ const CheckoutDirecciones = () => {
   return (
     <>
       <Header />
-      <section class="checkout spad">
-        <div class="container">
-          <div class="checkout__form">
+      <section className="checkout spad">
+        <div className="container">
+          <div className="checkout__form">
             <h4>Detalles de facturación</h4>
 
-            <div class="row">
+            <div className="row">
 
-              <div class="col-lg-8 col-md-6">
-                <div class="row">
+              <div className="col-lg-8 col-md-6">
+                <div className="row">
                   <div>
-                    <div class="checkout__order">
+                    <div className="checkout__order">
                       <h4>Mis direcciones</h4>
                       <div>
                         {direcciones.length === 0 ? (
@@ -173,42 +173,42 @@ const CheckoutDirecciones = () => {
 
                     </div>
                     <div className="mt-4">
-                      <button type="submit" class="site-btn" onClick={() => handleElegirComoPredeterminado()} >Continuar</button>
-                      <button type="submit" class="site-btn ms-4" onClick={() => handleAgregarNuevaDireccion()}>Agregar dirección</button>
+                      <button type="submit" className="site-btn" onClick={() => handleElegirComoPredeterminado()} >Continuar</button>
+                      <button type="submit" className="site-btn ms-4" onClick={() => handleAgregarNuevaDireccion()}>Agregar dirección</button>
                     </div>
 
                   </div>
                 </div>
 
               </div>
-              <div class="col-lg-4 col-md-6">
-                <div class="checkout__order">
+              <div className="col-lg-4 col-md-6">
+                <div className="checkout__order">
                   <h4>Su pedido</h4>
-                  <div class="checkout__order__products">Productos <span>Total</span></div>
+                  <div className="checkout__order__products">Productos <span>Total</span></div>
                   <ul>
                     {productos.map(producto => (
                       <li key={producto.ID_producto}> {producto.nombre.slice(0, 20)}... <span>${producto.precioFinal.toFixed(2)}</span></li>
                     ))}
                   </ul>
-                  <div class="checkout__order__subtotal">Subtotal <span>${subtotal.toFixed(2)}</span></div>
-                  {descuentoAplicado && <div class="checkout__order__total">Descuento aplicado (SPORT100): <span>-$100.00</span></div>}
-                  <div class="checkout__order__total">Total <span>${total.toFixed(2)}</span></div>
+                  <div className="checkout__order__subtotal">Subtotal <span>${subtotal.toFixed(2)}</span></div>
+                  {descuentoAplicado && <div className="checkout__order__total">Descuento aplicado (SPORT100): <span>-$100.00</span></div>}
+                  <div className="checkout__order__total">Total <span>${total.toFixed(2)}</span></div>
 
-                  <div class="checkout__input__checkbox">
-                    <label for="payment">
+                  <div className="checkout__input__checkbox">
+                    <label htmlFor="payment">
                       Check Payment
                       <input type="checkbox" id="payment" />
-                      <span class="checkmark"></span>
+                      <span className="checkmark"></span>
                     </label>
                   </div>
-                  <div class="checkout__input__checkbox">
-                    <label for="paypal">
+                  <div className="checkout__input__checkbox">
+                    <label htmlFor="paypal">
                       Paypal
                       <input type="checkbox" id="paypal" />
-                      <span class="checkmark"></span>
+                      <span className="checkmark"></span>
                     </label>
                   </div>
-                  <button type="submit" class="site-btn">REALIZAR PEDIDO</button>
+                  <button type="submit" className="site-btn">REALIZAR PEDIDO</button>
                 </div>
               </div>
             </div>

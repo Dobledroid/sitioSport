@@ -333,7 +333,7 @@ const ProductDetails = () => {
                       <div className="tab-content-custom">
                         <h6>Reseñas del producto</h6>
                       </div>
-                      <div class="row mt-3">
+                      <div className="row mt-3">
                         <Review productId={parseInt(id, 10)} />
                         <ReviewForm productId={parseInt(id, 10)} userId={idUsuario} />
                       </div>

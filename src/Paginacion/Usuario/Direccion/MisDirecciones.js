@@ -161,15 +161,15 @@ const MisDirecciones = () => {
                         </Link>
                       </div>
                     </Card.Body>
-                    <div class="btn-group dropstart position-absolute top-1 end-0 me-3">
+                    <div className="btn-group dropstart position-absolute top-1 end-0 me-3">
                       <div data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <FiMoreVertical size={20} />
                       </div>
-                      <div class="dropdown-menu">
-                        <button class="dropdown-item" onClick={() => handleElegirComoPredeterminado(direccion.ID_direccion)}>
+                      <div className="dropdown-menu">
+                        <button className="dropdown-item" onClick={() => handleElegirComoPredeterminado(direccion.ID_direccion)}>
                           Elegir como predeterminado
                         </button>
-                        <button class="dropdown-item" onClick={() => handleEliminarDireccion(direccion.ID_direccion)}>
+                        <button className="dropdown-item" onClick={() => handleEliminarDireccion(direccion.ID_direccion)}>
                           Eliminar
                         </button>
                       </div>

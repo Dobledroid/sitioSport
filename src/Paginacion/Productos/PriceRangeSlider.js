@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types'; // Importación de PropTypes
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/slider';
 import 'jquery-ui/themes/base/slider.css'; // Importa los estilos del slider de jQuery UI
@@ -59,5 +60,11 @@ function PriceRangeSlider({ minPrice, maxPrice }) {
     </div>
   );
 }
+
+// Definición de las prop types
+PriceRangeSlider.propTypes = {
+  minPrice: PropTypes.number.isRequired, // `minPrice` debe ser un número y es requerido
+  maxPrice: PropTypes.number.isRequired, // `maxPrice` debe ser un número y es requerido
+};
 
 export default PriceRangeSlider;

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-// import { FaStar } from 'react-icons/fa';
+import PropTypes from 'prop-types'; // Importación de PropTypes
 import { baseURL } from '../../../api.js';
 import moment from 'moment';
 import 'moment/locale/es';
@@ -40,7 +40,9 @@ const Review = ({ productId }) => {
               ))}
               <span className="ms-3 text-1100 fw-semi-bold">{review.comentario}</span>
             </div>
-            <p className="fs-10 mb-2 text-600">Por {review.nombre} • {moment(review.fechaResena).locale('es').format('LL')}</p>
+            <p className="fs-10 mb-2 text-600">
+              Por {review.nombre} • {moment(review.fechaResena).locale('es').format('LL')}
+            </p>
             <hr className="my-4" />
           </div>
         ))
@@ -49,6 +51,11 @@ const Review = ({ productId }) => {
       )}
     </div>
   );
+};
+
+// Definición de las prop types
+Review.propTypes = {
+  productId: PropTypes.string.isRequired, // O `PropTypes.number` si es un ID numérico
 };
 
 export default Review;

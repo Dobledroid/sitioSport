@@ -1,5 +1,5 @@
-// SurveyModal.js
 import React from 'react';
+import PropTypes from 'prop-types';  // Importa PropTypes
 import { Modal, Button } from 'react-bootstrap';
 import './SurveyModal.css';
 import { baseURL } from '../../api.js';
@@ -89,6 +89,14 @@ const SurveyModal = ({ show, handleClose, ID_usuario, ID_pedido }) => {
       </Modal.Body>
     </Modal>
   );
+};
+
+// Validación de los props usando PropTypes
+SurveyModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  ID_usuario: PropTypes.string.isRequired,
+  ID_pedido: PropTypes.string.isRequired,
 };
 
 export default SurveyModal;

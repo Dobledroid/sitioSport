@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';  // Importa PropTypes
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { baseURL } from '../../api.js';
 import Swal from 'sweetalert2';
@@ -67,10 +68,19 @@ const StripeCheckoutForm = ({ amount, currency, productos, userID, currentURL, I
         <CardElement />
         <button type="submit" disabled={!stripe}>Pagar ${amount} {currency.toUpperCase()}</button>
       </form>
-      <SurveyModal show={showSurvey} handleClose={handleCloseSurvey} ID_usuario={userID}        // Pasa el ID de usuario
-  ID_pedido={ID_direccion}     />
+      <SurveyModal show={showSurvey} handleClose={handleCloseSurvey} ID_usuario={userID} ID_pedido={ID_direccion} />
     </>
   );
+};
+
+// Validación de los props usando PropTypes
+StripeCheckoutForm.propTypes = {
+  amount: PropTypes.number.isRequired,
+  currency: PropTypes.string.isRequired,
+  productos: PropTypes.array.isRequired,
+  userID: PropTypes.string.isRequired,
+  currentURL: PropTypes.string.isRequired,
+  ID_direccion: PropTypes.string.isRequired,
 };
 
 export default StripeCheckoutForm;

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
-
+import PropTypes from 'prop-types';
 
 import Index from './Index';
 import ProtectedRoute from './utilidades/ProtectedRoute';
@@ -109,8 +109,7 @@ const Rutas = () => {
   // const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn');
   // const [isLoggedInLogin, setIsLoggedInLogin] = useLocalStorage('isLoggedInTemp');
   // const [tokenCheckout, setTokenCheckout] = useLocalStorage('tokenCheckout');
-    // eslint-disable-next-line
-  const isAdmin = user && user.ID_rol == 1;
+  const isAdmin = user && user.ID_rol === 1;
   console.log(isLoggedIn)
   // React.useEffect(() => {
   //   if (tokenCheckout) {
@@ -245,5 +244,11 @@ const Rutas = () => {
     </>
   )
 }
+
+ProtectedRoute.propTypes = {
+  canActivate: PropTypes.bool.isRequired, // o ajusta el tipo según tu lógica
+  redirectPath: PropTypes.string.isRequired,
+  children: PropTypes.node
+};
 
 export default Rutas

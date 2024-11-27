@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-// import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';  // Importa PropTypes
 import { baseURL } from "../../api.js";
 
 export default function ModalPregunta({ user }) {
@@ -11,7 +11,6 @@ export default function ModalPregunta({ user }) {
   const [answer, setAnswer] = useState('');
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(true);
-  // const navigate = useNavigate();
 
   const preguntas = {
     1: '¿Cuál es el nombre de tu mascota?',
@@ -38,7 +37,6 @@ export default function ModalPregunta({ user }) {
       if (!response.ok) {
         throw new Error('Error al enviar la pregunta secreta.');
       }
-      // Aquí puedes manejar la respuesta del servidor si es necesario
       console.log('Pregunta secreta enviada correctamente.');
       setShowModal(false); // Cierra el modal solo cuando la inserción se ha realizado con éxito
     } catch (error) {
@@ -89,3 +87,10 @@ export default function ModalPregunta({ user }) {
     </Modal>
   );
 }
+
+// Validación de los props usando PropTypes
+ModalPregunta.propTypes = {
+  user: PropTypes.shape({
+    ID_usuario: PropTypes.string.isRequired, // Asegura que user.ID_usuario sea una cadena y requerida
+  }).isRequired,
+};

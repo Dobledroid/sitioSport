@@ -14,7 +14,7 @@ function TerminosCondiciones() {
 
         <section className={styles.section}>
           <p className={styles.p}>
-            <p>Este sitio web es operado por Sport Gym Center. Los términos “nosotros”, “nos” y “nuestro” se refieren a Sport Gym Center. Al acceder a nuestro sitio y/o comprar algo, aceptas nuestros términos y condiciones (“Términos de Servicio”). Estos se aplican a todos los usuarios del sitio, incluidos navegadores, proveedores, clientes, comerciantes y colaboradores de contenido.</p>
+            <p>Este sitio web es operado por Sport Gym Center. Los términos &quotnosotros&quot, &quotnos&quot y &quotnuestro&quot se refieren a Sport Gym Center. Al acceder a nuestro sitio y/o comprar algo, aceptas nuestros términos y condiciones (&quot;Términos de Servicio&quot;).. Estos se aplican a todos los usuarios del sitio, incluidos navegadores, proveedores, clientes, comerciantes y colaboradores de contenido.</p>
 <p>Por favor, lee estos Términos de Servicio antes de usar nuestro sitio web. Al acceder o usar cualquier parte del sitio, aceptas estos términos. Si no estás de acuerdo, no accedas ni uses el sitio.</p>
 <p>Cualquier nueva función o herramienta añadida estará sujeta a estos Términos de Servicio. Nos reservamos el derecho de actualizar o cambiar los Términos de Servicio en cualquier momento. Es tu responsabilidad revisar esta página periódicamente para estar al tanto de los cambios. Tu uso continuo del sitio web tras la publicación de cambios implica la aceptación de esos cambios.</p>
 
@@ -214,7 +214,7 @@ function TerminosCondiciones() {
     <p>No garantizamos ni aseguramos que el uso de nuestro servicio será ininterrumpido, puntual, seguro o libre de errores.</p>
     <p>No garantizamos que los resultados que se puedan obtener del uso del servicio serán exactos o confiables.</p>
     <p>Aceptas que de vez en cuando podemos quitar el servicio por períodos de tiempo indefinidos o cancelar el servicio en cualquier momento sin previo aviso.</p>
-    <p>Aceptas expresamente que el uso de, o la posibilidad de utilizar, el servicio es bajo tu propio riesgo. El servicio y todos los productos y servicios proporcionados a través del servicio son (salvo lo expresamente manifestado por nosotros) proporcionados “tal cual” y “según esté disponible” para su uso, sin ningún tipo de representación, garantías o condiciones de ningún tipo, ya sea expresa o implícita, incluidas todas las garantías o condiciones implícitas de comercialización, calidad comercializable, la aptitud para un propósito particular, durabilidad, título y no infracción.</p>
+    <p>Aceptas expresamente que el uso de, o la posibilidad de utilizar, el servicio es bajo tu propio riesgo. El servicio y todos los productos y servicios proporcionados a través del servicio son (salvo lo expresamente manifestado por nosotros) proporcionados &quottal cual&quot y &quotsegún esté disponible&quot para su uso, sin ningún tipo de representación, garantías o condiciones de ningún tipo, ya sea expresa o implícita, incluidas todas las garantías o condiciones implícitas de comercialización, calidad comercializable, la aptitud para un propósito particular, durabilidad, título y no infracción.</p>
     <p>En ningún caso Sport Gym Center, nuestros directores, funcionarios, empleados, afiliados, agentes, contratistas, internos, proveedores, prestadores de servicios o licenciantes serán responsables por cualquier daño, pérdida, reclamo, o daños directos, indirectos, incidentales, punitivos, especiales o consecuentes de cualquier tipo, incluyendo, sin limitación, pérdida de beneficios, pérdida de ingresos, pérdida de ahorros, pérdida de datos, costos de reemplazo, o cualquier daño similar, ya sea basado en contrato, agravio (incluyendo negligencia), responsabilidad estricta o de otra manera, como consecuencia del uso de cualquiera de los servicios o productos adquiridos mediante el servicio, o por cualquier otro reclamo relacionado de alguna manera con el uso del servicio o cualquier producto, incluyendo pero no limitado, a cualquier error u omisión en cualquier contenido, o cualquier pérdida o daño de cualquier tipo incurridos como resultados de la utilización del servicio o cualquier contenido (o producto) publicado, transmitido, o que se pongan a disposición a través del servicio, incluso si se avisa de su posibilidad. Debido a que algunos estados o jurisdicciones no permiten la exclusión o la limitación de responsabilidad por daños consecuenciales o incidentales, en tales estados o jurisdicciones, nuestra responsabilidad se limitará en la medida máxima permitida por la ley.</p>
   </p>
 </section>
@@ -299,7 +299,7 @@ function TerminosCondiciones() {
   <p>Proceso de Devolución:</p>
   <p>Contacto con Atención al Cliente:</p>
   <p>
-    Antes de devolver cualquier producto, comunícate con nuestro equipo de atención al cliente a través de los canales especificados en nuestros "Canales de Atención para Devoluciones" para recibir instrucciones detalladas.
+    Antes de devolver cualquier producto, comunícate con nuestro equipo de atención al cliente a través de los canales especificados en nuestros &quotCanales de Atención para Devoluciones&quot para recibir instrucciones detalladas.
   </p>
   <p>Inspección del Producto:</p>
   <p>
@@ -322,7 +322,7 @@ function TerminosCondiciones() {
   <p><strong>Proceso de Reembolso Parcial:</strong></p>
   <p>1.- Notificación de la Situación:</p>
   <p>
-    Cuando un cliente identifica una situación que podría dar lugar a un reembolso parcial, debe notificar a nuestro equipo de atención al cliente de inmediato. Esto puede realizarse a través de los canales de atención especificados en nuestros "Canales de Atención para Devoluciones".
+    Cuando un cliente identifica una situación que podría dar lugar a un reembolso parcial, debe notificar a nuestro equipo de atención al cliente de inmediato. Esto puede realizarse a través de los canales de atención especificados en nuestros &quotCanales de Atención para Devoluciones&quot.
   </p>
   <p>2.- Registro de la Solicitud:</p>
   <p>

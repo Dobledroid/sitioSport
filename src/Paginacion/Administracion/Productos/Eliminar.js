@@ -1,31 +1,44 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+
 
 const Eliminar = () => {
+  // Simulación de datos del usuario para demostración
+  const [usuario ] = useState({
+    nombre: "Nombre de Ejemplo",
+    correo: "correo@ejemplo.com",
+    idUsuario: 123,
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Lógica para manejar la eliminación del usuario
+    console.log(`El usuario con ID ${usuario.idUsuario} ha sido eliminado.`);
+  };
+
   return (
-    <div class="modal fade" id="basicModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header bg-success">
-            <h5 class="modal-title text-white">Eliminar Usuario</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div className="modal fade" id="basicModal" tabIndex="-1">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header bg-success">
+            <h5 className="modal-title text-white">Eliminar Usuario</h5>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
-          <div class="modal-body">
-            <form asp-controller="AdmUsuarios" asp-action="BorrarAdmUsuario">
-              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-              <div class="mb-3">
+          <div className="modal-body">
+            <form onSubmit={handleSubmit}>
+              <div className="text-danger">
+                {/* Aquí se pueden mostrar errores de validación si es necesario */}
+              </div>
+              <div className="mb-3">
                 <p>¿Estás seguro de eliminar este usuario?</p>
-                <p>Nombre del usuario: @Model.Nombre</p>
-                <p>Correo: @Model.Correo</p>
-                <input type="hidden" asp-for="IdUsuario" class="form-control" />
-                <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                <p>Nombre del usuario: {usuario.nombre}</p>
+                <p>Correo: {usuario.correo}</p>
+                <input type="hidden" value={usuario.idUsuario} className="form-control" />
               </div>
 
-              <div class="modal-footer pb-1">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Eliminar</button>
+              <div className="modal-footer pb-1">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" className="btn btn-primary">Eliminar</button>
               </div>
             </form>
           </div>

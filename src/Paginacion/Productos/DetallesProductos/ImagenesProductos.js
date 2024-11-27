@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from 'prop-types'; // Importación de PropTypes
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "./ImagenesProductos.css";
 import { baseURL } from '../../../api';
@@ -65,6 +66,11 @@ const ImagenesProductos = ({ productId }) => {
       </div>
     </div>
   );
+};
+
+// Definición de las prop types
+ImagenesProductos.propTypes = {
+  productId: PropTypes.string.isRequired, // O `PropTypes.number` si es un ID numérico
 };
 
 export default ImagenesProductos;

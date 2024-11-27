@@ -43,7 +43,7 @@ const Sidebar = () => {
         <aside id="sidebar">
           <div className="d-flex">
             <button className="toggle-btn" type="button">
-              <i class="icon-menu"></i>
+              <i className="icon-menu"></i>
             </button>
             <div className="sidebar-logo">
               <Link to="#">Mi cuenta</Link>
@@ -52,14 +52,14 @@ const Sidebar = () => {
           <ul className="sidebar-nav">
             <li className="sidebar-item">
               <Link to="#" className="sidebar-link">
-                <i class="icon-user"></i>
+                <i className="icon-user"></i>
                 <span>Perfil</span>
               </Link>
             </li>
             <li className="sidebar-item">
               <Link className="sidebar-link collapsed has-dropdown"
                 onClick={handleDropdownClick}>
-                <i class="icon-shopping-bag"></i>
+                <i className="icon-shopping-bag"></i>
                 <span>Compras</span>
 
               </Link>

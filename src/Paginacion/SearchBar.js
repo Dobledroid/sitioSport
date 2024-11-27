@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';  // Importa PropTypes
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faMicrophone, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
@@ -114,6 +115,11 @@ const styles = {
     marginLeft: '10px',
     transition: 'color 0.3s ease',
   },
+};
+
+// Validación de los props usando PropTypes
+SearchBar.propTypes = {
+  onSearch: PropTypes.func.isRequired,  // Aseguramos que onSearch sea una función y requerida
 };
 
 export default SearchBar;
