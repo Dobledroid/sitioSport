@@ -1,7 +1,10 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({
+    headless: true, // Cambiar a false para pruebas visibles
+    args: ['--no-sandbox', '--disable-setuid-sandbox'], // Evitar problemas de permisos en entornos CI/CD
+  });
   const page = await browser.newPage();
 
   try {
