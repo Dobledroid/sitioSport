@@ -39,7 +39,7 @@ jobs:
           
     # 6. Ejecutar pruebas E2E con Puppeteer
       - name: Ejecutar pruebas E2E con Puppeteer
-        run: npm run test:puppetee
+        run: npm run test:puppeteer
 
       - name: Upload coverage report
         if: success()
