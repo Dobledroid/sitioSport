@@ -65,6 +65,9 @@ const Index = () => {
             <div className="col-lg-12">
               <div className="section-title from-blog__title">
                 <h2>Desde el blog</h2>
+
+                <button onClick={() => {throw new Error("This is your first error!");}}>Break the world</button>;
+                
               </div>
             </div>
           </div>
