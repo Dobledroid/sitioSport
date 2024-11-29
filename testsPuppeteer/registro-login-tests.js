@@ -2,8 +2,8 @@ const puppeteer = require('puppeteer');
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: true, // Cambiar a false para pruebas visibles
-    args: ['--no-sandbox', '--disable-setuid-sandbox'], // Evitar problemas de permisos en entornos CI/CD
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
   const page = await browser.newPage();
 
@@ -15,7 +15,7 @@ const puppeteer = require('puppeteer');
     await page.goto('http://localhost:3000/registro', { waitUntil: 'domcontentloaded' });
 
     // Generar correo único
-    const email = `juanH.perez${Date.now()}@example.com`;
+    const email = `carlitosprueba23@gmail.com`;
 
     // Llenar el formulario de registro
     await page.type('#yourName', 'Juan');
@@ -28,17 +28,13 @@ const puppeteer = require('puppeteer');
     await page.click('button[type="submit"]');
     await new Promise(resolve => setTimeout(resolve, 2000)); // Esperar 2 segundos para procesar
 
-    // Validar mensaje de éxito o redirección
-    const successMessage = await page.evaluate(() => {
-      const message = document.querySelector('.alert-success'); // Cambia el selector según el mensaje de éxito
-      return message ? message.textContent.includes('Usuario registrado exitosamente') : false;
-    });
-
-    if (!successMessage) {
-      await page.waitForSelector('#email', { timeout: 5000 });
+    // Validar existencia de un mensaje de error en la alerta
+    const currentUrl = await page.url();
+    if (currentUrl.includes('/login')) {
+      console.log('✅ Registro exitoso y redirigido a login.');
+    } else {
+      console.log('❌ Error en el registro o redirección no exitosa.');
     }
-
-    console.log('✅ Registro completado con éxito.');
 
   } catch (error) {
     console.error('❌ Error en la prueba:', error.message);

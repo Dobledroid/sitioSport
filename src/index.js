@@ -13,12 +13,10 @@ Sentry.init({
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
   ],
-  // Tracing
-  tracesSampleRate: 0.5, // Ajusta al 50% para producción; suficiente para obtener métricas significativas sin sobrecargar.
+  tracesSampleRate: 0.5,
   tracePropagationTargets: ["localhost", /^https:\/\/sitio-sport\.vercel\.app\/api/],
-  // Session Replay
-  replaysSessionSampleRate: 0.1, // Captura el 10% de sesiones completas.
-  replaysOnErrorSampleRate: 1.0, // Captura el 100% de sesiones con errores.
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0, 
 });
 
 
