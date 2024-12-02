@@ -4,13 +4,28 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
 import Checkout from './Checkout';
 
+// Mock del hook useLocalStorage
 jest.mock('react-use', () => ({
   useLocalStorage: jest.fn(),
 }));
 
-jest.mock('./StripeCheckoutForm', () => () => <div>Mock StripeCheckoutForm</div>);
-jest.mock('../../Esquema/Header', () => () => <header>Mock Header</header>);
-jest.mock('../../Esquema/Footer', () => () => <footer>Mock Footer</footer>);
+// Mock del componente StripeCheckoutForm con nombre asignado
+jest.mock('./StripeCheckoutForm', () => {
+  const MockStripeCheckoutForm = () => <div>Mock StripeCheckoutForm</div>;
+  return MockStripeCheckoutForm;
+});
+
+// Mock del componente Header con nombre asignado
+jest.mock('../../Esquema/Header', () => {
+  const MockHeader = () => <header>Mock Header</header>;
+  return MockHeader;
+});
+
+// Mock del componente Footer con nombre asignado
+jest.mock('../../Esquema/Footer', () => {
+  const MockFooter = () => <footer>Mock Footer</footer>;
+  return MockFooter;
+});
 
 describe('Checkout Component', () => {
   const mockUser = { ID_usuario: 1 };
