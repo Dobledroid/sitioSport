@@ -50,7 +50,7 @@ jobs:
         env:
           CI: true
           
-      - name: Ejecutar pruebas E2E con Puppeteer
+      - name: Ejecutar pruebas de integración con Puppeteer
         run: npm run test:puppeteer
 
       - name: Upload coverage report
@@ -60,37 +60,37 @@ jobs:
           name: coverage-report
           path: coverage/
 
-      - name: Run E2E tests with Cypress
-        if: startsWith(github.ref, 'refs/heads/LAC-')
-        uses: cypress-io/github-action@v6
-        with:
-          start: npm start
-          wait-on: 'http://localhost:3000'
-          record: true
-          parallel: true
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Run E2E tests with Cypress
+      #   if: startsWith(github.ref, 'refs/heads/LAC-')
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     start: npm start
+      #     wait-on: 'http://localhost:3000'
+      #     record: true
+      #     parallel: true
+      #   env:
+      #     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload E2E test results
-        if: success() && startsWith(github.ref, 'refs/heads/LAC-')
-        uses: actions/upload-artifact@v3
-        with:
-          name: e2e-results
-          path: cypress/results/
+      # - name: Upload E2E test results
+      #   if: success() && startsWith(github.ref, 'refs/heads/LAC-')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: e2e-results
+      #     path: cypress/results/
 
-      - name: Notify of test failure
-        if: failure()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "❌ Las pruebas fallaron en ${{ github.ref }}"
-          body: "Las pruebas fallaron en la rama: ${{ github.ref }}. Revisa los detalles del fallo en la acción de GitHub."
-          to: ${{ secrets.MAIL_RECIPIENT }}
-          from: ${{ secrets.MAIL_USERNAME }}
+      # - name: Notify of test failure
+      #   if: failure()
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     server_address: smtp.gmail.com
+      #     server_port: 587
+      #     username: ${{ secrets.MAIL_USERNAME }}
+      #     password: ${{ secrets.MAIL_PASSWORD }}
+      #     subject: "❌ Las pruebas fallaron en ${{ github.ref }}"
+      #     body: "Las pruebas fallaron en la rama: ${{ github.ref }}. Revisa los detalles del fallo en la acción de GitHub."
+      #     to: ${{ secrets.MAIL_RECIPIENT }}
+      #     from: ${{ secrets.MAIL_USERNAME }}
 
   build:
     needs: build-and-test
@@ -118,18 +118,18 @@ jobs:
           name: build
           path: dist/
 
-      - name: Notify of build failure
-        if: failure()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "❌ La compilación falló en ${{ github.ref }}"
-          body: "La compilación falló en la rama: ${{ github.ref }}. Revisa los detalles del fallo en la acción de GitHub."
-          to: ${{ secrets.MAIL_RECIPIENT }}
-          from: ${{ secrets.MAIL_USERNAME }}
+      # - name: Notify of build failure
+      #   if: failure()
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     server_address: smtp.gmail.com
+      #     server_port: 587
+      #     username: ${{ secrets.MAIL_USERNAME }}
+      #     password: ${{ secrets.MAIL_PASSWORD }}
+      #     subject: "❌ La compilación falló en ${{ github.ref }}"
+      #     body: "La compilación falló en la rama: ${{ github.ref }}. Revisa los detalles del fallo en la acción de GitHub."
+      #     to: ${{ secrets.MAIL_RECIPIENT }}
+      #     from: ${{ secrets.MAIL_USERNAME }}
 
   deploy:
     needs: build

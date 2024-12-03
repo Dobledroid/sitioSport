@@ -15,8 +15,9 @@ const puppeteer = require('puppeteer');
     await page.goto('http://localhost:3000/registro', { waitUntil: 'domcontentloaded' });
 
     // Generar correo único
-    const email = `carlitosprueba23@gmail.com`;
-
+    const timestamp = Date.now();
+    const email = `carlitosprueba${timestamp}@gmail.com`;
+    
     // Llenar el formulario de registro
     await page.type('#yourName', 'Juan');
     await page.type('#ApePat', 'Péreeez');
@@ -30,7 +31,7 @@ const puppeteer = require('puppeteer');
 
     // Validar existencia de un mensaje de error en la alerta
     const currentUrl = await page.url();
-    if (currentUrl.includes('/login')) {
+    if (currentUrl.includes('http://localhost:3000/login')) {
       console.log('✅ Registro exitoso y redirigido a login.');
     } else {
       console.log('❌ Error en el registro o redirección no exitosa.');
