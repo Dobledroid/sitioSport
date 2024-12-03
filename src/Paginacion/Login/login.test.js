@@ -40,7 +40,7 @@ describe("Login Component", () => {
     );
 
     // Llenar los campos del formulario
-    fireEvent.change(screen.getByLabelText(/Correo electrónico:/i), {
+    fireEvent.change(screen.getByLabelText(/Correo electrónicoe:/i), {
       target: { value: "test@example.com" },
     });
     fireEvent.change(screen.getByLabelText(/Contraseña:/i), {
