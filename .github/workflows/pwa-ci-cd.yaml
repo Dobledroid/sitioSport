@@ -50,7 +50,7 @@ jobs:
         env:
           CI: true
           
-      - name: Ejecutar pruebas E2E con Puppeteer
+      - name: Ejecutar pruebas de integración con Puppeteer
         run: npm run test:puppeteer
 
       - name: Upload coverage report
