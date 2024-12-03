@@ -85,7 +85,7 @@ const Header = () => {
         </div>
         <nav className="humberger__menu__nav">
           <ul>
-            <li className="active"><Link to="/">Inicio</Link></li>
+            <li className="active"><Link to="/">Inicios</Link></li>
             <li><Link to="/tienda">Tienda</Link></li>
             {/* <li><Link to="/imc">Tienda</Link></li> */}
             <li>
@@ -124,7 +124,7 @@ const Header = () => {
             <div className="col-lg-6">
               <nav className="header__menu">
                 <ul>
-                  <li className="active"><Link to="/">Inicio</Link></li>
+                  <li className="active"><Link to="/">Inicios</Link></li>
                   <li><Link to="/tienda">Tienda</Link></li>
                   <li><Link to="/membresias">Membresías</Link></li>
                   {/* <li><Link to="/prediccion">Predecir</Link></li> */}
